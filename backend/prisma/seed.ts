@@ -26,7 +26,7 @@ async function main() {
             email: 'profesor@puces.edu.ec',
             fullName: 'Profesor Prueba',
             password,
-            role: Role.PROFESSOR,
+            role: Role.PROFESOR,
         },
     });
 
