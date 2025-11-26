@@ -4,6 +4,7 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { Roles } from '../common/decorators/roles.decorator';
 import { PrismaService } from '../prisma/prisma.service';
+import { ReservationStatus } from '@prisma/client';
 
 @Controller('admin')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -28,8 +29,6 @@ export class AdminController {
         });
 
         const now = new Date();
-        // Adjust to local time if needed, but server time is usually UTC or local
-        // For simplicity, we assume server time matches desired timezone or we handle UTC
 
         const dashboardData = await Promise.all(labs.map(async (lab) => {
             // Find current or next reservation
@@ -38,7 +37,7 @@ export class AdminController {
                     labId: lab.id,
                     startTime: { lte: now },
                     endTime: { gte: now },
-                    status: { not: 'CANCELLED' }
+                    status: { in: [ReservationStatus.CONFIRMED, ReservationStatus.OCCUPIED] }
                 }
             });
 
@@ -67,7 +66,7 @@ export class AdminController {
         return this.prisma.reservation.update({
             where: { id: parseInt(id) },
             data: {
-                status: 'OCCUPIED',
+                status: ReservationStatus.OCCUPIED,
                 checkInTime: new Date()
             }
         });
@@ -78,7 +77,7 @@ export class AdminController {
         return this.prisma.reservation.update({
             where: { id: parseInt(id) },
             data: {
-                status: 'COMPLETED',
+                status: ReservationStatus.COMPLETED,
                 checkOutTime: new Date()
             }
         });
