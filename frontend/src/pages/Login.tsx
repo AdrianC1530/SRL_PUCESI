@@ -1,33 +1,26 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
+import { authService } from '../services/auth.service';
 import { Lock, Mail, GraduationCap } from 'lucide-react';
+import { Input } from '../components/ui/Input';
+import { Button } from '../components/ui/Button';
 
 export const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
     const login = useAuthStore((state) => state.login);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError('');
+        setIsLoading(true);
 
         try {
-            const response = await fetch('http://localhost:3000/auth/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email, password }),
-            });
-
-            if (!response.ok) {
-                throw new Error('Credenciales inválidas');
-            }
-
-            const data = await response.json();
+            const data = await authService.login(email, password);
             login(data.access_token, data.user);
 
             if (data.user.role === 'ADMIN') {
@@ -37,6 +30,8 @@ export const Login = () => {
             }
         } catch (err) {
             setError('Error al iniciar sesión. Verifique sus credenciales.');
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -65,39 +60,25 @@ export const Login = () => {
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Correo Institucional</label>
-                        <div className="relative">
-                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <Mail className="h-5 w-5 text-gray-400" />
-                            </div>
-                            <input
-                                type="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary transition-colors"
-                                placeholder="usuario@puces.edu.ec"
-                                required
-                            />
-                        </div>
-                    </div>
+                    <Input
+                        label="Correo Institucional"
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="usuario@puces.edu.ec"
+                        required
+                        icon={<Mail className="h-5 w-5" />}
+                    />
 
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
-                        <div className="relative">
-                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <Lock className="h-5 w-5 text-gray-400" />
-                            </div>
-                            <input
-                                type="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary transition-colors"
-                                placeholder="••••••••"
-                                required
-                            />
-                        </div>
-                    </div>
+                    <Input
+                        label="Contraseña"
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="••••••••"
+                        required
+                        icon={<Lock className="h-5 w-5" />}
+                    />
 
                     {error && (
                         <div className="text-red-500 text-sm text-center bg-red-50 p-2 rounded-lg">
@@ -105,12 +86,9 @@ export const Login = () => {
                         </div>
                     )}
 
-                    <button
-                        type="submit"
-                        className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all transform hover:-translate-y-1"
-                    >
+                    <Button type="submit" isLoading={isLoading}>
                         Ingresar
-                    </button>
+                    </Button>
                 </form>
 
                 <div className="mt-6 text-center">
