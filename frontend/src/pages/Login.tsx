@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
 import { authService } from '../services/auth.service';
-import { Lock, Mail, GraduationCap } from 'lucide-react';
+import { Lock, Mail } from 'lucide-react';
 import { Input } from '../components/ui/Input';
 import { Button } from '../components/ui/Button';
 
 export const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [rememberMe, setRememberMe] = useState(false);
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
@@ -49,11 +50,11 @@ export const Login = () => {
                 <div className="absolute inset-0 bg-primary/40 mix-blend-multiply backdrop-blur-sm"></div>
             </div>
 
-            <div className="z-10 w-full max-w-md p-8 bg-white rounded-2xl shadow-2xl transform transition-all hover:scale-105 duration-300">
+            <div className="z-10 w-max max-w-max p-8 bg-white rounded-2xl shadow-2xl transform transition-all hover:scale-105 duration-300">
                 <div className="flex flex-col items-center mb-8">
                     {/* PUCESI Logo */}
-                    <div className="w-24 h-24 mb-4 flex items-center justify-center">
-                        <img src="/images/logo.png" alt="PUCESI Logo" className="w-full h-full object-contain" />
+                    <div className="w-50 mb-8 flex items-center justify-center">
+                        <img src="/images/PUCELOGO.png" alt="PUCESI Logo" className="w-full h-auto object-contain" />
                     </div>
                     <h1 className="text-3xl font-bold text-gray-800">SRL PUCEI</h1>
                     <p className="text-gray-500 mt-2">Sistema de Reserva de Laboratorios</p>
@@ -65,7 +66,7 @@ export const Login = () => {
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        placeholder="usuario@puces.edu.ec"
+                        placeholder="usuario@pucesi.edu.ec"
                         required
                         icon={<Mail className="h-5 w-5" />}
                     />
@@ -85,6 +86,22 @@ export const Login = () => {
                             {error}
                         </div>
                     )}
+
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center">
+                            <input
+                                id="remember-me"
+                                name="remember-me"
+                                type="checkbox"
+                                className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded cursor-pointer"
+                                checked={rememberMe}
+                                onChange={(e) => setRememberMe(e.target.checked)}
+                            />
+                            <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700 cursor-pointer select-none">
+                                Recordar credenciales
+                            </label>
+                        </div>
+                    </div>
 
                     <Button type="submit" isLoading={isLoading}>
                         Ingresar

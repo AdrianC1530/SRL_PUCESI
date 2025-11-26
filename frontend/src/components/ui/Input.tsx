@@ -16,7 +16,7 @@ export const Input: React.FC<InputProps> = ({
     return (
         <div className={className}>
             {label && (
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-base font-medium text-gray-700 mb-1">
                     {label}
                 </label>
             )}
@@ -27,7 +27,7 @@ export const Input: React.FC<InputProps> = ({
                     </div>
                 )}
                 <input
-                    className={`block w-full ${icon ? 'pl-10' : 'pl-3'} pr-3 py-2 border ${error ? 'border-red-300' : 'border-gray-300'} rounded-lg focus:ring-primary focus:border-primary transition-colors`}
+                    className={`block w-full ${icon ? 'pl-10' : 'pl-3'} pr-3 py-3 text-base border ${error ? 'border-red-300' : 'border-gray-300'} rounded-lg focus:ring-primary focus:border-primary transition-colors`}
                     {...props}
                 />
             </div>
