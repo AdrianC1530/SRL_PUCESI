@@ -41,7 +41,7 @@ export const Login = () => {
             <div
                 className="absolute inset-0 z-0"
                 style={{
-                    backgroundImage: 'url("/images/login-bg.png")',
+                    backgroundImage: 'url("/images/login-bg-new.png")',
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                 }}
@@ -51,11 +51,11 @@ export const Login = () => {
 
             <div className="z-10 w-full max-w-md p-8 bg-white rounded-2xl shadow-2xl transform transition-all hover:scale-105 duration-300">
                 <div className="flex flex-col items-center mb-8">
-                    {/* PUCESI Logo Placeholder */}
-                    <div className="w-20 h-20 bg-primary rounded-full flex items-center justify-center mb-4 shadow-lg">
-                        <GraduationCap className="text-white w-10 h-10" />
+                    {/* PUCESI Logo */}
+                    <div className="w-24 h-24 mb-4 flex items-center justify-center">
+                        <img src="/images/logo.png" alt="PUCESI Logo" className="w-full h-full object-contain" />
                     </div>
-                    <h1 className="text-3xl font-bold text-gray-800">SRL PUCESI</h1>
+                    <h1 className="text-3xl font-bold text-gray-800">SRL PUCEI</h1>
                     <p className="text-gray-500 mt-2">Sistema de Reserva de Laboratorios</p>
                 </div>
 
