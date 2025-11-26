@@ -1,0 +1,86 @@
+import { Controller, Post, Get, UseGuards, Param, Patch } from '@nestjs/common';
+import { ExcelService } from '../common/services/excel.service';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { RolesGuard } from '../common/guards/roles.guard';
+import { Roles } from '../common/decorators/roles.decorator';
+import { PrismaService } from '../prisma/prisma.service';
+
+@Controller('admin')
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles('ADMIN')
+export class AdminController {
+    constructor(
+        private excelService: ExcelService,
+        private prisma: PrismaService
+    ) { }
+
+    @Post('import-schedule')
+    async importSchedule() {
+        await this.excelService.importSchedule();
+        return { message: 'Schedule imported successfully' };
+    }
+
+    @Get('dashboard')
+    async getDashboard() {
+        // Get all labs
+        const labs = await this.prisma.lab.findMany({
+            orderBy: { name: 'asc' }
+        });
+
+        const now = new Date();
+        // Adjust to local time if needed, but server time is usually UTC or local
+        // For simplicity, we assume server time matches desired timezone or we handle UTC
+
+        const dashboardData = await Promise.all(labs.map(async (lab) => {
+            // Find current or next reservation
+            const currentReservation = await this.prisma.reservation.findFirst({
+                where: {
+                    labId: lab.id,
+                    startTime: { lte: now },
+                    endTime: { gte: now },
+                    status: { not: 'CANCELLED' }
+                }
+            });
+
+            const nextReservation = await this.prisma.reservation.findFirst({
+                where: {
+                    labId: lab.id,
+                    startTime: { gt: now },
+                    status: { not: 'CANCELLED' }
+                },
+                orderBy: { startTime: 'asc' }
+            });
+
+            return {
+                lab,
+                status: currentReservation ? (currentReservation.checkInTime ? 'OCCUPIED' : 'RESERVED') : 'FREE',
+                currentReservation,
+                nextReservation
+            };
+        }));
+
+        return dashboardData;
+    }
+
+    @Patch('check-in/:id')
+    async checkIn(@Param('id') id: string) {
+        return this.prisma.reservation.update({
+            where: { id: parseInt(id) },
+            data: {
+                status: 'OCCUPIED',
+                checkInTime: new Date()
+            }
+        });
+    }
+
+    @Patch('check-out/:id')
+    async checkOut(@Param('id') id: string) {
+        return this.prisma.reservation.update({
+            where: { id: parseInt(id) },
+            data: {
+                status: 'COMPLETED',
+                checkOutTime: new Date()
+            }
+        });
+    }
+}

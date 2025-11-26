@@ -8,7 +8,7 @@ interface User {
     role: 'ADMIN' | 'PROFESOR';
 }
 
-interface AuthState {
+export interface AuthState {
     token: string | null;
     user: User | null;
     login: (token: string, user: User) => void;
