@@ -68,6 +68,7 @@ export class AdminController {
             };
         }));
 
+        console.log('Dashboard Data Sample:', dashboardData.map(d => ({ name: d.lab.name, status: d.status })).slice(0, 5));
         return dashboardData;
     }
 
