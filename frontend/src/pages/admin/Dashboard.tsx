@@ -229,11 +229,13 @@ export const AdminDashboard = () => {
             {/* Schedule Modal */}
             {isModalOpen && selectedLab && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-white rounded-xl shadow-2xl max-w-lg w-full max-h-[80vh] overflow-hidden flex flex-col">
+                    <div className="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[80vh] overflow-hidden flex flex-col">
                         <div className="p-6 border-b border-gray-100 flex justify-between items-center">
                             <div>
                                 <h3 className="text-xl font-bold text-gray-900">Horario de {selectedLab.lab.name}</h3>
-                                <p className="text-sm text-gray-500">Reservas para hoy</p>
+                                <p className="text-sm text-gray-500">
+                                    {new Date(simulatedDate).toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+                                </p>
                             </div>
                             <button onClick={handleCloseModal} className="text-gray-400 hover:text-gray-600">
                                 <span className="text-2xl">&times;</span>
@@ -242,31 +244,43 @@ export const AdminDashboard = () => {
                         <div className="p-6 overflow-y-auto flex-1">
                             {schedule.length > 0 ? (
                                 <div className="space-y-4">
-                                    {schedule.map((res) => (
+                                    {schedule.map((res: any) => (
                                         <div key={res.id} className={`p-4 rounded-lg border-l-4 ${res.status === 'OCCUPIED' ? 'bg-red-50 border-red-500' :
-                                            res.status === 'COMPLETED' ? 'bg-gray-50 border-gray-500' : 'bg-blue-50 border-blue-500'
+                                                res.status === 'COMPLETED' ? 'bg-gray-50 border-gray-500' :
+                                                    res.type === 'CLASS' ? 'bg-indigo-50 border-indigo-500' : 'bg-blue-50 border-blue-500'
                                             }`}>
                                             <div className="flex justify-between items-start">
-                                                <h4 className="font-bold text-gray-900">{res.subject}</h4>
-                                                <span className={`text-xs font-bold px-2 py-1 rounded ${res.status === 'OCCUPIED' ? 'bg-red-100 text-red-800' :
-                                                    res.status === 'COMPLETED' ? 'bg-gray-200 text-gray-800' : 'bg-blue-100 text-blue-800'
-                                                    }`}>
-                                                    {res.status === 'OCCUPIED' ? 'EN CURSO' :
-                                                        res.status === 'COMPLETED' ? 'FINALIZADA' : 'PENDIENTE'}
-                                                </span>
+                                                <div>
+                                                    <h4 className="font-bold text-gray-900">{res.subject}</h4>
+                                                    <div className="flex items-center space-x-2 mt-1">
+                                                        <span className={`text-xs font-bold px-2 py-0.5 rounded border ${res.type === 'CLASS' ? 'bg-indigo-100 text-indigo-800 border-indigo-200' : 'bg-blue-100 text-blue-800 border-blue-200'
+                                                            }`}>
+                                                            {res.type === 'CLASS' ? 'CLASE REGULAR' : 'RESERVA'}
+                                                        </span>
+                                                        <span className={`text-xs font-bold px-2 py-0.5 rounded ${res.status === 'OCCUPIED' ? 'bg-red-100 text-red-800' :
+                                                                res.status === 'COMPLETED' ? 'bg-gray-200 text-gray-800' : 'bg-green-100 text-green-800'
+                                                            }`}>
+                                                            {res.status === 'OCCUPIED' ? 'EN CURSO' :
+                                                                res.status === 'COMPLETED' ? 'FINALIZADA' : 'PENDIENTE'}
+                                                        </span>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <p className="text-sm text-gray-600 mt-1">{res.description}</p>
-                                            <div className="flex items-center mt-2 text-sm text-gray-500">
+                                            <p className="text-sm text-gray-600 mt-2">{res.description}</p>
+                                            <div className="flex items-center mt-2 text-sm text-gray-500 font-medium">
                                                 <Clock className="h-4 w-4 mr-1" />
                                                 {new Date(res.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} -
                                                 {new Date(res.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                             </div>
+                                            {res.user && (
+                                                <p className="text-xs text-gray-400 mt-2">Reservado por: {res.user.fullName}</p>
+                                            )}
                                         </div>
                                     ))}
                                 </div>
                             ) : (
-                                <div className="text-center py-8 text-gray-500">
-                                    No hay más reservas para hoy.
+                                <div className="text-center py-12">
+                                    <p className="text-gray-500 text-lg">No hay actividades programadas para este día.</p>
                                 </div>
                             )}
                         </div>

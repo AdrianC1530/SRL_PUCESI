@@ -88,7 +88,7 @@ export class DataImportService {
     }
 
     private async importSchedules() {
-        const filePath = path.join(process.cwd(), 'Recursos/Recurring_Schedules');
+        const filePath = path.join(process.cwd(), 'Recursos/Recurring_Schedules.json');
         console.log('Reading schedules from:', filePath);
 
         if (!fs.existsSync(filePath)) {
