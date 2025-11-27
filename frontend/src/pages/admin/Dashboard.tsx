@@ -43,11 +43,36 @@ export const AdminDashboard = () => {
         }
     };
 
+    const [selectedLab, setSelectedLab] = useState<LabStatus | null>(null);
+    const [schedule, setSchedule] = useState<any[]>([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [currentDate, setCurrentDate] = useState(new Date());
+
     useEffect(() => {
         loadDashboard();
-        const interval = setInterval(loadDashboard, 30000); // Refresh every 30s
+        const interval = setInterval(() => {
+            loadDashboard();
+            setCurrentDate(new Date());
+        }, 30000);
         return () => clearInterval(interval);
     }, []);
+
+    const handleViewSchedule = async (lab: LabStatus) => {
+        setSelectedLab(lab);
+        setIsModalOpen(true);
+        try {
+            const data = await adminService.getLabSchedule(lab.lab.id);
+            setSchedule(data);
+        } catch (error) {
+            console.error('Error loading schedule:', error);
+        }
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+        setSchedule([]);
+        setSelectedLab(null);
+    };
 
     const handleCheckIn = async (reservationId: number) => {
         try {
@@ -72,14 +97,28 @@ export const AdminDashboard = () => {
         navigate('/login');
     };
 
+    const formatDate = (date: Date) => {
+        return new Intl.DateTimeFormat('es-ES', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        }).format(date);
+    };
+
     return (
         <div className="min-h-screen bg-gray-50">
             {/* Header */}
-            <header className="bg-white shadow">
+            <header className="bg-white shadow sticky top-0 z-10">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
                     <div className="flex items-center">
                         <img src="/images/logo_pucesi_ok.png" alt="Logo" className="h-10 w-auto mr-4" />
-                        <h1 className="text-2xl font-bold text-gray-900">Panel de Administración</h1>
+                        <div>
+                            <h1 className="text-2xl font-bold text-gray-900">Panel de Administración</h1>
+                            <p className="text-sm text-gray-500 capitalize">{formatDate(currentDate)}</p>
+                        </div>
                     </div>
                     <div className="flex items-center space-x-4">
                         <button onClick={handleLogout} className="text-gray-500 hover:text-red-600">
@@ -132,19 +171,24 @@ export const AdminDashboard = () => {
                                     </div>
                                 )}
 
-                                <div className="mt-4 flex space-x-2">
-                                    {item.status === 'RESERVED' && item.currentReservation && item.currentReservation.description !== 'Reservado permanentemente' && (
-                                        <Button onClick={() => handleCheckIn(item.currentReservation!.id)}>
-                                            <Key className="h-4 w-4 mr-2" />
-                                            Entregar Llave
-                                        </Button>
-                                    )}
-                                    {item.status === 'OCCUPIED' && item.currentReservation && item.currentReservation.description !== 'Reservado permanentemente' && (
-                                        <Button variant="secondary" onClick={() => handleCheckOut(item.currentReservation!.id)}>
-                                            <CheckCircle className="h-4 w-4 mr-2" />
-                                            Recibir Llave
-                                        </Button>
-                                    )}
+                                <div className="mt-4 flex flex-col space-y-2">
+                                    <div className="flex space-x-2">
+                                        {item.status === 'RESERVED' && item.currentReservation && item.currentReservation.description !== 'Reservado permanentemente' && (
+                                            <Button onClick={() => handleCheckIn(item.currentReservation!.id)} className="flex-1">
+                                                <Key className="h-4 w-4 mr-2" />
+                                                Entregar
+                                            </Button>
+                                        )}
+                                        {item.status === 'OCCUPIED' && item.currentReservation && item.currentReservation.description !== 'Reservado permanentemente' && (
+                                            <Button variant="secondary" onClick={() => handleCheckOut(item.currentReservation!.id)} className="flex-1">
+                                                <CheckCircle className="h-4 w-4 mr-2" />
+                                                Recibir
+                                            </Button>
+                                        )}
+                                    </div>
+                                    <Button variant="outline" onClick={() => handleViewSchedule(item)} className="w-full">
+                                        Ver Horario
+                                    </Button>
                                 </div>
 
                                 {item.nextReservation && (
@@ -160,6 +204,57 @@ export const AdminDashboard = () => {
                     ))}
                 </div>
             </main>
+
+            {/* Schedule Modal */}
+            {isModalOpen && selectedLab && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                    <div className="bg-white rounded-xl shadow-2xl max-w-lg w-full max-h-[80vh] overflow-hidden flex flex-col">
+                        <div className="p-6 border-b border-gray-100 flex justify-between items-center">
+                            <div>
+                                <h3 className="text-xl font-bold text-gray-900">Horario de {selectedLab.lab.name}</h3>
+                                <p className="text-sm text-gray-500">Reservas para hoy</p>
+                            </div>
+                            <button onClick={handleCloseModal} className="text-gray-400 hover:text-gray-600">
+                                <span className="text-2xl">&times;</span>
+                            </button>
+                        </div>
+                        <div className="p-6 overflow-y-auto flex-1">
+                            {schedule.length > 0 ? (
+                                <div className="space-y-4">
+                                    {schedule.map((res) => (
+                                        <div key={res.id} className={`p-4 rounded-lg border-l-4 ${res.status === 'OCCUPIED' ? 'bg-red-50 border-red-500' :
+                                                res.status === 'COMPLETED' ? 'bg-gray-50 border-gray-500' : 'bg-blue-50 border-blue-500'
+                                            }`}>
+                                            <div className="flex justify-between items-start">
+                                                <h4 className="font-bold text-gray-900">{res.subject}</h4>
+                                                <span className={`text-xs font-bold px-2 py-1 rounded ${res.status === 'OCCUPIED' ? 'bg-red-100 text-red-800' :
+                                                        res.status === 'COMPLETED' ? 'bg-gray-200 text-gray-800' : 'bg-blue-100 text-blue-800'
+                                                    }`}>
+                                                    {res.status === 'OCCUPIED' ? 'EN CURSO' :
+                                                        res.status === 'COMPLETED' ? 'FINALIZADA' : 'PENDIENTE'}
+                                                </span>
+                                            </div>
+                                            <p className="text-sm text-gray-600 mt-1">{res.description}</p>
+                                            <div className="flex items-center mt-2 text-sm text-gray-500">
+                                                <Clock className="h-4 w-4 mr-1" />
+                                                {new Date(res.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} -
+                                                {new Date(res.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <div className="text-center py-8 text-gray-500">
+                                    No hay más reservas para hoy.
+                                </div>
+                            )}
+                        </div>
+                        <div className="p-4 border-t border-gray-100 bg-gray-50 text-right">
+                            <Button variant="outline" onClick={handleCloseModal}>Cerrar</Button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

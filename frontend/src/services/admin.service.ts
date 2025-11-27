@@ -32,4 +32,9 @@ export const adminService = {
         const response = await axios.patch(`${API_URL}/check-out/${reservationId}`, {}, getHeaders());
         return response.data;
     },
+
+    getLabSchedule: async (labId: number) => {
+        const response = await axios.get(`${API_URL}/schedule/${labId}`, getHeaders());
+        return response.data;
+    },
 };

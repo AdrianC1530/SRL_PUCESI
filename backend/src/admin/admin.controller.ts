@@ -72,6 +72,30 @@ export class AdminController {
         return dashboardData;
     }
 
+    @Get('schedule/:labId')
+    async getLabSchedule(@Param('labId') labId: string) {
+        const now = new Date();
+        const startOfDay = new Date(now.setHours(0, 0, 0, 0));
+        const endOfDay = new Date(now.setHours(23, 59, 59, 999));
+
+        return this.prisma.reservation.findMany({
+            where: {
+                labId: parseInt(labId),
+                startTime: {
+                    gte: startOfDay,
+                    lte: endOfDay
+                },
+                status: { not: 'CANCELLED' }
+            },
+            orderBy: { startTime: 'asc' },
+            include: {
+                user: {
+                    select: { fullName: true }
+                }
+            }
+        });
+    }
+
     @Patch('check-in/:id')
     async checkIn(@Param('id') id: string) {
         return this.prisma.reservation.update({
