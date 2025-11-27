@@ -1,5 +1,5 @@
 import { Controller, Post, Get, UseGuards, Param, Patch } from '@nestjs/common';
-import { ExcelService } from '../common/services/excel.service';
+import { DataImportService } from '../common/services/data-import.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { Roles } from '../common/decorators/roles.decorator';
@@ -11,14 +11,14 @@ import { ReservationStatus } from '@prisma/client';
 @Roles('ADMIN')
 export class AdminController {
     constructor(
-        private excelService: ExcelService,
+        private dataImportService: DataImportService,
         private prisma: PrismaService
     ) { }
 
     @Post('import-schedule')
     async importSchedule() {
-        await this.excelService.importSchedule();
-        return { message: 'Schedule imported successfully' };
+        await this.dataImportService.importData();
+        return { message: 'Data imported successfully from JSON' };
     }
 
     @Get('dashboard')

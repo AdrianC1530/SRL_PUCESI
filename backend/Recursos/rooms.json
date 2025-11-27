@@ -1,0 +1,17 @@
+[
+  { "name": "SALA 1", "capacity": 20 },
+  { "name": "SALA 2", "capacity": 22, "note": "Préstamo de Internet Permanente" },
+  { "name": "SALA 3", "capacity": 22 },
+  { "name": "SALA 4", "capacity": 20 },
+  { "name": "SALA 5", "capacity": 25 },
+  { "name": "SALA 6", "capacity": 25 },
+  { "name": "SALA 7", "capacity": 30 },
+  { "name": "SALA 8", "capacity": 26 },
+  { "name": "SALA 9", "capacity": 21 },
+  { "name": "SALA 10", "capacity": 24, "note": "Uso Permanente Idiomas" },
+  { "name": "SALA MAC", "capacity": 20 },
+  { "name": "SALA 12", "capacity": 32 },
+  { "name": "SALA 13", "capacity": 25 },
+  { "name": "SALA 14", "capacity": 25 },
+  { "name": "SALA 15", "capacity": 21 }
+]

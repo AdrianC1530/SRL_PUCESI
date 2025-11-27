@@ -4,11 +4,11 @@ import { AppService } from './app.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { AuthModule } from './auth/auth.module';
 import { AdminController } from './admin/admin.controller';
-import { ExcelService } from './common/services/excel.service';
+import { DataImportService } from './common/services/data-import.service';
 
 @Module({
   imports: [PrismaModule, AuthModule],
   controllers: [AppController, AdminController],
-  providers: [AppService, ExcelService],
+  providers: [AppService, DataImportService],
 })
 export class AppModule { }
