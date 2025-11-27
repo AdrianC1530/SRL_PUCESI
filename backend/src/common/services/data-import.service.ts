@@ -38,6 +38,45 @@ export class DataImportService {
                     description: room.note || ''
                 },
             });
+
+            // Special handling for permanently occupied rooms
+            if (room.name.toUpperCase() === 'SALA 1' ||
+                (room.note && (room.note.includes('Préstamo de Internet Permanente') || room.note.includes('Uso Permanente Idiomas')))) {
+
+                const semesterStart = new Date('2025-09-01');
+                const semesterEnd = new Date('2026-01-31');
+
+                const admin = await this.prisma.user.findFirst({ where: { role: 'ADMIN' } });
+                if (admin) {
+                    const lab = await this.prisma.lab.findUnique({ where: { name: room.name.toUpperCase() } });
+                    if (lab) {
+                        // Check if permanent reservation already exists
+                        const existing = await this.prisma.reservation.findFirst({
+                            where: {
+                                labId: lab.id,
+                                type: ReservationType.EVENT,
+                                status: ReservationStatus.OCCUPIED,
+                                description: 'Reservado permanentemente'
+                            }
+                        });
+
+                        if (!existing) {
+                            await this.prisma.reservation.create({
+                                data: {
+                                    startTime: semesterStart,
+                                    endTime: semesterEnd,
+                                    subject: room.note || 'Uso Administrativo/Permanente',
+                                    description: 'Reservado permanentemente',
+                                    type: ReservationType.EVENT,
+                                    status: ReservationStatus.OCCUPIED,
+                                    userId: admin.id,
+                                    labId: lab.id
+                                }
+                            });
+                        }
+                    }
+                }
+            }
         }
         console.log(`Imported ${rooms.length} rooms.`);
     }
@@ -54,7 +93,7 @@ export class DataImportService {
         const rawData = fs.readFileSync(filePath, 'utf-8');
         const schedules = JSON.parse(rawData);
 
-        // Semester Dates (Hardcoded for now as per previous logic, or could be dynamic)
+        // Semester Dates
         const semesterStart = new Date('2025-09-01');
         const semesterEnd = new Date('2026-01-31');
 

@@ -25,7 +25,7 @@ export class AdminController {
     async getDashboard() {
         // Get all labs
         const labs = await this.prisma.lab.findMany({
-            orderBy: { name: 'asc' }
+            orderBy: { id: 'asc' }
         });
 
         const now = new Date();

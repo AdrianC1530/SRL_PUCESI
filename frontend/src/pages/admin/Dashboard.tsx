@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { adminService } from '../../services/admin.service';
 import { Button } from '../../components/ui/Button';
-import { LogOut, RefreshCw, Key, CheckCircle, Clock } from 'lucide-react';
+import { LogOut, Key, CheckCircle, Clock } from 'lucide-react';
 import { useAuthStore, type AuthState } from '../../store/authStore';
 import { useNavigate } from 'react-router-dom';
 
@@ -29,7 +29,6 @@ interface LabStatus {
 
 export const AdminDashboard = () => {
     const [labs, setLabs] = useState<LabStatus[]>([]);
-    const [isLoading, setIsLoading] = useState(false);
     const logout = useAuthStore((state: AuthState) => state.logout);
     const navigate = useNavigate();
 
@@ -47,20 +46,6 @@ export const AdminDashboard = () => {
         const interval = setInterval(loadDashboard, 30000); // Refresh every 30s
         return () => clearInterval(interval);
     }, []);
-
-    const handleImport = async () => {
-        if (!window.confirm('¿Estás seguro de importar el horario? Esto puede tomar unos segundos.')) return;
-        setIsLoading(true);
-        try {
-            await adminService.importSchedule();
-            alert('Horario importado correctamente');
-            loadDashboard();
-        } catch (error) {
-            alert('Error al importar horario');
-        } finally {
-            setIsLoading(false);
-        }
-    };
 
     const handleCheckIn = async (reservationId: number) => {
         try {
@@ -95,10 +80,6 @@ export const AdminDashboard = () => {
                         <h1 className="text-2xl font-bold text-gray-900">Panel de Administración</h1>
                     </div>
                     <div className="flex items-center space-x-4">
-                        <Button variant="outline" onClick={handleImport} isLoading={isLoading}>
-                            <RefreshCw className="h-4 w-4 mr-2" />
-                            Importar Horario
-                        </Button>
                         <button onClick={handleLogout} className="text-gray-500 hover:text-red-600">
                             <LogOut className="h-6 w-6" />
                         </button>
