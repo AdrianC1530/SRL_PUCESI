@@ -1,4 +1,4 @@
-import { Controller, Post, Get, UseGuards, Param, Patch } from '@nestjs/common';
+import { Controller, Post, Get, UseGuards, Param, Patch, Query } from '@nestjs/common';
 import { DataImportService } from '../common/services/data-import.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../common/guards/roles.guard';
@@ -22,7 +22,7 @@ export class AdminController {
     }
 
     @Get('dashboard')
-    async getDashboard() {
+    async getDashboard(@Query('date') dateString?: string) {
         // Get all labs
         let labs = await this.prisma.lab.findMany();
 
@@ -36,7 +36,8 @@ export class AdminController {
             return getNumber(a.name) - getNumber(b.name);
         });
 
-        const now = new Date();
+        const now = dateString ? new Date(dateString) : new Date();
+        console.log('Dashboard requested for:', now.toLocaleString());
 
         const dashboardData = await Promise.all(labs.map(async (lab) => {
             // Find current or next reservation
@@ -68,15 +69,17 @@ export class AdminController {
             };
         }));
 
-        console.log('Dashboard Data Sample:', dashboardData.map(d => ({ name: d.lab.name, status: d.status })).slice(0, 5));
         return dashboardData;
     }
 
     @Get('schedule/:labId')
-    async getLabSchedule(@Param('labId') labId: string) {
-        const now = new Date();
-        const startOfDay = new Date(now.setHours(0, 0, 0, 0));
-        const endOfDay = new Date(now.setHours(23, 59, 59, 999));
+    async getLabSchedule(@Param('labId') labId: string, @Query('date') dateString?: string) {
+        const now = dateString ? new Date(dateString) : new Date();
+        const startOfDay = new Date(now);
+        startOfDay.setHours(0, 0, 0, 0);
+
+        const endOfDay = new Date(now);
+        endOfDay.setHours(23, 59, 59, 999);
 
         return this.prisma.reservation.findMany({
             where: {

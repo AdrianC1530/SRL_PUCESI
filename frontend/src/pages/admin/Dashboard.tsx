@@ -34,19 +34,22 @@ export const AdminDashboard = () => {
     const logout = useAuthStore((state: AuthState) => state.logout);
     const navigate = useNavigate();
 
-    const loadDashboard = async () => {
-        try {
-            const data = await adminService.getDashboard();
-            setLabs(data);
-        } catch (error) {
-            console.error('Error loading dashboard:', error);
-        }
-    };
 
     const [selectedLab, setSelectedLab] = useState<LabStatus | null>(null);
     const [schedule, setSchedule] = useState<any[]>([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentDate, setCurrentDate] = useState(new Date());
+    const [simulatedDate, setSimulatedDate] = useState<string>(new Date().toISOString().slice(0, 16));
+
+    const loadDashboard = async () => {
+        try {
+            const dateToUse = new Date(simulatedDate);
+            const data = await adminService.getDashboard(dateToUse);
+            setLabs(data);
+        } catch (error) {
+            console.error('Error loading dashboard:', error);
+        }
+    };
 
     useEffect(() => {
         loadDashboard();
@@ -55,13 +58,14 @@ export const AdminDashboard = () => {
             setCurrentDate(new Date());
         }, 30000);
         return () => clearInterval(interval);
-    }, []);
+    }, [simulatedDate]);
 
     const handleViewSchedule = async (lab: LabStatus) => {
         setSelectedLab(lab);
         setIsModalOpen(true);
         try {
-            const data = await adminService.getLabSchedule(lab.lab.id);
+            const dateToUse = new Date(simulatedDate);
+            const data = await adminService.getLabSchedule(lab.lab.id, dateToUse);
             setSchedule(data);
         } catch (error) {
             console.error('Error loading schedule:', error);
@@ -108,6 +112,10 @@ export const AdminDashboard = () => {
         }).format(date);
     };
 
+    const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSimulatedDate(e.target.value);
+    };
+
     return (
         <div className="min-h-screen bg-gray-50">
             {/* Header */}
@@ -121,6 +129,15 @@ export const AdminDashboard = () => {
                         </div>
                     </div>
                     <div className="flex items-center space-x-4">
+                        <div className="flex flex-col items-end">
+                            <label className="text-xs text-gray-500 font-semibold mb-1">Simular Fecha/Hora:</label>
+                            <input
+                                type="datetime-local"
+                                value={simulatedDate}
+                                onChange={handleDateChange}
+                                className="border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                        </div>
                         <button onClick={handleLogout} className="text-gray-500 hover:text-red-600">
                             <LogOut className="h-6 w-6" />
                         </button>
@@ -186,9 +203,13 @@ export const AdminDashboard = () => {
                                             </Button>
                                         )}
                                     </div>
-                                    <Button variant="outline" onClick={() => handleViewSchedule(item)} className="w-full">
-                                        Ver Horario
-                                    </Button>
+
+                                    {/* Hide View Schedule button for permanent labs */}
+                                    {item.lab.name !== 'SALA 1' && item.lab.name !== 'SALA 2' && item.lab.name !== 'SALA 10' && (
+                                        <Button variant="outline" onClick={() => handleViewSchedule(item)} className="w-full">
+                                            Ver Horario
+                                        </Button>
+                                    )}
                                 </div>
 
                                 {item.nextReservation && (
@@ -223,12 +244,12 @@ export const AdminDashboard = () => {
                                 <div className="space-y-4">
                                     {schedule.map((res) => (
                                         <div key={res.id} className={`p-4 rounded-lg border-l-4 ${res.status === 'OCCUPIED' ? 'bg-red-50 border-red-500' :
-                                                res.status === 'COMPLETED' ? 'bg-gray-50 border-gray-500' : 'bg-blue-50 border-blue-500'
+                                            res.status === 'COMPLETED' ? 'bg-gray-50 border-gray-500' : 'bg-blue-50 border-blue-500'
                                             }`}>
                                             <div className="flex justify-between items-start">
                                                 <h4 className="font-bold text-gray-900">{res.subject}</h4>
                                                 <span className={`text-xs font-bold px-2 py-1 rounded ${res.status === 'OCCUPIED' ? 'bg-red-100 text-red-800' :
-                                                        res.status === 'COMPLETED' ? 'bg-gray-200 text-gray-800' : 'bg-blue-100 text-blue-800'
+                                                    res.status === 'COMPLETED' ? 'bg-gray-200 text-gray-800' : 'bg-blue-100 text-blue-800'
                                                     }`}>
                                                     {res.status === 'OCCUPIED' ? 'EN CURSO' :
                                                         res.status === 'COMPLETED' ? 'FINALIZADA' : 'PENDIENTE'}

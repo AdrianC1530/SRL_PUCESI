@@ -13,8 +13,9 @@ const getHeaders = () => {
 };
 
 export const adminService = {
-    getDashboard: async () => {
-        const response = await axios.get(`${API_URL}/dashboard`, getHeaders());
+    getDashboard: async (date?: Date) => {
+        const params = date ? { date: date.toISOString() } : {};
+        const response = await axios.get(`${API_URL}/dashboard`, { ...getHeaders(), params });
         return response.data;
     },
 
@@ -33,8 +34,9 @@ export const adminService = {
         return response.data;
     },
 
-    getLabSchedule: async (labId: number) => {
-        const response = await axios.get(`${API_URL}/schedule/${labId}`, getHeaders());
+    getLabSchedule: async (labId: number, date?: Date) => {
+        const params = date ? { date: date.toISOString() } : {};
+        const response = await axios.get(`${API_URL}/schedule/${labId}`, { ...getHeaders(), params });
         return response.data;
     },
 };
