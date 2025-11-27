@@ -24,8 +24,16 @@ export class AdminController {
     @Get('dashboard')
     async getDashboard() {
         // Get all labs
-        const labs = await this.prisma.lab.findMany({
-            orderBy: { id: 'asc' }
+        let labs = await this.prisma.lab.findMany();
+
+        // Custom sort to handle "SALA 1", "SALA 2", "SALA 10" correctly
+        labs = labs.sort((a, b) => {
+            const getNumber = (name: string) => {
+                if (name.includes('MAC')) return 999; // Put MAC at the end
+                const match = name.match(/\d+/);
+                return match ? parseInt(match[0]) : 0;
+            };
+            return getNumber(a.name) - getNumber(b.name);
         });
 
         const now = new Date();
@@ -52,7 +60,9 @@ export class AdminController {
 
             return {
                 lab,
-                status: currentReservation ? (currentReservation.checkInTime ? 'OCCUPIED' : 'RESERVED') : 'FREE',
+                status: currentReservation ?
+                    ((currentReservation.status === 'OCCUPIED' || currentReservation.checkInTime) ? 'OCCUPIED' : 'RESERVED')
+                    : 'FREE',
                 currentReservation,
                 nextReservation
             };

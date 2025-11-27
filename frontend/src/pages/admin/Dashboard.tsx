@@ -16,6 +16,8 @@ interface LabStatus {
     currentReservation?: {
         id: number;
         subject: string;
+        description?: string;
+        type: 'CLASS' | 'EVENT';
         startTime: string;
         endTime: string;
         user: { fullName: string };
@@ -114,8 +116,14 @@ export const AdminDashboard = () => {
                                         <p className="text-lg font-bold text-blue-800">{item.currentReservation.subject}</p>
                                         <div className="flex items-center text-blue-700 text-sm mt-1">
                                             <Clock className="h-4 w-4 mr-1" />
-                                            {new Date(item.currentReservation.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} -
-                                            {new Date(item.currentReservation.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                            {item.currentReservation.description === 'Reservado permanentemente' ? (
+                                                <span>Uso Permanente (Todo el día)</span>
+                                            ) : (
+                                                <span>
+                                                    {new Date(item.currentReservation.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} -
+                                                    {new Date(item.currentReservation.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                                </span>
+                                            )}
                                         </div>
                                     </div>
                                 ) : (
@@ -125,13 +133,13 @@ export const AdminDashboard = () => {
                                 )}
 
                                 <div className="mt-4 flex space-x-2">
-                                    {item.status === 'RESERVED' && item.currentReservation && (
+                                    {item.status === 'RESERVED' && item.currentReservation && item.currentReservation.description !== 'Reservado permanentemente' && (
                                         <Button onClick={() => handleCheckIn(item.currentReservation!.id)}>
                                             <Key className="h-4 w-4 mr-2" />
                                             Entregar Llave
                                         </Button>
                                     )}
-                                    {item.status === 'OCCUPIED' && item.currentReservation && (
+                                    {item.status === 'OCCUPIED' && item.currentReservation && item.currentReservation.description !== 'Reservado permanentemente' && (
                                         <Button variant="secondary" onClick={() => handleCheckOut(item.currentReservation!.id)}>
                                             <CheckCircle className="h-4 w-4 mr-2" />
                                             Recibir Llave

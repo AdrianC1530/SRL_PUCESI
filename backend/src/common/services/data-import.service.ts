@@ -43,6 +43,7 @@ export class DataImportService {
             if (room.name.toUpperCase() === 'SALA 1' ||
                 (room.note && (room.note.includes('Préstamo de Internet Permanente') || room.note.includes('Uso Permanente Idiomas')))) {
 
+                console.log(`Processing permanent reservation for ${room.name}`);
                 const semesterStart = new Date('2025-09-01');
                 const semesterEnd = new Date('2026-01-31');
 
@@ -61,6 +62,7 @@ export class DataImportService {
                         });
 
                         if (!existing) {
+                            console.log(`Creating permanent reservation for ${room.name}`);
                             await this.prisma.reservation.create({
                                 data: {
                                     startTime: semesterStart,
@@ -73,8 +75,12 @@ export class DataImportService {
                                     labId: lab.id
                                 }
                             });
+                        } else {
+                            console.log(`Permanent reservation already exists for ${room.name}`);
                         }
                     }
+                } else {
+                    console.error('Admin not found for permanent reservation');
                 }
             }
         }
