@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { adminService } from '../../services/admin.service';
 import { Button } from '../../components/ui/Button';
-import { LogOut, Key, CheckCircle, Clock } from 'lucide-react';
+import { LogOut, Key, CheckCircle, Clock, AlertTriangle } from 'lucide-react';
 import { useAuthStore, type AuthState } from '../../store/authStore';
 import { useNavigate } from 'react-router-dom';
 
@@ -12,7 +12,7 @@ interface LabStatus {
         capacity: number;
         description: string;
     };
-    status: 'FREE' | 'RESERVED' | 'OCCUPIED';
+    status: 'FREE' | 'RESERVED' | 'OCCUPIED' | 'OVERDUE';
     currentReservation?: {
         id: number;
         subject: string;
@@ -21,6 +21,15 @@ interface LabStatus {
         startTime: string;
         endTime: string;
         user: { fullName: string };
+        professorName?: string;
+    };
+    overdueReservation?: {
+        id: number;
+        subject: string;
+        startTime: string;
+        endTime: string;
+        user: { fullName: string };
+        professorName?: string;
     };
     nextReservation?: {
         id: number;
@@ -166,7 +175,20 @@ export const AdminDashboard = () => {
                                     </span>
                                 </div>
 
-                                {item.currentReservation ? (
+                                {item.overdueReservation ? (
+                                    <div className="mb-4 p-3 bg-red-50 rounded-lg border border-red-200">
+                                        <div className="flex items-center text-red-800 mb-2">
+                                            <AlertTriangle className="h-5 w-5 mr-2" />
+                                            <span className="font-bold">¡LLAVE NO DEVUELTA!</span>
+                                        </div>
+                                        <p className="text-sm text-red-700 mb-1">
+                                            La clase de <strong>{item.overdueReservation.subject}</strong> terminó a las {new Date(item.overdueReservation.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}.
+                                        </p>
+                                        <p className="text-xs text-red-600 italic">
+                                            Profesor: {item.overdueReservation.professorName}
+                                        </p>
+                                    </div>
+                                ) : item.currentReservation ? (
                                     <div className="mb-4 p-3 bg-blue-50 rounded-lg">
                                         <p className="text-sm font-semibold text-blue-900 mb-1">Clase Actual:</p>
                                         <p className="text-lg font-bold text-blue-800">{item.currentReservation.subject}</p>
@@ -181,6 +203,11 @@ export const AdminDashboard = () => {
                                                 </span>
                                             )}
                                         </div>
+                                        {item.currentReservation.professorName && (
+                                            <p className="text-xs text-blue-600 mt-2 font-medium">
+                                                Profesor: {item.currentReservation.professorName}
+                                            </p>
+                                        )}
                                     </div>
                                 ) : (
                                     <div className="mb-4 p-3 bg-gray-50 rounded-lg">
@@ -190,17 +217,36 @@ export const AdminDashboard = () => {
 
                                 <div className="mt-4 flex flex-col space-y-2">
                                     <div className="flex space-x-2">
-                                        {item.status === 'RESERVED' && item.currentReservation && item.currentReservation.description !== 'Reservado permanentemente' && (
+                                        {/* Case 1: Overdue Key - Only allow receiving it */}
+                                        {item.overdueReservation && (
+                                            <Button variant="danger" onClick={() => handleCheckOut(item.overdueReservation!.id)} className="flex-1 bg-red-600 hover:bg-red-700 text-white">
+                                                <CheckCircle className="h-4 w-4 mr-2" />
+                                                Recibir Llave Atrasada
+                                            </Button>
+                                        )}
+
+                                        {/* Case 2: Normal Reservation Check-in */}
+                                        {/* Only show if NO overdue key exists */}
+                                        {!item.overdueReservation && item.status === 'RESERVED' && item.currentReservation && item.currentReservation.description !== 'Reservado permanentemente' && (
                                             <Button onClick={() => handleCheckIn(item.currentReservation!.id)} className="flex-1">
                                                 <Key className="h-4 w-4 mr-2" />
                                                 Entregar
                                             </Button>
                                         )}
-                                        {item.status === 'OCCUPIED' && item.currentReservation && item.currentReservation.description !== 'Reservado permanentemente' && (
+
+                                        {/* Case 3: Normal Reservation Check-out */}
+                                        {!item.overdueReservation && item.status === 'OCCUPIED' && item.currentReservation && item.currentReservation.description !== 'Reservado permanentemente' && (
                                             <Button variant="secondary" onClick={() => handleCheckOut(item.currentReservation!.id)} className="flex-1">
                                                 <CheckCircle className="h-4 w-4 mr-2" />
                                                 Recibir
                                             </Button>
+                                        )}
+
+                                        {/* Case 4: Next Reservation Waiting (but blocked by overdue) */}
+                                        {item.overdueReservation && item.currentReservation && (
+                                            <div className="w-full text-center text-xs text-orange-600 font-bold mt-2 p-2 bg-orange-50 rounded border border-orange-200">
+                                                ⚠ No se puede entregar llave para la siguiente clase ({item.currentReservation.subject}) hasta recibir la anterior.
+                                            </div>
                                         )}
                                     </div>
 
@@ -246,8 +292,8 @@ export const AdminDashboard = () => {
                                 <div className="space-y-4">
                                     {schedule.map((res: any) => (
                                         <div key={res.id} className={`p-4 rounded-lg border-l-4 ${res.status === 'OCCUPIED' ? 'bg-red-50 border-red-500' :
-                                                res.status === 'COMPLETED' ? 'bg-gray-50 border-gray-500' :
-                                                    res.type === 'CLASS' ? 'bg-indigo-50 border-indigo-500' : 'bg-blue-50 border-blue-500'
+                                            res.status === 'COMPLETED' ? 'bg-gray-50 border-gray-500' :
+                                                res.type === 'CLASS' ? 'bg-indigo-50 border-indigo-500' : 'bg-blue-50 border-blue-500'
                                             }`}>
                                             <div className="flex justify-between items-start">
                                                 <div>
@@ -258,7 +304,7 @@ export const AdminDashboard = () => {
                                                             {res.type === 'CLASS' ? 'CLASE REGULAR' : 'RESERVA'}
                                                         </span>
                                                         <span className={`text-xs font-bold px-2 py-0.5 rounded ${res.status === 'OCCUPIED' ? 'bg-red-100 text-red-800' :
-                                                                res.status === 'COMPLETED' ? 'bg-gray-200 text-gray-800' : 'bg-green-100 text-green-800'
+                                                            res.status === 'COMPLETED' ? 'bg-gray-200 text-gray-800' : 'bg-green-100 text-green-800'
                                                             }`}>
                                                             {res.status === 'OCCUPIED' ? 'EN CURSO' :
                                                                 res.status === 'COMPLETED' ? 'FINALIZADA' : 'PENDIENTE'}

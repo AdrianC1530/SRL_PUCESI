@@ -40,30 +40,70 @@ export class AdminController {
         console.log('Dashboard requested for:', now.toLocaleString());
 
         const dashboardData = await Promise.all(labs.map(async (lab) => {
-            // Find current or next reservation
-            const currentReservation = await this.prisma.reservation.findFirst({
+            // Helper to extract professor name
+            const getProfessorName = (res: any) => {
+                if (!res) return null;
+                if (res.description && res.description.startsWith('Profesor: ')) {
+                    return res.description.replace('Profesor: ', '');
+                }
+                return res.user?.fullName || 'Usuario Desconocido';
+            };
+
+            // 1. Check for overdue reservations (Key not returned after class ended)
+            const overdueReservationRaw = await this.prisma.reservation.findFirst({
+                where: {
+                    labId: lab.id,
+                    status: ReservationStatus.OCCUPIED,
+                    endTime: { lt: now }
+                },
+                include: { user: { select: { fullName: true } } }
+            });
+            const overdueReservation = overdueReservationRaw ? {
+                ...overdueReservationRaw,
+                professorName: getProfessorName(overdueReservationRaw)
+            } : null;
+
+            // 2. Find current reservation (happening right now)
+            const currentReservationRaw = await this.prisma.reservation.findFirst({
                 where: {
                     labId: lab.id,
                     startTime: { lte: now },
                     endTime: { gte: now },
                     status: { in: [ReservationStatus.CONFIRMED, ReservationStatus.OCCUPIED] }
-                }
+                },
+                include: { user: { select: { fullName: true } } }
             });
+            const currentReservation = currentReservationRaw ? {
+                ...currentReservationRaw,
+                professorName: getProfessorName(currentReservationRaw)
+            } : null;
 
-            const nextReservation = await this.prisma.reservation.findFirst({
+            // 3. Find next reservation
+            const nextReservationRaw = await this.prisma.reservation.findFirst({
                 where: {
                     labId: lab.id,
                     startTime: { gt: now },
                     status: { not: 'CANCELLED' }
                 },
-                orderBy: { startTime: 'asc' }
+                orderBy: { startTime: 'asc' },
+                include: { user: { select: { fullName: true } } }
             });
+            const nextReservation = nextReservationRaw ? {
+                ...nextReservationRaw,
+                professorName: getProfessorName(nextReservationRaw)
+            } : null;
+
+            let status = 'FREE';
+            if (overdueReservation) {
+                status = 'OVERDUE';
+            } else if (currentReservation) {
+                status = (currentReservation.status === 'OCCUPIED' || currentReservation.checkInTime) ? 'OCCUPIED' : 'RESERVED';
+            }
 
             return {
                 lab,
-                status: currentReservation ?
-                    ((currentReservation.status === 'OCCUPIED' || currentReservation.checkInTime) ? 'OCCUPIED' : 'RESERVED')
-                    : 'FREE',
+                status,
+                overdueReservation,
                 currentReservation,
                 nextReservation
             };
