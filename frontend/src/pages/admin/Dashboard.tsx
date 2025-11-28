@@ -288,47 +288,133 @@ export const AdminDashboard = () => {
                             </button>
                         </div>
                         <div className="p-6 overflow-y-auto flex-1">
-                            {schedule.length > 0 ? (
-                                <div className="space-y-4">
-                                    {schedule.map((res: any) => (
-                                        <div key={res.id} className={`p-4 rounded-lg border-l-4 ${res.status === 'OCCUPIED' ? 'bg-red-50 border-red-500' :
-                                            res.status === 'COMPLETED' ? 'bg-gray-50 border-gray-500' :
-                                                res.type === 'CLASS' ? 'bg-indigo-50 border-indigo-500' : 'bg-blue-50 border-blue-500'
-                                            }`}>
-                                            <div className="flex justify-between items-start">
-                                                <div>
-                                                    <h4 className="font-bold text-gray-900">{res.subject}</h4>
-                                                    <div className="flex items-center space-x-2 mt-1">
-                                                        <span className={`text-xs font-bold px-2 py-0.5 rounded border ${res.type === 'CLASS' ? 'bg-indigo-100 text-indigo-800 border-indigo-200' : 'bg-blue-100 text-blue-800 border-blue-200'
-                                                            }`}>
-                                                            {res.type === 'CLASS' ? 'CLASE REGULAR' : 'RESERVA'}
-                                                        </span>
-                                                        <span className={`text-xs font-bold px-2 py-0.5 rounded ${res.status === 'OCCUPIED' ? 'bg-red-100 text-red-800' :
-                                                            res.status === 'COMPLETED' ? 'bg-gray-200 text-gray-800' : 'bg-green-100 text-green-800'
-                                                            }`}>
-                                                            {res.status === 'OCCUPIED' ? 'EN CURSO' :
-                                                                res.status === 'COMPLETED' ? 'FINALIZADA' : 'PENDIENTE'}
-                                                        </span>
+                            {(() => {
+                                // Helper to generate timeline with free slots
+                                const getDailySlots = () => {
+                                    const slots = [];
+                                    const startOfDay = new Date(simulatedDate);
+                                    startOfDay.setHours(7, 0, 0, 0);
+                                    const endOfDay = new Date(simulatedDate);
+                                    endOfDay.setHours(22, 0, 0, 0);
+
+                                    let currentTime = new Date(startOfDay);
+                                    const sortedSchedule = [...schedule].sort((a, b) => new Date(a.startTime).getTime() - new Date(b.startTime).getTime());
+
+                                    for (const res of sortedSchedule) {
+                                        const resStart = new Date(res.startTime);
+                                        const resEnd = new Date(res.endTime);
+
+                                        // Add free slot before reservation if gap exists
+                                        if (currentTime < resStart) {
+                                            if (resStart > endOfDay) {
+                                                // Gap goes until end of day (or capped at reservation start if it's later? No, cap at endOfDay)
+                                                // Actually if reservation starts after endOfDay, we shouldn't be here if we filtered correctly, 
+                                                // but let's assume we handle gaps within 7-21
+                                                slots.push({
+                                                    status: 'FREE',
+                                                    startTime: new Date(currentTime),
+                                                    endTime: resStart > endOfDay ? endOfDay : resStart
+                                                });
+                                            } else {
+                                                slots.push({
+                                                    status: 'FREE',
+                                                    startTime: new Date(currentTime),
+                                                    endTime: resStart
+                                                });
+                                            }
+                                        }
+
+                                        // Add reservation slot
+                                        slots.push({
+                                            status: 'OCCUPIED',
+                                            data: res,
+                                            startTime: resStart,
+                                            endTime: resEnd
+                                        });
+
+                                        currentTime = resEnd;
+                                    }
+
+                                    // Add final free slot if time remains
+                                    if (currentTime < endOfDay) {
+                                        slots.push({
+                                            status: 'FREE',
+                                            startTime: new Date(currentTime),
+                                            endTime: endOfDay
+                                        });
+                                    }
+
+                                    return slots;
+                                };
+
+                                const timeline = getDailySlots();
+
+                                return (
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                        {timeline.map((slot, index) => (
+                                            <div key={index} className={`p-4 rounded-lg border-l-4 shadow-sm transition-all hover:shadow-md ${slot.status === 'FREE'
+                                                ? 'bg-green-50 border-green-500'
+                                                : slot.data.status === 'OCCUPIED'
+                                                    ? 'bg-red-50 border-red-500'
+                                                    : slot.data.status === 'COMPLETED'
+                                                        ? 'bg-gray-50 border-gray-500'
+                                                        : slot.data.type === 'CLASS'
+                                                            ? 'bg-indigo-50 border-indigo-500'
+                                                            : 'bg-blue-50 border-blue-500'
+                                                }`}>
+                                                {slot.status === 'FREE' ? (
+                                                    <div className="flex flex-col justify-between h-full">
+                                                        <div className="flex justify-between items-center mb-2">
+                                                            <span className="text-green-800 font-bold text-lg">DISPONIBLE</span>
+                                                            <CheckCircle className="h-5 w-5 text-green-600" />
+                                                        </div>
+                                                        <div className="flex items-center text-green-700 font-medium">
+                                                            <Clock className="h-4 w-4 mr-2" />
+                                                            {slot.startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} -
+                                                            {slot.endTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                                        </div>
+                                                        <p className="text-xs text-green-600 mt-2">Espacio libre para reserva</p>
                                                     </div>
-                                                </div>
+                                                ) : (
+                                                    <div className="flex flex-col h-full">
+                                                        <div className="flex justify-between items-start mb-2">
+                                                            <h4 className="font-bold text-gray-900 line-clamp-1" title={slot.data.subject}>{slot.data.subject}</h4>
+                                                            <span className={`text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider ${slot.data.status === 'OCCUPIED' ? 'bg-red-100 text-red-800' :
+                                                                slot.data.status === 'COMPLETED' ? 'bg-gray-200 text-gray-800' : 'bg-blue-100 text-blue-800'
+                                                                }`}>
+                                                                {slot.data.status === 'OCCUPIED' ? 'En Curso' :
+                                                                    slot.data.status === 'COMPLETED' ? 'Finalizada' : 'Reservada'}
+                                                            </span>
+                                                        </div>
+
+                                                        <div className="flex items-center space-x-2 mb-2">
+                                                            <span className={`text-xs font-bold px-2 py-0.5 rounded border ${slot.data.type === 'CLASS' ? 'bg-indigo-100 text-indigo-800 border-indigo-200' : 'bg-blue-100 text-blue-800 border-blue-200'
+                                                                }`}>
+                                                                {slot.data.type === 'CLASS' ? 'CLASE' : 'EVENTO'}
+                                                            </span>
+                                                        </div>
+
+                                                        <p className="text-sm text-gray-600 mb-2 line-clamp-2 flex-grow">{slot.data.description}</p>
+
+                                                        <div className="mt-auto pt-3 border-t border-gray-100/50">
+                                                            <div className="flex items-center text-gray-500 font-medium text-sm mb-1">
+                                                                <Clock className="h-4 w-4 mr-2" />
+                                                                {new Date(slot.data.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} -
+                                                                {new Date(slot.data.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                                            </div>
+                                                            {slot.data.user && (
+                                                                <p className="text-xs text-gray-400 truncate">
+                                                                    Por: {slot.data.user.fullName}
+                                                                </p>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                )}
                                             </div>
-                                            <p className="text-sm text-gray-600 mt-2">{res.description}</p>
-                                            <div className="flex items-center mt-2 text-sm text-gray-500 font-medium">
-                                                <Clock className="h-4 w-4 mr-1" />
-                                                {new Date(res.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} -
-                                                {new Date(res.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                            </div>
-                                            {res.user && (
-                                                <p className="text-xs text-gray-400 mt-2">Reservado por: {res.user.fullName}</p>
-                                            )}
-                                        </div>
-                                    ))}
-                                </div>
-                            ) : (
-                                <div className="text-center py-12">
-                                    <p className="text-gray-500 text-lg">No hay actividades programadas para este día.</p>
-                                </div>
-                            )}
+                                        ))}
+                                    </div>
+                                );
+                            })()}
                         </div>
                         <div className="p-4 border-t border-gray-100 bg-gray-50 text-right">
                             <Button variant="outline" onClick={handleCloseModal}>Cerrar</Button>
