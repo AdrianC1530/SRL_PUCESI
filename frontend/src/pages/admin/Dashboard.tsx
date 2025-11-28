@@ -275,7 +275,7 @@ export const AdminDashboard = () => {
             {/* Schedule Modal */}
             {isModalOpen && selectedLab && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[80vh] overflow-hidden flex flex-col">
+                    <div className="bg-white rounded-xl shadow-2xl max-w-[95vw] w-full max-h-[95vh] overflow-hidden flex flex-col">
                         <div className="p-6 border-b border-gray-100 flex justify-between items-center">
                             <div>
                                 <h3 className="text-xl font-bold text-gray-900">Horario de {selectedLab.lab.name}</h3>
@@ -348,70 +348,104 @@ export const AdminDashboard = () => {
                                 };
 
                                 const timeline = getDailySlots();
+                                const morningSlots = timeline.filter(slot => slot.startTime.getHours() < 13);
+                                const afternoonSlots = timeline.filter(slot => slot.startTime.getHours() >= 13);
+
+                                const renderSlot = (slot: any, index: number) => (
+                                    <div key={index} className={`p-4 rounded-lg border-l-4 shadow-sm transition-all hover:shadow-md ${slot.status === 'FREE'
+                                        ? 'bg-green-50 border-green-500'
+                                        : slot.data.status === 'OCCUPIED'
+                                            ? 'bg-red-50 border-red-500'
+                                            : slot.data.status === 'COMPLETED'
+                                                ? 'bg-gray-50 border-gray-500'
+                                                : slot.data.type === 'CLASS'
+                                                    ? 'bg-indigo-50 border-indigo-500'
+                                                    : 'bg-blue-50 border-blue-500'
+                                        }`}>
+                                        {slot.status === 'FREE' ? (
+                                            <div className="flex flex-col justify-between h-full">
+                                                <div className="flex justify-between items-center mb-2">
+                                                    <span className="text-green-800 font-bold text-lg">DISPONIBLE</span>
+                                                    <CheckCircle className="h-5 w-5 text-green-600" />
+                                                </div>
+                                                <div className="flex items-center text-green-700 font-medium">
+                                                    <Clock className="h-4 w-4 mr-2" />
+                                                    {slot.startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} -
+                                                    {slot.endTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                                </div>
+                                                <p className="text-xs text-green-600 mt-2">Espacio libre para reserva</p>
+                                            </div>
+                                        ) : (
+                                            <div className="flex flex-col h-full">
+                                                <div className="flex justify-between items-start mb-2">
+                                                    <h4 className="font-bold text-gray-900 line-clamp-1" title={slot.data.subject}>{slot.data.subject}</h4>
+                                                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider ${slot.data.status === 'OCCUPIED' ? 'bg-red-100 text-red-800' :
+                                                        slot.data.status === 'COMPLETED' ? 'bg-gray-200 text-gray-800' : 'bg-blue-100 text-blue-800'
+                                                        }`}>
+                                                        {slot.data.status === 'OCCUPIED' ? 'En Curso' :
+                                                            slot.data.status === 'COMPLETED' ? 'Finalizada' : 'Reservada'}
+                                                    </span>
+                                                </div>
+
+                                                <div className="flex items-center space-x-2 mb-2">
+                                                    <span className={`text-xs font-bold px-2 py-0.5 rounded border ${slot.data.type === 'CLASS' ? 'bg-indigo-100 text-indigo-800 border-indigo-200' : 'bg-blue-100 text-blue-800 border-blue-200'
+                                                        }`}>
+                                                        {slot.data.type === 'CLASS' ? 'CLASE' : 'EVENTO'}
+                                                    </span>
+                                                </div>
+
+                                                <p className="text-sm text-gray-600 mb-2 line-clamp-2 flex-grow">{slot.data.description}</p>
+
+                                                <div className="mt-auto pt-3 border-t border-gray-100/50">
+                                                    <div className="flex items-center text-gray-500 font-medium text-sm mb-1">
+                                                        <Clock className="h-4 w-4 mr-2" />
+                                                        {new Date(slot.data.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} -
+                                                        {new Date(slot.data.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                                    </div>
+                                                    {slot.data.user && (
+                                                        <p className="text-xs text-gray-400 truncate">
+                                                            Por: {slot.data.user.fullName}
+                                                        </p>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                );
 
                                 return (
-                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                        {timeline.map((slot, index) => (
-                                            <div key={index} className={`p-4 rounded-lg border-l-4 shadow-sm transition-all hover:shadow-md ${slot.status === 'FREE'
-                                                ? 'bg-green-50 border-green-500'
-                                                : slot.data.status === 'OCCUPIED'
-                                                    ? 'bg-red-50 border-red-500'
-                                                    : slot.data.status === 'COMPLETED'
-                                                        ? 'bg-gray-50 border-gray-500'
-                                                        : slot.data.type === 'CLASS'
-                                                            ? 'bg-indigo-50 border-indigo-500'
-                                                            : 'bg-blue-50 border-blue-500'
-                                                }`}>
-                                                {slot.status === 'FREE' ? (
-                                                    <div className="flex flex-col justify-between h-full">
-                                                        <div className="flex justify-between items-center mb-2">
-                                                            <span className="text-green-800 font-bold text-lg">DISPONIBLE</span>
-                                                            <CheckCircle className="h-5 w-5 text-green-600" />
-                                                        </div>
-                                                        <div className="flex items-center text-green-700 font-medium">
-                                                            <Clock className="h-4 w-4 mr-2" />
-                                                            {slot.startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} -
-                                                            {slot.endTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                                        </div>
-                                                        <p className="text-xs text-green-600 mt-2">Espacio libre para reserva</p>
-                                                    </div>
+                                    <div className="space-y-8">
+                                        {/* Morning Section */}
+                                        <div>
+                                            <h4 className="text-lg font-bold text-gray-800 mb-4 flex items-center border-b pb-2">
+                                                <span className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm mr-3">Mañana (07:00 - 13:00)</span>
+                                            </h4>
+                                            <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
+                                                {morningSlots.length > 0 ? (
+                                                    morningSlots.map((slot, index) => renderSlot(slot, index))
                                                 ) : (
-                                                    <div className="flex flex-col h-full">
-                                                        <div className="flex justify-between items-start mb-2">
-                                                            <h4 className="font-bold text-gray-900 line-clamp-1" title={slot.data.subject}>{slot.data.subject}</h4>
-                                                            <span className={`text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider ${slot.data.status === 'OCCUPIED' ? 'bg-red-100 text-red-800' :
-                                                                slot.data.status === 'COMPLETED' ? 'bg-gray-200 text-gray-800' : 'bg-blue-100 text-blue-800'
-                                                                }`}>
-                                                                {slot.data.status === 'OCCUPIED' ? 'En Curso' :
-                                                                    slot.data.status === 'COMPLETED' ? 'Finalizada' : 'Reservada'}
-                                                            </span>
-                                                        </div>
-
-                                                        <div className="flex items-center space-x-2 mb-2">
-                                                            <span className={`text-xs font-bold px-2 py-0.5 rounded border ${slot.data.type === 'CLASS' ? 'bg-indigo-100 text-indigo-800 border-indigo-200' : 'bg-blue-100 text-blue-800 border-blue-200'
-                                                                }`}>
-                                                                {slot.data.type === 'CLASS' ? 'CLASE' : 'EVENTO'}
-                                                            </span>
-                                                        </div>
-
-                                                        <p className="text-sm text-gray-600 mb-2 line-clamp-2 flex-grow">{slot.data.description}</p>
-
-                                                        <div className="mt-auto pt-3 border-t border-gray-100/50">
-                                                            <div className="flex items-center text-gray-500 font-medium text-sm mb-1">
-                                                                <Clock className="h-4 w-4 mr-2" />
-                                                                {new Date(slot.data.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} -
-                                                                {new Date(slot.data.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                                            </div>
-                                                            {slot.data.user && (
-                                                                <p className="text-xs text-gray-400 truncate">
-                                                                    Por: {slot.data.user.fullName}
-                                                                </p>
-                                                            )}
-                                                        </div>
+                                                    <div className="col-span-full text-center py-8 text-gray-400 italic bg-gray-50 rounded-lg border border-dashed border-gray-300">
+                                                        No hay actividad registrada en la mañana.
                                                     </div>
                                                 )}
                                             </div>
-                                        ))}
+                                        </div>
+
+                                        {/* Afternoon Section */}
+                                        <div>
+                                            <h4 className="text-lg font-bold text-gray-800 mb-4 flex items-center border-b pb-2">
+                                                <span className="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm mr-3">Tarde / Noche (13:00 - 22:00)</span>
+                                            </h4>
+                                            <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
+                                                {afternoonSlots.length > 0 ? (
+                                                    afternoonSlots.map((slot, index) => renderSlot(slot, index))
+                                                ) : (
+                                                    <div className="col-span-full text-center py-8 text-gray-400 italic bg-gray-50 rounded-lg border border-dashed border-gray-300">
+                                                        No hay actividad registrada en la tarde.
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
                                     </div>
                                 );
                             })()}
