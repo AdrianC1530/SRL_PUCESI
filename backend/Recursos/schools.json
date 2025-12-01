@@ -1,0 +1,77 @@
+[
+  {
+    "id": "ING",
+    "name": "INGENIERIA",
+    "color_hex": "#2980B9"
+  },
+  {
+    "id": "GES",
+    "name": "GESTURH",
+    "color_hex": "#C0392B"
+  },
+  {
+    "id": "DIS",
+    "name": "DISEÑO",
+    "color_hex": "#F39C12"
+  },
+  {
+    "id": "ARQ",
+    "name": "ARQUITECTURA",
+    "color_hex": "#27AE60"
+  },
+  {
+    "id": "IDI",
+    "name": "IDIOMAS",
+    "color_hex": "#8E44AD"
+  },
+  {
+    "id": "PED",
+    "name": "PEDAGOGÍA IDIOMAS",
+    "color_hex": "#16A085"
+  },
+  {
+    "id": "ECA",
+    "name": "ECAA",
+    "color_hex": "#2ECC71"
+  },
+  {
+    "id": "ENC",
+    "name": "ENCI",
+    "color_hex": "#D35400"
+  },
+  {
+    "id": "JUR",
+    "name": "JURISPRUDENCIA",
+    "color_hex": "#7F8C8D"
+  },
+  {
+    "id": "MIS",
+    "name": "MISIONES",
+    "color_hex": "#34495E"
+  },
+  {
+    "id": "TSO",
+    "name": "TECNOLOGÍA SOFTWARE",
+    "color_hex": "#9B59B6"
+  },
+  {
+    "id": "TMD",
+    "name": "TECNOLOGÍA MARKETING DIGITAL",
+    "color_hex": "#1ABC9C"
+  },
+  {
+    "id": "SAL",
+    "name": "CIENCIAS DE LA SALUD",
+    "color_hex": "#F1C40F"
+  },
+  {
+    "id": "COM",
+    "name": "TRONCO COMUN",
+    "color_hex": "#95A5A6"
+  },
+  {
+    "id": "HUM",
+    "name": "CCSS Y HUMANAS",
+    "color_hex": "#E67E22"
+  }
+]

@@ -1,245 +1,1227 @@
 [
-  
-  { "day": "LUNES", "room": "SALA 3", "time_start": "07:00", "time_end": "09:00", "subject": "DISEÑO Y EVALUACIÓN PROYECTOS", "professor": "Mgs. Ma. Dolores Santillán" },
-  { "day": "LUNES", "room": "SALA 3", "time_start": "09:00", "time_end": "11:00", "subject": "CONTABILIDAD INTERMEDIA", "professor": "Mgs. Ma. Dolores Santillán" },
-  { "day": "LUNES", "room": "SALA 3", "time_start": "11:00", "time_end": "13:00", "subject": "BIOESTADÍSTICA", "professor": "Mgs. Darío Chávez" },
-  { "day": "LUNES", "room": "SALA 3", "time_start": "15:00", "time_end": "17:00", "subject": "CONTABILIDAD DE COSTOS", "professor": "Mgs. Ma. Dolores Santillán" },
-  
-  { "day": "LUNES", "room": "SALA 4", "time_start": "10:00", "time_end": "12:00", "subject": "PHONETICS 3 B", "professor": "Mgs. Mercy Noguera" },
-  { "day": "LUNES", "room": "SALA 4", "time_start": "15:00", "time_end": "17:00", "subject": "INTEGRACIÓN CURRICULAR TT", "professor": "Dra. Marilena Asprino" },
-  { "day": "LUNES", "room": "SALA 4", "time_start": "18:00", "time_end": "20:00", "subject": "ENGLISH A1 - D", "professor": "Mgs. Cristina Minda" },
-
-  { "day": "LUNES", "room": "SALA 5", "time_start": "07:00", "time_end": "09:00", "subject": "CULTURAS VISUALES- 3A", "professor": "DARIO GABRIEL ARBOLEDA" },
-  { "day": "LUNES", "room": "SALA 5", "time_start": "09:00", "time_end": "12:00", "subject": "MARKETING DE EXPERIENCIAS", "professor": "MORALES GARZON ELIZABETH" },
-  { "day": "LUNES", "room": "SALA 5", "time_start": "15:00", "time_end": "18:00", "subject": "METODOLOGÍA PROYECTUAL", "professor": "JARAMILLO BASTIDAS PAOLA" },
-
-  { "day": "LUNES", "room": "SALA 6", "time_start": "07:00", "time_end": "10:00", "subject": "INSTALACIONES SANITARIAS", "professor": "Ing. Andres Beltrán" },
-  { "day": "LUNES", "room": "SALA 6", "time_start": "11:00", "time_end": "13:00", "subject": "PRÁCTICAS SERVICIO COMUNITARIO II", "professor": "Dario Arboleda" },
-
-  { "day": "LUNES", "room": "SALA 7", "time_start": "11:00", "time_end": "13:00", "subject": "TI- PROGRAMACIÓN ORIENTADA A OBJETOS", "professor": "PUSDA CHULDA SEGUNDO" },
-  { "day": "LUNES", "room": "SALA 7", "time_start": "14:00", "time_end": "16:00", "subject": "FUNDAMENTOS DE GENÉTICA", "professor": "PhD. Cintya Gordón" },
-
-  { "day": "LUNES", "room": "SALA 8", "time_start": "07:00", "time_end": "09:00", "subject": "TI-ARQUITECTURA Y SERVIDORES", "professor": "CEVALLOS RAMIREZ ALVARO" },
-  { "day": "LUNES", "room": "SALA 8", "time_start": "09:00", "time_end": "11:00", "subject": "TI- BASE DE DATOS II", "professor": "QUISHPE MORALES SANTIAGO" },
-  { "day": "LUNES", "room": "SALA 8", "time_start": "11:00", "time_end": "13:00", "subject": "TI- REDES INALÁMBRICAS", "professor": "PILLO GUANOLUISA DARWIN" },
-  { "day": "LUNES", "room": "SALA 8", "time_start": "15:00", "time_end": "17:00", "subject": "ARQUITECTURA EMPRESARIAL", "professor": "RODRIGUEZ CHINCHILLA JOSÉ" },
-
-  { "day": "LUNES", "room": "SALA 9", "time_start": "07:00", "time_end": "09:00", "subject": "PROGRAMACION ESTRUCTURADA", "professor": "VIERO GARCÍA JORGE" },
-  { "day": "LUNES", "room": "SALA 9", "time_start": "09:00", "time_end": "11:00", "subject": "FUNDAMENTOS DE ELECTRONICA", "professor": "PILLO GUANOLUISA DARWIN" },
-  { "day": "LUNES", "room": "SALA 9", "time_start": "11:00", "time_end": "13:00", "subject": "FUNDAMENTOS MATEMÁTICOS", "professor": "Patricio Ruiz" },
-  { "day": "LUNES", "room": "SALA 9", "time_start": "15:00", "time_end": "17:00", "subject": "TI- ARQUITECTURA DE COMPUTADORES", "professor": "ARCINIEGAS AGUIRRE STALIN" },
-
-  { "day": "LUNES", "room": "SALA MAC", "time_start": "09:00", "time_end": "11:00", "subject": "ANIMACIÓN 2D", "professor": "DAVID ANDRÉS CAZCO" },
-  { "day": "LUNES", "room": "SALA MAC", "time_start": "15:00", "time_end": "18:00", "subject": "TALLER DE DISEÑO ESTRATÉGICO", "professor": "PORTILLA VILLAMAGUA GUILLERMO" },
-
-  { "day": "LUNES", "room": "SALA 12", "time_start": "11:00", "time_end": "13:00", "subject": "TOPOGRAFÍA Y GEOMÁTICA 3C", "professor": "N/A" },
-  { "day": "LUNES", "room": "SALA 12", "time_start": "15:00", "time_end": "17:00", "subject": "INSTALACIONES SANITARIAS", "professor": "Ing. Raul Beltrán" },
-  { "day": "LUNES", "room": "SALA 12", "time_start": "17:00", "time_end": "19:00", "subject": "HIDRAULICA GENERAL", "professor": "Ing. Raul Beltrán" },
-
-  { "day": "LUNES", "room": "SALA 13", "time_start": "07:00", "time_end": "09:00", "subject": "PENSAMIENTO COMPUTACIONAL 1D", "professor": "Mgs. Rivero Albarran Dulce" },
-  { "day": "LUNES", "room": "SALA 13", "time_start": "14:00", "time_end": "16:00", "subject": "EDUCATIVE INVESTIGATION III", "professor": "Sandra Ayala" },
-
-  { "day": "LUNES", "room": "SALA 14", "time_start": "07:00", "time_end": "09:00", "subject": "PENSAMIENTO COMPUTACIONAL 1E", "professor": "Roberto Collaguazo" },
-  { "day": "LUNES", "room": "SALA 14", "time_start": "11:00", "time_end": "13:00", "subject": "PENSAMIENTO COMPUTACIONAL 1G", "professor": "Mgs. Ibarra Estévez José Luis" },
-
-  { "day": "LUNES", "room": "SALA 15", "time_start": "07:00", "time_end": "09:00", "subject": "FUNDAMENTOS MATEMÁTICOS 3B", "professor": "Ruiz Quirana Ricardo" },
-  { "day": "LUNES", "room": "SALA 15", "time_start": "09:00", "time_end": "11:00", "subject": "FUNDAMENTOS DE ELECTRONICA 3B", "professor": "Arciniegas Aguirre Stalin" },
-  { "day": "LUNES", "room": "SALA 15", "time_start": "11:00", "time_end": "13:00", "subject": "SISTEMAS OPERATIVOS 3B", "professor": "Puetate Huera Galo" },
-  { "day": "LUNES", "room": "SALA 15", "time_start": "14:00", "time_end": "15:00", "subject": "TI-PRÁCTICAS PREPROFESIONALES", "professor": "Vivero Garcia Jorge" },
-  { "day": "LUNES", "room": "SALA 15", "time_start": "15:00", "time_end": "16:00", "subject": "TI-PRÁCTICAS SERVICIO COMUNITARIO", "professor": "Narváez Erazo Luis" },
-  { "day": "LUNES", "room": "SALA 15", "time_start": "16:00", "time_end": "18:00", "subject": "CIBERSEGURIDAD", "professor": "Narváez Erazo Luis" },
-  { "day": "LUNES", "room": "SALA 15", "time_start": "18:00", "time_end": "20:00", "subject": "TI-INTERACCIÓN HUMANO COMPUTADOR", "professor": "Armas Cárdenas Juan Carlos" },
-
-  
-  { "day": "MARTES", "room": "SALA 3", "time_start": "07:00", "time_end": "09:00", "subject": "CONTABILIDAD INTERMEDIA", "professor": "Mgs. Ma. Dolores Santillán" },
-  { "day": "MARTES", "room": "SALA 3", "time_start": "09:00", "time_end": "11:00", "subject": "DISEÑO Y EVALUACIÓN PROYECTOS", "professor": "Mgs. Ma. Dolores Santillán" },
-  { "day": "MARTES", "room": "SALA 3", "time_start": "11:00", "time_end": "13:00", "subject": "APLICACIONES TRIBUTARIAS", "professor": "Mgs. Ma. Dolores Santillán" },
-  { "day": "MARTES", "room": "SALA 3", "time_start": "15:00", "time_end": "17:00", "subject": "UNIDAD DE INTEGRACIÓN CURRICULAR", "professor": "Pilataxi Alba Wilman" },
-
-  { "day": "MARTES", "room": "SALA 4", "time_start": "07:00", "time_end": "09:00", "subject": "AUDITORIA DE SISTEMAS", "professor": "Mgs. Darwin Pillo" },
-  { "day": "MARTES", "room": "SALA 4", "time_start": "10:00", "time_end": "12:00", "subject": "PHONETICS 3 A", "professor": "Mgs. Mercy Noguera" },
-  { "day": "MARTES", "room": "SALA 4", "time_start": "15:00", "time_end": "17:00", "subject": "INTEGRACIÓN CURRICULAR TT", "professor": "Dra. Marilena Asprino" },
-
-  { "day": "MARTES", "room": "SALA 5", "time_start": "08:00", "time_end": "11:00", "subject": "LAB. CONSTRUCCIÓN IMAGEN 3A", "professor": "Elizabeth Morales Garzón" },
-  { "day": "MARTES", "room": "SALA 5", "time_start": "12:00", "time_end": "14:00", "subject": "PRÁCTICAS PREPROFESIONALES II", "professor": "Alexandra Morales" },
-  { "day": "MARTES", "room": "SALA 5", "time_start": "15:00", "time_end": "17:00", "subject": "ADMINISTRACIÓN SERVICIOS ENFERMERÍA", "professor": "Mgs. Mariela Herrera" },
-  { "day": "MARTES", "room": "SALA 5", "time_start": "17:00", "time_end": "19:00", "subject": "SEMINARIO DE INVESTIGACIÓN", "professor": "Segnini Maizo Jose Miguel" },
-
-  { "day": "MARTES", "room": "SALA 6", "time_start": "07:00", "time_end": "10:00", "subject": "INSTALACIONES SANITARIAS", "professor": "Ing. Raul Beltrán" },
-  { "day": "MARTES", "room": "SALA 6", "time_start": "10:00", "time_end": "12:00", "subject": "CONTABILIDAD DE COSTOS 1", "professor": "Irene Revelo" },
-  { "day": "MARTES", "room": "SALA 6", "time_start": "12:00", "time_end": "14:00", "subject": "ESTRUCTURAS III", "professor": "Diego Arevalo" },
-  { "day": "MARTES", "room": "SALA 6", "time_start": "16:00", "time_end": "18:00", "subject": "DERECHO AMBIENTAL", "professor": "Dr. Carlix Mejías" },
-
-  { "day": "MARTES", "room": "SALA 7", "time_start": "07:00", "time_end": "09:00", "subject": "ESTADISTICA CIENCIAS SALUD", "professor": "Chavez Chavez Rolando" },
-  { "day": "MARTES", "room": "SALA 7", "time_start": "11:00", "time_end": "13:00", "subject": "HERRAMIENTAS DIGITALES", "professor": "Josué Remache" },
-  { "day": "MARTES", "room": "SALA 7", "time_start": "16:00", "time_end": "18:00", "subject": "COMPUTACIÓN EN LA NUBE", "professor": "Guerra Correa Edison" },
-
-  { "day": "MARTES", "room": "SALA 8", "time_start": "07:00", "time_end": "09:00", "subject": "TI- ÉTICA PERSONAL", "professor": "N/A" },
-  { "day": "MARTES", "room": "SALA 8", "time_start": "10:00", "time_end": "12:00", "subject": "TI-REDES INALÁMBRICAS", "professor": "Pillo Guanoluisa Darwin" },
-  { "day": "MARTES", "room": "SALA 8", "time_start": "12:00", "time_end": "14:00", "subject": "TI-DESARROLLO BASADO PLATAFORMAS", "professor": "Jose Luis Ibarra" },
-
-  { "day": "MARTES", "room": "SALA 9", "time_start": "07:00", "time_end": "09:00", "subject": "SISTEMAS OPERATIVOS 3A", "professor": "Puetate Huera Galo" },
-  { "day": "MARTES", "room": "SALA 9", "time_start": "09:00", "time_end": "11:00", "subject": "PROGRAMACION ESTRUCTURADA 3A", "professor": "Vivero García Jorge" },
-  { "day": "MARTES", "room": "SALA 9", "time_start": "11:00", "time_end": "13:00", "subject": "ESTADÍSTICA INFERENCIAL 3A", "professor": "Guerra Torrealba Laura" },
-  { "day": "MARTES", "room": "SALA 9", "time_start": "15:00", "time_end": "17:00", "subject": "TI- INTEGRACIÓN CURRICULAR", "professor": "Rivas Echeverría Francklin" },
-
-  { "day": "MARTES", "room": "SALA MAC", "time_start": "15:00", "time_end": "17:00", "subject": "EDICIÓN DE INTERFASES WEB", "professor": "Arboleda Jordan Dario" },
-  { "day": "MARTES", "room": "SALA MAC", "time_start": "17:00", "time_end": "19:00", "subject": "TALLER DE DISEÑO IDENTIDAD", "professor": "Portilla Villamagua Guillermo" },
-
-  { "day": "MARTES", "room": "SALA 12", "time_start": "07:00", "time_end": "09:00", "subject": "TOPOGRAFÍA Y GEOMÁTICA 3A", "professor": "Guillermo Guzman" },
-  { "day": "MARTES", "room": "SALA 12", "time_start": "11:00", "time_end": "13:00", "subject": "REPRESENTACION GRÁFICA V", "professor": "Mgs. Tamayo Revilla Jose" },
-
-  { "day": "MARTES", "room": "SALA 13", "time_start": "09:00", "time_end": "11:00", "subject": "PENSAMIENTO COMPUTACIONAL 1B", "professor": "PhD. Rivero Albarrán Dulce" },
-  { "day": "MARTES", "room": "SALA 13", "time_start": "11:00", "time_end": "13:00", "subject": "PENSAMIENTO COMPUTACIONAL 1F", "professor": "Mgs. Quishpe Morales Santiago" },
-  { "day": "MARTES", "room": "SALA 13", "time_start": "14:00", "time_end": "16:00", "subject": "PENSAMIENTO COMPUTACIONAL 1H", "professor": "Alvaro Cevallos" },
-
-  { "day": "MARTES", "room": "SALA 14", "time_start": "07:00", "time_end": "09:00", "subject": "PENSAMIENTO COMPUTACIONAL 1A", "professor": "Mgs. Pusdá Chulde Segundo" },
-  { "day": "MARTES", "room": "SALA 14", "time_start": "09:00", "time_end": "11:00", "subject": "ELEMENTARY INGLES", "professor": "Germania Benavides" },
-  { "day": "MARTES", "room": "SALA 14", "time_start": "11:00", "time_end": "13:00", "subject": "TOPOGRAFÍA Y GEOMÁTICA 3B", "professor": "Guillermo Guzman" },
-  { "day": "MARTES", "room": "SALA 14", "time_start": "16:00", "time_end": "18:00", "subject": "REPRESENTACION GRÁFICA V", "professor": "N/A" },
-
-  { "day": "MARTES", "room": "SALA 15", "time_start": "07:00", "time_end": "09:00", "subject": "FUNDAMENTOS MATEMÁTICOS 3B", "professor": "Ruiz Quirana Ricardo" },
-  { "day": "MARTES", "room": "SALA 15", "time_start": "09:00", "time_end": "11:00", "subject": "PROGRAMACION ESTRUCTURADA 3B", "professor": "Pusda Chulde Segundo" },
-  { "day": "MARTES", "room": "SALA 15", "time_start": "11:00", "time_end": "13:00", "subject": "ESTADÍSTICA INFERENCIAL 3B", "professor": "Rivero Albarran Dulce" },
-  { "day": "MARTES", "room": "SALA 15", "time_start": "14:00", "time_end": "16:00", "subject": "TI-DISEÑO Y EVALUACIÓN PROYECTOS", "professor": "Guerra Torrealba Laura" },
-  { "day": "MARTES", "room": "SALA 15", "time_start": "16:00", "time_end": "18:00", "subject": "TI-INTERACCIÓN HUMANO COMPUTADOR", "professor": "Armas Cárdenas Juan Carlos" },
-
-  
-  { "day": "MIERCOLES", "room": "SALA 3", "time_start": "09:00", "time_end": "11:00", "subject": "DISEÑO Y EVAL PROYECTOS", "professor": "Mgs. Verónica Jaramillo" },
-  { "day": "MIERCOLES", "room": "SALA 3", "time_start": "14:00", "time_end": "16:00", "subject": "INGLES", "professor": "Rocio Guerrero" },
-  { "day": "MIERCOLES", "room": "SALA 3", "time_start": "16:00", "time_end": "18:00", "subject": "METEOROLOGÍA AGRÍCOLA", "professor": "Edmundo Recalde" },
-
-  { "day": "MIERCOLES", "room": "SALA 4", "time_start": "08:00", "time_end": "10:00", "subject": "ELEMENTARY A2.1", "professor": "Rosa Benitez" },
-  { "day": "MIERCOLES", "room": "SALA 4", "time_start": "10:00", "time_end": "12:00", "subject": "SISTEMA BRAILLE", "professor": "Mgs. Mercy Noguera" },
-  { "day": "MIERCOLES", "room": "SALA 4", "time_start": "14:00", "time_end": "16:00", "subject": "CONTABILIDAD DE COSTOS", "professor": "Mgs. Ma. Dolores Santillán" },
-  { "day": "MIERCOLES", "room": "SALA 4", "time_start": "16:00", "time_end": "18:00", "subject": "TICS", "professor": "Mgs. Quishpe Morales Santiago" },
-
-  { "day": "MIERCOLES", "room": "SALA 5", "time_start": "10:00", "time_end": "12:00", "subject": "BIOMETRÍA", "professor": "PhD. Edmundo Recalde" },
-  { "day": "MIERCOLES", "room": "SALA 5", "time_start": "14:00", "time_end": "16:00", "subject": "CURRÍCULO Y PORTAFOLIO", "professor": "Chavez Fuentes Verónica" },
-
-  { "day": "MIERCOLES", "room": "SALA 6", "time_start": "07:00", "time_end": "09:00", "subject": "ESTRUCTURAS DE ACERO", "professor": "Ing. Diego Arévalo" },
-  { "day": "MIERCOLES", "room": "SALA 6", "time_start": "09:00", "time_end": "12:00", "subject": "HIDRAULICA GENERAL", "professor": "Ing. Raul Beltrán" },
-  { "day": "MIERCOLES", "room": "SALA 6", "time_start": "15:00", "time_end": "17:00", "subject": "INTEGRACIÓN CURRICULAR TT", "professor": "Dra. Marilena Asprino" },
-
-  { "day": "MIERCOLES", "room": "SALA 7", "time_start": "08:00", "time_end": "10:00", "subject": "ELEMENTARY A2.1", "professor": "Germania Benavides" },
-  { "day": "MIERCOLES", "room": "SALA 7", "time_start": "11:00", "time_end": "13:00", "subject": "TI- POO 5A", "professor": "Pusda Chulda Segundo" },
-  { "day": "MIERCOLES", "room": "SALA 7", "time_start": "15:00", "time_end": "17:00", "subject": "ANÁLISIS DISEÑO SISTEMAS", "professor": "Ing. Daniel Bravo" },
-
-  { "day": "MIERCOLES", "room": "SALA 8", "time_start": "07:00", "time_end": "09:00", "subject": "TI-DESARROLLO BASADO PLATAFORMAS", "professor": "Jose Luis Ibarra" },
-  { "day": "MIERCOLES", "room": "SALA 8", "time_start": "09:00", "time_end": "11:00", "subject": "TI- BASE DE DATOS II", "professor": "Quishpe Morales Santiago" },
-  { "day": "MIERCOLES", "room": "SALA 8", "time_start": "11:00", "time_end": "13:00", "subject": "TI-REDES INALÁMBRICAS", "professor": "Pillo Guanoluisa Darwin" },
-
-  { "day": "MIERCOLES", "room": "SALA 9", "time_start": "07:00", "time_end": "09:00", "subject": "SISTEMAS OPERATIVOS 3A", "professor": "Puetate Huera Galo" },
-  { "day": "MIERCOLES", "room": "SALA 9", "time_start": "09:00", "time_end": "11:00", "subject": "FUNDAMENTOS DE ELECTRONICA", "professor": "Pillo Guanoluisa Darwin" },
-  { "day": "MIERCOLES", "room": "SALA 9", "time_start": "11:00", "time_end": "13:00", "subject": "FUNDAMENTOS MATEMÁTICOS", "professor": "Ruiz Quiranza Ricardo" },
-  { "day": "MIERCOLES", "room": "SALA 9", "time_start": "17:00", "time_end": "19:00", "subject": "TI-PROGRAMACIÓN ESTRUCTURADA 2A", "professor": "Armas Cárdenas Juan Carlos" },
-
-  { "day": "MIERCOLES", "room": "SALA MAC", "time_start": "15:00", "time_end": "17:00", "subject": "TALLER DISEÑO IDENTIDAD", "professor": "Portilla Villamagua Guillermo" },
-  { "day": "MIERCOLES", "room": "SALA MAC", "time_start": "18:00", "time_end": "20:00", "subject": "DESARROLLO MÓVIL", "professor": "Cristian Paredes" },
-
-  { "day": "MIERCOLES", "room": "SALA 12", "time_start": "14:00", "time_end": "16:00", "subject": "ESTADISTICA CIENCIAS SALUD", "professor": "Chavez Chavez Rolando" },
-  { "day": "MIERCOLES", "room": "SALA 12", "time_start": "17:00", "time_end": "19:00", "subject": "HIDRAULICA GENERAL", "professor": "Ing. Raul Beltrán" },
-
-  { "day": "MIERCOLES", "room": "SALA 13", "time_start": "07:00", "time_end": "09:00", "subject": "PENSAMIENTO COMPUTACIONAL 1D", "professor": "Mgs. Rivero Albarran Dulce" },
-  { "day": "MIERCOLES", "room": "SALA 13", "time_start": "09:00", "time_end": "11:00", "subject": "CONTABILIDAD DE COSTOS 1", "professor": "Mgs. Irene Revelo" },
-  { "day": "MIERCOLES", "room": "SALA 13", "time_start": "14:00", "time_end": "16:00", "subject": "EDUCATIVE INVESTIGATION III", "professor": "Sandra Ayala" },
-
-  { "day": "MIERCOLES", "room": "SALA 14", "time_start": "07:00", "time_end": "09:00", "subject": "PENSAMIENTO COMPUTACIONAL 1C", "professor": "Patricio Ruiz" },
-  { "day": "MIERCOLES", "room": "SALA 14", "time_start": "11:00", "time_end": "13:00", "subject": "PENSAMIENTO COMPUTACIONAL 1G", "professor": "Mgs. Ibarra Estévez José Luis" },
-
-  { "day": "MIERCOLES", "room": "SALA 15", "time_start": "07:00", "time_end": "09:00", "subject": "PROGRAMACION ESTRUCTURADA 3B", "professor": "Pusda Chulde Segundo" },
-  { "day": "MIERCOLES", "room": "SALA 15", "time_start": "09:00", "time_end": "11:00", "subject": "SISTEMAS OPERATIVOS 3B", "professor": "Puetate Huera Galo" },
-  { "day": "MIERCOLES", "room": "SALA 15", "time_start": "11:00", "time_end": "13:00", "subject": "FUNDAMENTOS ELECTRONICA 3B", "professor": "Arciniegas Aguirre Stalin" },
-  { "day": "MIERCOLES", "room": "SALA 15", "time_start": "14:00", "time_end": "16:00", "subject": "TI-GESTIÓN Y SEGURIDAD REDES", "professor": "Baroja Llanos Diego" },
-  { "day": "MIERCOLES", "room": "SALA 15", "time_start": "16:00", "time_end": "18:00", "subject": "TI-HERRAMIENTAS CIBERSEGURIDAD", "professor": "Narváez Erazo Luis" },
-
-  
-  { "day": "JUEVES", "room": "SALA 3", "time_start": "07:00", "time_end": "09:00", "subject": "APLICACIONES TRIBUTARIAS", "professor": "Mgs. Ma. Dolores Santillán" },
-  { "day": "JUEVES", "room": "SALA 3", "time_start": "10:00", "time_end": "12:00", "subject": "RESEARCH METHODOLOGIES", "professor": "Sandra Ayala" },
-  { "day": "JUEVES", "room": "SALA 3", "time_start": "15:00", "time_end": "17:00", "subject": "EMPRENDIMIENTO", "professor": "Obando Villareal Carlos" },
-
-  { "day": "JUEVES", "room": "SALA 4", "time_start": "13:00", "time_end": "15:00", "subject": "INCLUSIÓN 7 A", "professor": "Mgs. Mercy Noguera" },
-  { "day": "JUEVES", "room": "SALA 4", "time_start": "15:00", "time_end": "16:00", "subject": "DERECHO AMBIENTAL", "professor": "Dr. Carlix Mejías" },
-
-  { "day": "JUEVES", "room": "SALA 5", "time_start": "08:00", "time_end": "11:00", "subject": "LAB. CONSTRUCCIÓN IMAGEN 3A", "professor": "Elizabeth Morales Garzón" },
-  { "day": "JUEVES", "room": "SALA 5", "time_start": "11:00", "time_end": "13:00", "subject": "CULTURAS VISUALES 3A", "professor": "Dario Gabriel Arboleda" },
-  { "day": "JUEVES", "room": "SALA 5", "time_start": "15:00", "time_end": "17:00", "subject": "TALLER DISEÑO ESTRATÉGICO", "professor": "Portilla Villamagua Guillermo" },
-
-  { "day": "JUEVES", "room": "SALA 6", "time_start": "07:00", "time_end": "09:00", "subject": "BIOMETRÍA", "professor": "PhD. Edmundo Recalde" },
-  { "day": "JUEVES", "room": "SALA 6", "time_start": "09:00", "time_end": "12:00", "subject": "HIDRÁULICA GENERAL", "professor": "Ing. Raul Beltrán" },
-  { "day": "JUEVES", "room": "SALA 6", "time_start": "12:00", "time_end": "14:00", "subject": "ESTRUCTURAS III", "professor": "Diego Arevalo" },
-
-  { "day": "JUEVES", "room": "SALA 7", "time_start": "07:00", "time_end": "09:00", "subject": "TI- ADMIN SISTEMAS OPERATIVOS", "professor": "Puetate Huera Galo" },
-  { "day": "JUEVES", "room": "SALA 7", "time_start": "17:00", "time_end": "19:00", "subject": "COMPUTACIÓN EN LA NUBE", "professor": "Guerra Correa Edison" },
-
-  { "day": "JUEVES", "room": "SALA 8", "time_start": "09:00", "time_end": "11:00", "subject": "TI- BASE DE DATOS II", "professor": "Quishpe Morales Santiago" },
-  { "day": "JUEVES", "room": "SALA 8", "time_start": "11:00", "time_end": "13:00", "subject": "TI-DESARROLLO BASADO PLATAFORMAS", "professor": "Jose Luis Ibarra" },
-
-  { "day": "JUEVES", "room": "SALA 9", "time_start": "07:00", "time_end": "09:00", "subject": "PROGRAMACION ESTRUCTURADA 3A", "professor": "Viero García Jorge" },
-  { "day": "JUEVES", "room": "SALA 9", "time_start": "09:00", "time_end": "11:00", "subject": "SISTEMAS OPERATIVOS 3A", "professor": "Puetate Huera Galo" },
-  { "day": "JUEVES", "room": "SALA 9", "time_start": "11:00", "time_end": "13:00", "subject": "FUNDAMENTOS DE ELECTRONICA", "professor": "Pillo Guanoluisa Darwin" },
-  { "day": "JUEVES", "room": "SALA 9", "time_start": "14:00", "time_end": "16:00", "subject": "LECTURA Y ESCRITURA ACADEMICA", "professor": "Mgs. Amparo Reascos" },
-  { "day": "JUEVES", "room": "SALA 9", "time_start": "17:00", "time_end": "19:00", "subject": "TI-PROGRAMACIÓN ESTRUCTURADA 2A", "professor": "Armas Cárdenas Juan Carlos" },
-
-  { "day": "JUEVES", "room": "SALA MAC", "time_start": "09:00", "time_end": "11:00", "subject": "ANIMACIÓN 2D", "professor": "Cazco Maldonado David" },
-  { "day": "JUEVES", "room": "SALA MAC", "time_start": "12:00", "time_end": "14:00", "subject": "EDICIÓN DE INTERFASES WEB", "professor": "Arboleda Jordan Dario" },
-
-  { "day": "JUEVES", "room": "SALA 12", "time_start": "07:00", "time_end": "09:00", "subject": "TOPOGRAFÍA I 3A", "professor": "Mgs. David Álvarez" },
-  { "day": "JUEVES", "room": "SALA 12", "time_start": "09:00", "time_end": "11:00", "subject": "TOPOGRAFÍA I 3B", "professor": "Mgs. David Álvarez" },
-  { "day": "JUEVES", "room": "SALA 12", "time_start": "12:00", "time_end": "14:00", "subject": "FUNDAMENTOS DE INVESTIGACION", "professor": "Lorena Arellano" },
-
-  { "day": "JUEVES", "room": "SALA 13", "time_start": "07:00", "time_end": "09:00", "subject": "PENSAMIENTO COMPUTACIONAL 1B", "professor": "PhD. Rivero Albarrán Dulce" },
-  { "day": "JUEVES", "room": "SALA 13", "time_start": "10:00", "time_end": "12:00", "subject": "PENSAMIENTO COMPUTACIONAL 1A", "professor": "Mgs. Pusdá Chulde Segundo" },
-  { "day": "JUEVES", "room": "SALA 13", "time_start": "14:00", "time_end": "16:00", "subject": "PENSAMIENTO COMPUTACIONAL 1H", "professor": "Alvaro Cevallos" },
-  { "day": "JUEVES", "room": "SALA 13", "time_start": "16:00", "time_end": "18:00", "subject": "SEMIÓTICA APLICADA", "professor": "PhD. Alex Morales" },
-  { "day": "JUEVES", "room": "SALA 13", "time_start": "18:00", "time_end": "20:00", "subject": "FUNDAMENTOS DEL MARKETING", "professor": "PhD. Viviana Galarza" },
-
-  { "day": "JUEVES", "room": "SALA 14", "time_start": "07:00", "time_end": "09:00", "subject": "PENSAMIENTO COMPUTACIONAL 1E", "professor": "Roberto Collaguazo" },
-  { "day": "JUEVES", "room": "SALA 14", "time_start": "11:00", "time_end": "13:00", "subject": "REPRESENTACION GRÁFICA V", "professor": "Mgs. Tamayo Revilla Jose" },
-  { "day": "JUEVES", "room": "SALA 14", "time_start": "16:00", "time_end": "18:00", "subject": "PENSAMIENTO COMPUTACIONAL 1F", "professor": "Mgs. Quishpe Morales Santiago" },
-
-  { "day": "JUEVES", "room": "SALA 15", "time_start": "07:00", "time_end": "09:00", "subject": "PROGRAMACION ESTRUCTURADA 3B", "professor": "Pusda Chulde Segundo" },
-  { "day": "JUEVES", "room": "SALA 15", "time_start": "09:00", "time_end": "11:00", "subject": "FUNDAMENTOS ELECTRONICA 3B", "professor": "Arciniegas Aguirre Stalin" },
-  { "day": "JUEVES", "room": "SALA 15", "time_start": "11:00", "time_end": "13:00", "subject": "SISTEMAS OPERATIVOS 3B", "professor": "Puetate Huera Galo" },
-  { "day": "JUEVES", "room": "SALA 15", "time_start": "16:00", "time_end": "18:00", "subject": "TI-PRÁCTICAS PREPROFESIONALES", "professor": "Vivero Garcia Jorge" },
-
-
-  { "day": "VIERNES", "room": "SALA 3", "time_start": "10:00", "time_end": "11:00", "subject": "PHONETICS 3 A", "professor": "Mgs. Mercy Noguera" },
-  { "day": "VIERNES", "room": "SALA 3", "time_start": "11:00", "time_end": "12:00", "subject": "PHONETICS 3 B", "professor": "Mgs. Mercy Noguera" },
-  { "day": "VIERNES", "room": "SALA 3", "time_start": "13:00", "time_end": "14:00", "subject": "PRÁCTICAS SERVICIO COMUNITARIO", "professor": "Mgs. Mercy Noguera" },
-  { "day": "VIERNES", "room": "SALA 3", "time_start": "14:00", "time_end": "15:00", "subject": "CONTABILIDAD DE COSTOS", "professor": "Mgs. Ma. Dolores Santillán" },
-  { "day": "VIERNES", "room": "SALA 3", "time_start": "15:00", "time_end": "17:00", "subject": "INCLUSIÓN 7 A", "professor": "Mgs. Mercy Noguera" },
-
-  { "day": "VIERNES", "room": "SALA 5", "time_start": "08:00", "time_end": "11:00", "subject": "DIBUJO E ILUSTRACIÓN DIGITAL 3A", "professor": "Liliana Grisel Yépez" },
-  { "day": "VIERNES", "room": "SALA 5", "time_start": "16:00", "time_end": "18:00", "subject": "PRODUCCIÓN DE NUEVOS MEDIOS", "professor": "Arboleda Jordan Dario" },
-
-  { "day": "VIERNES", "room": "SALA 6", "time_start": "08:00", "time_end": "10:00", "subject": "METODOLOGIA INGLES", "professor": "Germania Benavides" },
-  { "day": "VIERNES", "room": "SALA 6", "time_start": "15:00", "time_end": "17:00", "subject": "INTEGRACIÓN CURRICULAR TT", "professor": "Dra. Marilena Asprino" },
-
-  { "day": "VIERNES", "room": "SALA 7", "time_start": "07:00", "time_end": "09:00", "subject": "TI-ADMINISTRACIÓN SISTEMAS", "professor": "Puetate Huera Galo" },
-  { "day": "VIERNES", "room": "SALA 7", "time_start": "11:00", "time_end": "13:00", "subject": "TI- POO 4A", "professor": "Pusda Chulda Segundo" },
-
-  { "day": "VIERNES", "room": "SALA 8", "time_start": "09:00", "time_end": "11:00", "subject": "TI- ARQUITECTURA Y SERVIDORES", "professor": "Cevallos Ramirez Alvaro" },
-
-  { "day": "VIERNES", "room": "SALA 9", "time_start": "07:00", "time_end": "09:00", "subject": "ESTADÍSTICA INFERENCIAL 3A", "professor": "Guerra Torrealba Laura" },
-  { "day": "VIERNES", "room": "SALA 9", "time_start": "15:00", "time_end": "17:00", "subject": "TI- INTEGRACIÓN CURRICULAR", "professor": "Rivas Echeverría Francklin" },
-  { "day": "VIERNES", "room": "SALA 9", "time_start": "17:00", "time_end": "19:00", "subject": "TI- PROGRAMACIÓN ESTRUCTURADA 2A", "professor": "Armas Cárdenas Juan Carlos" },
-
-  { "day": "VIERNES", "room": "SALA MAC", "time_start": "15:00", "time_end": "18:00", "subject": "TALLER DE DISEÑO IDENTIDAD", "professor": "Portilla Villamagua Guillermo" },
-
-  { "day": "VIERNES", "room": "SALA 12", "time_start": "07:00", "time_end": "09:00", "subject": "TOPOGRAFÍA I 3B", "professor": "Mgs. David Álvarez" },
-  { "day": "VIERNES", "room": "SALA 12", "time_start": "09:00", "time_end": "11:00", "subject": "TOPOGRAFÍA I 3A", "professor": "Mgs. David Álvarez" },
-  { "day": "VIERNES", "room": "SALA 12", "time_start": "14:00", "time_end": "16:00", "subject": "INSTALACIONES SANITARIAS", "professor": "Ing. Raul Beltrán" },
-
-  { "day": "VIERNES", "room": "SALA 13", "time_start": "07:00", "time_end": "09:00", "subject": "LEGISLACIÓN TRIBUTARIA", "professor": "Mgs. Ma. Dolores Santillán" },
-  { "day": "VIERNES", "room": "SALA 13", "time_start": "09:00", "time_end": "11:00", "subject": "AUDITORÍA DE LA PLANIFICACIÓN", "professor": "Mgs. Ma. Dolores Santillán" },
-
-  { "day": "VIERNES", "room": "SALA 14", "time_start": "07:00", "time_end": "09:00", "subject": "PENSAMIENTO COMPUTACIONAL 1C", "professor": "Patricio Ruiz" },
-  { "day": "VIERNES", "room": "SALA 14", "time_start": "11:00", "time_end": "13:00", "subject": "RESEARCH METHODOLOGIES", "professor": "Sandra Ayala" },
-  { "day": "VIERNES", "room": "SALA 14", "time_start": "15:00", "time_end": "17:00", "subject": "DISEÑO GEOMÉTRICO VIAL", "professor": "Ing. Patricio Caguano Torres" },
-
-  { "day": "VIERNES", "room": "SALA 15", "time_start": "07:00", "time_end": "09:00", "subject": "ESTADÍSTICA INFERENCIAL 3B", "professor": "Rivero Albarran Dulce" },
-
-  
-  { "day": "SÁBADO", "room": "SALA 6", "time_start": "08:00", "time_end": "10:00", "subject": "FOTOGRAFÍA DIGITAL", "professor": "PhD. Richelin Orbe" }
+  {
+    "day": "LUNES",
+    "room": "SALA 3",
+    "time_start": "07:00",
+    "time_end": "09:00",
+    "subject": "DISEÑO Y EVALUACIÓN PROYECTOS",
+    "professor": "Mgs. Ma. Dolores Santillán",
+    "school_id": "GES"
+  },
+  {
+    "day": "LUNES",
+    "room": "SALA 3",
+    "time_start": "09:00",
+    "time_end": "11:00",
+    "subject": "CONTABILIDAD INTERMEDIA",
+    "professor": "Mgs. Ma. Dolores Santillán",
+    "school_id": "GES"
+  },
+  {
+    "day": "LUNES",
+    "room": "SALA 3",
+    "time_start": "11:00",
+    "time_end": "13:00",
+    "subject": "BIOESTADÍSTICA",
+    "professor": "Mgs. Darío Chávez",
+    "school_id": "SAL"
+  },
+  {
+    "day": "LUNES",
+    "room": "SALA 4",
+    "time_start": "10:00",
+    "time_end": "12:00",
+    "subject": "PHONETICS 3 B",
+    "professor": "Mgs. Mercy Noguera",
+    "school_id": "IDI"
+  },
+  {
+    "day": "LUNES",
+    "room": "SALA 4",
+    "time_start": "15:00",
+    "time_end": "17:00",
+    "subject": "INTEGRACIÓN CURRICULAR TT",
+    "professor": "Dra. Marilena Asprino",
+    "school_id": "IDI"
+  },
+  {
+    "day": "LUNES",
+    "room": "SALA 5",
+    "time_start": "07:00",
+    "time_end": "09:00",
+    "subject": "CULTURAS VISUALES- 3A",
+    "professor": "DARIO GABRIEL ARBOLEDA",
+    "school_id": "DIS"
+  },
+  {
+    "day": "LUNES",
+    "room": "SALA 5",
+    "time_start": "09:00",
+    "time_end": "12:00",
+    "subject": "MARKETING DE EXPERIENCIAS",
+    "professor": "MORALES GARZON ELIZABETH",
+    "school_id": "TMD"
+  },
+  {
+    "day": "LUNES",
+    "room": "SALA 6",
+    "time_start": "07:00",
+    "time_end": "10:00",
+    "subject": "INSTALACIONES SANITARIAS",
+    "professor": "Ing. Andres Beltrán",
+    "school_id": "ECA"
+  },
+  {
+    "day": "LUNES",
+    "room": "SALA 7",
+    "time_start": "11:00",
+    "time_end": "13:00",
+    "subject": "TI- PROGRAMACIÓN ORIENTADA A OBJETOS",
+    "professor": "PUSDA CHULDA SEGUNDO",
+    "school_id": "TSO"
+  },
+  {
+    "day": "LUNES",
+    "room": "SALA 7",
+    "time_start": "14:00",
+    "time_end": "16:00",
+    "subject": "FUNDAMENTOS DE GENÉTICA",
+    "professor": "PhD. Cintya Gordón",
+    "school_id": "SAL"
+  },
+  {
+    "day": "LUNES",
+    "room": "SALA 8",
+    "time_start": "07:00",
+    "time_end": "09:00",
+    "subject": "TI-ARQUITECTURA Y SERVIDORES",
+    "professor": "CEVALLOS RAMIREZ ALVARO",
+    "school_id": "TSO"
+  },
+  {
+    "day": "LUNES",
+    "room": "SALA 8",
+    "time_start": "09:00",
+    "time_end": "11:00",
+    "subject": "TI- BASE DE DATOS II",
+    "professor": "QUISHPE MORALES SANTIAGO",
+    "school_id": "TSO"
+  },
+  {
+    "day": "LUNES",
+    "room": "SALA 8",
+    "time_start": "11:00",
+    "time_end": "13:00",
+    "subject": "TI- REDES INALÁMBRICAS",
+    "professor": "PILLO GUANOLUISA DARWIN",
+    "school_id": "TSO"
+  },
+  {
+    "day": "LUNES",
+    "room": "SALA 9",
+    "time_start": "07:00",
+    "time_end": "09:00",
+    "subject": "PROGRAMACION ESTRUCTURADA",
+    "professor": "VIERO GARCÍA JORGE",
+    "school_id": "ING"
+  },
+  {
+    "day": "LUNES",
+    "room": "SALA 9",
+    "time_start": "09:00",
+    "time_end": "11:00",
+    "subject": "FUNDAMENTOS DE ELECTRONICA",
+    "professor": "PILLO GUANOLUISA DARWIN",
+    "school_id": "ING"
+  },
+  {
+    "day": "LUNES",
+    "room": "SALA 9",
+    "time_start": "11:00", "time_end": "13:00",
+    "subject": "FUNDAMENTOS MATEMÁTICOS",
+    "professor": "Patricio Ruiz",
+    "school_id": "ING"
+  },
+  {
+    "day": "LUNES",
+    "room": "SALA 9",
+    "time_start": "15:00", "time_end": "17:00",
+    "subject": "TI- ARQUITECTURA DE COMPUTADORES",
+    "professor": "ARCINIEGAS AGUIRRE STALIN",
+    "school_id": "TSO"
+  },
+  {
+    "day": "LUNES",
+    "room": "SALA MAC",
+    "time_start": "09:00",
+    "time_end": "11:00",
+    "subject": "ANIMACIÓN 2D",
+    "professor": "DAVID ANDRÉS CAZCO",
+    "school_id": "DIS"
+  },
+  {
+    "day": "LUNES",
+    "room": "SALA 12",
+    "time_start": "11:00",
+    "time_end": "13:00",
+    "subject": "TOPOGRAFÍA Y GEOMÁTICA 3C",
+    "professor": "N/A",
+    "school_id": "ECA"
+  },
+  {
+    "day": "LUNES",
+    "room": "SALA 12",
+    "time_start": "15:00",
+    "time_end": "17:00",
+    "subject": "INSTALACIONES SANITARIAS",
+    "professor": "Ing. Raul Beltrán",
+    "school_id": "ECA"
+  },
+  {
+    "day": "LUNES",
+    "room": "SALA 12",
+    "time_start": "17:00",
+    "time_end": "19:00",
+    "subject": "HIDRAULICA GENERAL",
+    "professor": "Ing. Raul Beltrán",
+    "school_id": "ECA"
+  },
+  {
+    "day": "LUNES",
+    "room": "SALA 13",
+    "time_start": "07:00",
+    "time_end": "09:00",
+    "subject": "PENSAMIENTO COMPUTACIONAL 1D",
+    "professor": "Mgs. Rivero Albarran Dulce",
+    "school_id": "COM"
+  },
+  {
+    "day": "LUNES",
+    "room": "SALA 13",
+    "time_start": "14:00",
+    "time_end": "16:00",
+    "subject": "EDUCATIVE INVESTIGATION III",
+    "professor": "Sandra Ayala",
+    "school_id": "PED"
+  },
+  {
+    "day": "LUNES",
+    "room": "SALA 14",
+    "time_start": "07:00",
+    "time_end": "09:00",
+    "subject": "PENSAMIENTO COMPUTACIONAL 1E",
+    "professor": "Roberto Collaguazo",
+    "school_id": "COM"
+  },
+  {
+    "day": "LUNES",
+    "room": "SALA 14",
+    "time_start": "11:00",
+    "time_end": "13:00",
+    "subject": "PENSAMIENTO COMPUTACIONAL 1G",
+    "professor": "Mgs. Ibarra Estévez José Luis",
+    "school_id": "COM"
+  },
+  {
+    "day": "LUNES",
+    "room": "SALA 15",
+    "time_start": "07:00",
+    "time_end": "09:00",
+    "subject": "FUNDAMENTOS MATEMÁTICOS 3B",
+    "professor": "Ruiz Quirana Ricardo",
+    "school_id": "ING"
+  },
+  {
+    "day": "LUNES",
+    "room": "SALA 15",
+    "time_start": "09:00",
+    "time_end": "11:00",
+    "subject": "FUNDAMENTOS DE ELECTRONICA 3B",
+    "professor": "Arciniegas Aguirre Stalin",
+    "school_id": "ING"
+  },
+  {
+    "day": "LUNES",
+    "room": "SALA 15",
+    "time_start": "11:00",
+    "time_end": "13:00",
+    "subject": "SISTEMAS OPERATIVOS 3B",
+    "professor": "Puetate Huera Galo",
+    "school_id": "ING"
+  },
+  {
+    "day": "LUNES",
+    "room": "SALA 15",
+    "time_start": "14:00",
+    "time_end": "15:00",
+    "subject": "TI-PRÁCTICAS PREPROFESIONALES",
+    "professor": "Vivero Garcia Jorge",
+    "school_id": "TSO"
+  },
+  {
+    "day": "LUNES",
+    "room": "SALA 15",
+    "time_start": "16:00",
+    "time_end": "18:00",
+    "subject": "CIBERSEGURIDAD",
+    "professor": "Narváez Erazo Luis",
+    "school_id": "TSO"
+  },
+  {
+    "day": "MARTES",
+    "room": "SALA 3",
+    "time_start": "09:00",
+    "time_end": "11:00",
+    "subject": "DISEÑO Y EVALUACIÓN PROYECTOS",
+    "professor": "Mgs. Ma. Dolores Santillán",
+    "school_id": "GES"
+  },
+  {
+    "day": "MARTES",
+    "room": "SALA 4",
+    "time_start": "07:00",
+    "time_end": "09:00",
+    "subject": "AUDITORIA DE SISTEMAS",
+    "professor": "Mgs. Darwin Pillo",
+    "school_id": "GES"
+  },
+  {
+    "day": "MARTES",
+    "room": "SALA 4",
+    "time_start": "10:00",
+    "time_end": "12:00", "subject": "PHONETICS 3 A",
+    "professor": "Mgs. Mercy Noguera",
+    "school_id": "IDI"
+  },
+  {
+    "day": "MARTES",
+    "room": "SALA 5",
+    "time_start": "08:00",
+    "time_end": "11:00",
+    "subject": "LAB. CONSTRUCCIÓN IMAGEN 3A",
+    "professor": "Elizabeth Morales Garzón",
+    "school_id": "DIS"
+  },
+  {
+    "day": "MARTES",
+    "room": "SALA 5",
+    "time_start": "15:00",
+    "time_end": "17:00",
+    "subject": "ADMINISTRACIÓN SERVICIOS ENFERMERÍA",
+    "professor": "Mgs. Mariela Herrera",
+    "school_id": "SAL"
+  },
+  {
+    "day": "MARTES",
+    "room": "SALA 6",
+    "time_start": "07:00",
+    "time_end": "10:00",
+    "subject": "INSTALACIONES SANITARIAS",
+    "professor": "Ing. Raul Beltrán",
+    "school_id": "ECA"
+  },
+  {
+    "day": "MARTES",
+    "room": "SALA 6",
+    "time_start": "12:00",
+    "time_end": "14:00",
+    "subject": "ESTRUCTURAS III",
+    "professor": "Diego Arevalo",
+    "school_id": "ECA"
+  },
+  {
+    "day": "MARTES",
+    "room": "SALA 6",
+    "time_start": "16:00",
+    "time_end": "18:00",
+    "subject": "DERECHO AMBIENTAL",
+    "professor": "Dr. Carlix Mejías",
+    "school_id": "JUR"
+  },
+  {
+    "day": "MARTES",
+    "room": "SALA 7",
+    "time_start": "07:00",
+    "time_end": "09:00",
+    "subject": "ESTADISTICA CIENCIAS SALUD",
+    "professor": "Chavez Chavez Rolando",
+    "school_id": "SAL"
+  },
+  {
+    "day": "MARTES",
+    "room": "SALA 7",
+    "time_start": "11:00",
+    "time_end": "13:00",
+    "subject": "HERRAMIENTAS DIGITALES",
+    "professor": "Josué Remache",
+    "school_id": "TSO"
+  },
+  {
+    "day": "MARTES",
+    "room": "SALA 8",
+    "time_start": "10:00",
+    "time_end": "12:00",
+    "subject": "TI-REDES INALÁMBRICAS",
+    "professor": "Pillo Guanoluisa Darwin",
+    "school_id": "TSO"
+  },
+  {
+    "day": "MARTES",
+    "room": "SALA 8",
+    "time_start": "12:00",
+    "time_end": "14:00",
+    "subject": "TI-DESARROLLO BASADO PLATAFORMAS",
+    "professor": "Jose Luis Ibarra",
+    "school_id": "TSO"
+  },
+  {
+    "day": "MARTES",
+    "room": "SALA 9",
+    "time_start": "07:00",
+    "time_end": "09:00",
+    "subject": "SISTEMAS OPERATIVOS 3A",
+    "professor": "Puetate Huera Galo",
+    "school_id": "ING"
+  },
+  {
+    "day": "MARTES",
+    "room": "SALA 9",
+    "time_start": "09:00",
+    "time_end": "11:00",
+    "subject": "PROGRAMACION ESTRUCTURADA 3A",
+    "professor": "Vivero García Jorge",
+    "school_id": "ING"
+  },
+  {
+    "day": "MARTES",
+    "room": "SALA 9",
+    "time_start": "11:00",
+    "time_end": "13:00",
+    "subject": "ESTADÍSTICA INFERENCIAL 3A",
+    "professor": "Guerra Torrealba Laura",
+    "school_id": "ING"
+  },
+  {
+    "day": "MARTES",
+    "room": "SALA 9",
+    "time_start": "15:00",
+    "time_end": "17:00",
+    "subject": "TI- INTEGRACIÓN CURRICULAR",
+    "professor": "Rivas Echeverría Francklin",
+    "school_id": "TSO"
+  },
+  {
+    "day": "MARTES",
+    "room": "SALA MAC",
+    "time_start": "15:00",
+    "time_end": "17:00",
+    "subject": "EDICIÓN DE INTERFASES WEB",
+    "professor": "Arboleda Jordan Dario",
+    "school_id": "DIS"
+  },
+  {
+    "day": "MARTES",
+    "room": "SALA 12",
+    "time_start": "07:00",
+    "time_end": "09:00",
+    "subject": "TOPOGRAFÍA Y GEOMÁTICA 3A",
+    "professor": "Guillermo Guzman",
+    "school_id": "ECA"
+  },
+  {
+    "day": "MARTES",
+    "room": "SALA 13",
+    "time_start": "09:00",
+    "time_end": "11:00",
+    "subject": "PENSAMIENTO COMPUTACIONAL 1B",
+    "professor": "PhD. Rivero Albarrán Dulce",
+    "school_id": "COM"
+  },
+  {
+    "day": "MARTES",
+    "room": "SALA 13",
+    "time_start": "11:00",
+    "time_end": "13:00",
+    "subject": "PENSAMIENTO COMPUTACIONAL 1F",
+    "professor": "Mgs. Quishpe Morales Santiago",
+    "school_id": "COM"
+  },
+  {
+    "day": "MARTES",
+    "room": "SALA 14",
+    "time_start": "07:00",
+    "time_end": "09:00",
+    "subject": "PENSAMIENTO COMPUTACIONAL 1A",
+    "professor": "Mgs. Pusdá Chulde Segundo",
+    "school_id": "COM"
+  },
+  {
+    "day": "MARTES",
+    "room": "SALA 14",
+    "time_start": "09:00",
+    "time_end": "11:00",
+    "subject": "ELEMENTARY INGLES",
+    "professor": "Germania Benavides",
+    "school_id": "IDI"
+  },
+  {
+    "day": "MARTES",
+    "room": "SALA 14",
+    "time_start": "11:00",
+    "time_end": "13:00",
+    "subject": "TOPOGRAFÍA Y GEOMÁTICA 3B",
+    "professor": "Guillermo Guzman",
+    "school_id": "ECA"
+  },
+  {
+    "day": "MARTES",
+    "room": "SALA 15",
+    "time_start": "07:00",
+    "time_end": "09:00",
+    "subject": "FUNDAMENTOS MATEMÁTICOS 3B",
+    "professor": "Ruiz Quirana Ricardo",
+    "school_id": "ING"
+  },
+  {
+    "day": "MARTES",
+    "room": "SALA 15",
+    "time_start": "09:00",
+    "time_end": "11:00",
+    "subject": "PROGRAMACION ESTRUCTURADA 3B",
+    "professor": "Pusda Chulde Segundo",
+    "school_id": "ING"
+  },
+  {
+    "day": "MARTES",
+    "room": "SALA 15",
+    "time_start": "11:00",
+    "time_end": "13:00",
+    "subject": "ESTADÍSTICA INFERENCIAL 3B",
+    "professor": "Rivero Albarran Dulce",
+    "school_id": "ING"
+  },
+  {
+    "day": "MARTES",
+    "room": "SALA 15",
+    "time_start": "14:00",
+    "time_end": "16:00",
+    "subject": "TI-DISEÑO Y EVALUACIÓN PROYECTOS",
+    "professor": "Guerra Torrealba Laura",
+    "school_id": "TSO"
+  },
+  {
+    "day": "MIERCOLES",
+    "room": "SALA 3",
+    "time_start": "09:00",
+    "time_end": "11:00",
+    "subject": "DISEÑO Y EVAL PROYECTOS",
+    "professor": "Mgs. Verónica Jaramillo",
+    "school_id": "GES"
+  },
+  {
+    "day": "MIERCOLES",
+    "room": "SALA 3",
+    "time_start": "14:00",
+    "time_end": "16:00",
+    "subject": "INGLES",
+    "professor": "Rocio Guerrero",
+    "school_id": "IDI"
+  },
+  {
+    "day": "MIERCOLES",
+    "room": "SALA 3",
+    "time_start": "16:00", "time_end": "18:00", "subject": "METEOROLOGÍA AGRÍCOLA",
+    "professor": "Edmundo Recalde",
+    "school_id": "ECA"
+  },
+  {
+    "day": "MIERCOLES",
+    "room": "SALA 4",
+    "time_start": "08:00",
+    "time_end": "10:00",
+    "subject": "ELEMENTARY A2.1",
+    "professor": "Rosa Benitez",
+    "school_id": "IDI"
+  },
+  {
+    "day": "MIERCOLES",
+    "room": "SALA 4",
+    "time_start": "10:00", "time_end": "12:00",
+    "subject": "SISTEMA BRAILLE",
+    "professor": "Mgs. Mercy Noguera",
+    "school_id": "PED"
+  },
+  {
+    "day": "MIERCOLES",
+    "room": "SALA 6",
+    "time_start": "07:00",
+    "time_end": "09:00",
+    "subject": "ESTRUCTURAS DE ACERO",
+    "professor": "Ing. Diego Arévalo",
+    "school_id": "ECA"
+  },
+  {
+    "day": "MIERCOLES",
+    "room": "SALA 6",
+    "time_start": "09:00",
+    "time_end": "12:00",
+    "subject": "HIDRAULICA GENERAL",
+    "professor": "Ing. Raul Beltrán",
+    "school_id": "ECA"
+  },
+  {
+    "day": "MIERCOLES",
+    "room": "SALA 7",
+    "time_start": "11:00",
+    "time_end": "13:00",
+    "subject": "TI- POO 5A",
+    "professor": "Pusda Chulda Segundo",
+    "school_id": "TSO"
+  },
+  {
+    "day": "MIERCOLES",
+    "room": "SALA 7",
+    "time_start": "15:00",
+    "time_end": "17:00",
+    "subject": "ANÁLISIS DISEÑO SISTEMAS",
+    "professor": "Ing. Daniel Bravo",
+    "school_id": "ING"
+  },
+  {
+    "day": "MIERCOLES",
+    "room": "SALA 8",
+    "time_start": "07:00",
+    "time_end": "09:00",
+    "subject": "TI-DESARROLLO BASADO PLATAFORMAS",
+    "professor": "Jose Luis Ibarra",
+    "school_id": "TSO"
+  },
+  {
+    "day": "MIERCOLES",
+    "room": "SALA 8",
+    "time_start": "09:00",
+    "time_end": "11:00",
+    "subject": "TI- BASE DE DATOS II",
+    "professor": "Quishpe Morales Santiago",
+    "school_id": "TSO"
+  },
+  {
+    "day": "MIERCOLES",
+    "room": "SALA 8",
+    "time_start": "11:00",
+    "time_end": "13:00",
+    "subject": "TI-REDES INALÁMBRICAS",
+    "professor": "Pillo Guanoluisa Darwin",
+    "school_id": "TSO"
+  },
+  {
+    "day": "MIERCOLES",
+    "room": "SALA 9",
+    "time_start": "07:00",
+    "time_end": "09:00",
+    "subject": "SISTEMAS OPERATIVOS 3A",
+    "professor": "Puetate Huera Galo",
+    "school_id": "ING"
+  },
+  {
+    "day": "MIERCOLES",
+    "room": "SALA 9",
+    "time_start": "09:00",
+    "time_end": "11:00",
+    "subject": "FUNDAMENTOS DE ELECTRONICA",
+    "professor": "Pillo Guanoluisa Darwin",
+    "school_id": "ING"
+  },
+  {
+    "day": "MIERCOLES",
+    "room": "SALA 9",
+    "time_start": "11:00", "time_end": "13:00",
+    "subject": "FUNDAMENTOS MATEMÁTICOS",
+    "professor": "Ruiz Quiranza Ricardo",
+    "school_id": "ING"
+  },
+  {
+    "day": "MIERCOLES",
+    "room": "SALA 9",
+    "time_start": "17:00",
+    "time_end": "19:00",
+    "subject": "TI-PROGRAMACIÓN ESTRUCTURADA 2A",
+    "professor": "Armas Cárdenas Juan Carlos",
+    "school_id": "TSO"
+  },
+  {
+    "day": "MIERCOLES",
+    "room": "SALA MAC",
+    "time_start": "15:00",
+    "time_end": "17:00",
+    "subject": "TALLER DISEÑO IDENTIDAD",
+    "professor": "Portilla Villamagua Guillermo",
+    "school_id": "DIS"
+  },
+  {
+    "day": "MIERCOLES",
+    "room": "SALA MAC",
+    "time_start": "18:00",
+    "time_end": "20:00",
+    "subject": "DESARROLLO MÓVIL",
+    "professor": "Cristian Paredes",
+    "school_id": "TSO"
+  },
+  {
+    "day": "MIERCOLES",
+    "room": "SALA 12",
+    "time_start": "14:00",
+    "time_end": "16:00",
+    "subject": "ESTADISTICA CIENCIAS SALUD",
+    "professor": "Chavez Chavez Rolando",
+    "school_id": "SAL"
+  },
+  {
+    "day": "MIERCOLES",
+    "room": "SALA 12",
+    "time_start": "17:00",
+    "time_end": "19:00",
+    "subject": "HIDRAULICA GENERAL",
+    "professor": "Ing. Raul Beltrán",
+    "school_id": "ECA"
+  },
+  {
+    "day": "MIERCOLES",
+    "room": "SALA 13",
+    "time_start": "07:00",
+    "time_end": "09:00",
+    "subject": "PENSAMIENTO COMPUTACIONAL 1D",
+    "professor": "Mgs. Rivero Albarran Dulce",
+    "school_id": "COM"
+  },
+  {
+    "day": "MIERCOLES",
+    "room": "SALA 13",
+    "time_start": "09:00",
+    "time_end": "11:00",
+    "subject": "CONTABILIDAD DE COSTOS 1",
+    "professor": "Mgs. Irene Revelo",
+    "school_id": "GES"
+  },
+  {
+    "day": "MIERCOLES",
+    "room": "SALA 14",
+    "time_start": "07:00",
+    "time_end": "09:00",
+    "subject": "PENSAMIENTO COMPUTACIONAL 1C",
+    "professor": "Patricio Ruiz",
+    "school_id": "COM"
+  },
+  {
+    "day": "MIERCOLES",
+    "room": "SALA 14",
+    "time_start": "11:00",
+    "time_end": "13:00",
+    "subject": "PENSAMIENTO COMPUTACIONAL 1G",
+    "professor": "Mgs. Ibarra Estévez José Luis",
+    "school_id": "COM"
+  },
+  {
+    "day": "MIERCOLES",
+    "room": "SALA 15",
+    "time_start": "07:00",
+    "time_end": "09:00",
+    "subject": "PROGRAMACION ESTRUCTURADA 3B",
+    "professor": "Pusda Chulde Segundo",
+    "school_id": "ING"
+  },
+  {
+    "day": "MIERCOLES",
+    "room": "SALA 15",
+    "time_start": "09:00",
+    "time_end": "11:00",
+    "subject": "SISTEMAS OPERATIVOS 3B",
+    "professor": "Puetate Huera Galo",
+    "school_id": "ING"
+  },
+  {
+    "day": "MIERCOLES",
+    "room": "SALA 15",
+    "time_start": "11:00",
+    "time_end": "13:00",
+    "subject": "FUNDAMENTOS ELECTRONICA 3B",
+    "professor": "Arciniegas Aguirre Stalin",
+    "school_id": "ING"
+  },
+  {
+    "day": "MIERCOLES",
+    "room": "SALA 15",
+    "time_start": "14:00",
+    "time_end": "16:00",
+    "subject": "TI-GESTIÓN Y SEGURIDAD REDES",
+    "professor": "Baroja Llanos Diego",
+    "school_id": "TSO"
+  },
+  {
+    "day": "MIERCOLES",
+    "room": "SALA 15",
+    "time_start": "16:00",
+    "time_end": "18:00",
+    "subject": "TI-HERRAMIENTAS CIBERSEGURIDAD",
+    "professor": "Narváez Erazo Luis",
+    "school_id": "TSO"
+  },
+  {
+    "day": "JUEVES",
+    "room": "SALA 3",
+    "time_start": "07:00",
+    "time_end": "09:00",
+    "subject": "APLICACIONES TRIBUTARIAS",
+    "professor": "Mgs. Ma. Dolores Santillán",
+    "school_id": "GES"
+  },
+  {
+    "day": "JUEVES",
+    "room": "SALA 3",
+    "time_start": "15:00",
+    "time_end": "17:00",
+    "subject": "EMPRENDIMIENTO",
+    "professor": "Obando Villareal Carlos",
+    "school_id": "GES"
+  },
+  {
+    "day": "JUEVES",
+    "room": "SALA 4",
+    "time_start": "15:00",
+    "time_end": "16:00",
+    "subject": "DERECHO AMBIENTAL",
+    "professor": "Dr. Carlix Mejías",
+    "school_id": "JUR"
+  },
+  {
+    "day": "JUEVES",
+    "room": "SALA 5",
+    "time_start": "08:00",
+    "time_end": "11:00",
+    "subject": "LAB. CONSTRUCCIÓN IMAGEN 3A",
+    "professor": "Elizabeth Morales Garzón",
+    "school_id": "DIS"
+  },
+  {
+    "day": "JUEVES",
+    "room": "SALA 5",
+    "time_start": "11:00",
+    "time_end": "13:00",
+    "subject": "CULTURAS VISUALES 3A",
+    "professor": "Dario Gabriel Arboleda",
+    "school_id": "DIS"
+  },
+  {
+    "day": "JUEVES",
+    "room": "SALA 6",
+    "time_start": "07:00",
+    "time_end": "09:00",
+    "subject": "BIOMETRÍA",
+    "professor": "PhD. Edmundo Recalde",
+    "school_id": "ECA"
+  },
+  {
+    "day": "JUEVES",
+    "room": "SALA 6",
+    "time_start": "09:00",
+    "time_end": "12:00",
+    "subject": "HIDRÁULICA GENERAL",
+    "professor": "Ing. Raul Beltrán",
+    "school_id": "ECA"
+  },
+  {
+    "day": "JUEVES",
+    "room": "SALA 6",
+    "time_start": "12:00",
+    "time_end": "14:00",
+    "subject": "ESTRUCTURAS III",
+    "professor": "Diego Arevalo",
+    "school_id": "ECA"
+  },
+  {
+    "day": "JUEVES",
+    "room": "SALA 7",
+    "time_start": "07:00",
+    "time_end": "09:00",
+    "subject": "TI- ADMIN SISTEMAS OPERATIVOS",
+    "professor": "Puetate Huera Galo",
+    "school_id": "TSO"
+  },
+  {
+    "day": "JUEVES",
+    "room": "SALA 7",
+    "time_start": "17:00",
+    "time_end": "19:00",
+    "subject": "COMPUTACIÓN EN LA NUBE",
+    "professor": "Guerra Correa Edison",
+    "school_id": "TSO"
+  },
+  {
+    "day": "JUEVES",
+    "room": "SALA 8",
+    "time_start": "09:00",
+    "time_end": "11:00",
+    "subject": "TI- BASE DE DATOS II",
+    "professor": "Quishpe Morales Santiago",
+    "school_id": "TSO"
+  },
+  {
+    "day": "JUEVES",
+    "room": "SALA 8",
+    "time_start": "11:00",
+    "time_end": "13:00",
+    "subject": "TI-DESARROLLO BASADO PLATAFORMAS",
+    "professor": "Jose Luis Ibarra",
+    "school_id": "TSO"
+  },
+  {
+    "day": "JUEVES",
+    "room": "SALA 9",
+    "time_start": "07:00",
+    "time_end": "09:00",
+    "subject": "PROGRAMACION ESTRUCTURADA 3A",
+    "professor": "Viero García Jorge",
+    "school_id": "ING"
+  },
+  {
+    "day": "JUEVES",
+    "room": "SALA 9",
+    "time_start": "09:00",
+    "time_end": "11:00",
+    "subject": "SISTEMAS OPERATIVOS 3A",
+    "professor": "Puetate Huera Galo",
+    "school_id": "ING"
+  },
+  {
+    "day": "JUEVES",
+    "room": "SALA 9",
+    "time_start": "11:00",
+    "time_end": "13:00",
+    "subject": "FUNDAMENTOS DE ELECTRONICA",
+    "professor": "Pillo Guanoluisa Darwin",
+    "school_id": "ING"
+  },
+  {
+    "day": "JUEVES",
+    "room": "SALA 9",
+    "time_start": "17:00",
+    "time_end": "19:00",
+    "subject": "TI-PROGRAMACIÓN ESTRUCTURADA 2A",
+    "professor": "Armas Cárdenas Juan Carlos",
+    "school_id": "TSO"
+  },
+  {
+    "day": "JUEVES",
+    "room": "SALA MAC",
+    "time_start": "09:00",
+    "time_end": "11:00",
+    "subject": "ANIMACIÓN 2D",
+    "professor": "Cazco Maldonado David",
+    "school_id": "DIS"
+  },
+  {
+    "day": "JUEVES",
+    "room": "SALA MAC",
+    "time_start": "12:00", "time_end": "14:00", "subject": "EDICIÓN DE INTERFASES WEB",
+    "professor": "Arboleda Jordan Dario",
+    "school_id": "DIS"
+  },
+  {
+    "day": "JUEVES",
+    "room": "SALA 12",
+    "time_start": "07:00",
+    "time_end": "09:00",
+    "subject": "TOPOGRAFÍA I 3A",
+    "professor": "Mgs. David Álvarez",
+    "school_id": "ECA"
+  },
+  {
+    "day": "JUEVES",
+    "room": "SALA 12",
+    "time_start": "09:00",
+    "time_end": "11:00",
+    "subject": "TOPOGRAFÍA I 3B",
+    "professor": "Mgs. David Álvarez",
+    "school_id": "ECA"
+  },
+  {
+    "day": "JUEVES",
+    "room": "SALA 13",
+    "time_start": "07:00",
+    "time_end": "09:00",
+    "subject": "PENSAMIENTO COMPUTACIONAL 1B",
+    "professor": "PhD. Rivero Albarrán Dulce",
+    "school_id": "COM"
+  },
+  {
+    "day": "JUEVES",
+    "room": "SALA 13",
+    "time_start": "10:00",
+    "time_end": "12:00",
+    "subject": "PENSAMIENTO COMPUTACIONAL 1A",
+    "professor": "Mgs. Pusdá Chulde Segundo",
+    "school_id": "COM"
+  },
+  {
+    "day": "JUEVES",
+    "room": "SALA 13",
+    "time_start": "14:00",
+    "time_end": "16:00",
+    "subject": "PENSAMIENTO COMPUTACIONAL 1H",
+    "professor": "Alvaro Cevallos",
+    "school_id": "COM"
+  },
+  {
+    "day": "JUEVES",
+    "room": "SALA 13",
+    "time_start": "16:00",
+    "time_end": "18:00",
+    "subject": "SEMIÓTICA APLICADA",
+    "professor": "PhD. Alex Morales",
+    "school_id": "DIS"
+  },
+  {
+    "day": "JUEVES",
+    "room": "SALA 14",
+    "time_start": "07:00",
+    "time_end": "09:00",
+    "subject": "PENSAMIENTO COMPUTACIONAL 1E",
+    "professor": "Roberto Collaguazo",
+    "school_id": "COM"
+  },
+  {
+    "day": "JUEVES",
+    "room": "SALA 14",
+    "time_start": "16:00", "time_end": "18:00",
+    "subject": "PENSAMIENTO COMPUTACIONAL 1F",
+    "professor": "Mgs. Quishpe Morales Santiago",
+    "school_id": "COM"
+  },
+  {
+    "day": "JUEVES",
+    "room": "SALA 15",
+    "time_start": "07:00",
+    "time_end": "09:00",
+    "subject": "PROGRAMACION ESTRUCTURADA 3B",
+    "professor": "Pusda Chulde Segundo",
+    "school_id": "ING"
+  },
+  {
+    "day": "JUEVES",
+    "room": "SALA 15",
+    "time_start": "09:00",
+    "time_end": "11:00",
+    "subject": "FUNDAMENTOS ELECTRONICA 3B",
+    "professor": "Arciniegas Aguirre Stalin",
+    "school_id": "ING"
+  },
+  {
+    "day": "JUEVES",
+    "room": "SALA 15",
+    "time_start": "11:00",
+    "time_end": "13:00",
+    "subject": "SISTEMAS OPERATIVOS 3B",
+    "professor": "Puetate Huera Galo",
+    "school_id": "ING"
+  },
+  {
+    "day": "JUEVES",
+    "room": "SALA 15",
+    "time_start": "16:00", "time_end": "18:00",
+    "subject": "TI-PRÁCTICAS PREPROFESIONALES",
+    "professor": "Vivero Garcia Jorge",
+    "school_id": "TSO"
+  },
+  {
+    "day": "VIERNES",
+    "room": "SALA 3",
+    "time_start": "10:00",
+    "time_end": "11:00",
+    "subject": "PHONETICS 3 A",
+    "professor": "Mgs. Mercy Noguera",
+    "school_id": "IDI"
+  },
+  {
+    "day": "VIERNES",
+    "room": "SALA 3",
+    "time_start": "11:00", "time_end": "12:00",
+    "subject": "PHONETICS 3 B",
+    "professor": "Mgs. Mercy Noguera",
+    "school_id": "IDI"
+  },
+  {
+    "day": "VIERNES",
+    "room": "SALA 3",
+    "time_start": "14:00",
+    "time_end": "15:00",
+    "subject": "CONTABILIDAD DE COSTOS",
+    "professor": "Mgs. Ma. Dolores Santillán",
+    "school_id": "GES"
+  },
+  {
+    "day": "VIERNES",
+    "room": "SALA 5",
+    "time_start": "08:00",
+    "time_end": "11:00",
+    "subject": "DIBUJO E ILUSTRACIÓN DIGITAL 3A",
+    "professor": "Liliana Grisel Yépez",
+    "school_id": "DIS"
+  },
+  {
+    "day": "VIERNES",
+    "room": "SALA 5",
+    "time_start": "16:00", "time_end": "18:00", "subject": "PRODUCCIÓN DE NUEVOS MEDIOS",
+    "professor": "Arboleda Jordan Dario",
+    "school_id": "DIS"
+  },
+  {
+    "day": "VIERNES",
+    "room": "SALA 6",
+    "time_start": "08:00",
+    "time_end": "10:00",
+    "subject": "METODOLOGIA INGLES",
+    "professor": "Germania Benavides",
+    "school_id": "IDI"
+  },
+  {
+    "day": "VIERNES",
+    "room": "SALA 6",
+    "time_start": "15:00", "time_end": "17:00", "subject": "INTEGRACIÓN CURRICULAR TT",
+    "professor": "Dra. Marilena Asprino",
+    "school_id": "IDI"
+  },
+  {
+    "day": "VIERNES",
+    "room": "SALA 7",
+    "time_start": "07:00",
+    "time_end": "09:00",
+    "subject": "TI-ADMINISTRACIÓN SISTEMAS",
+    "professor": "Puetate Huera Galo",
+    "school_id": "TSO"
+  },
+  {
+    "day": "VIERNES",
+    "room": "SALA 7",
+    "time_start": "11:00", "time_end": "13:00",
+    "subject": "TI- POO 4A",
+    "professor": "Pusda Chulda Segundo",
+    "school_id": "TSO"
+  },
+  {
+    "day": "VIERNES",
+    "room": "SALA 8",
+    "time_start": "09:00", "time_end": "11:00",
+    "subject": "TI- ARQUITECTURA Y SERVIDORES",
+    "professor": "Cevallos Ramirez Alvaro",
+    "school_id": "TSO"
+  },
+  {
+    "day": "VIERNES",
+    "room": "SALA 9",
+    "time_start": "07:00", "time_end": "09:00",
+    "subject": "ESTADÍSTICA INFERENCIAL 3A",
+    "professor": "Guerra Torrealba Laura",
+    "school_id": "ING"
+  },
+  {
+    "day": "VIERNES",
+    "room": "SALA 9",
+    "time_start": "15:00", "time_end": "17:00",
+    "subject": "TI- INTEGRACIÓN CURRICULAR",
+    "professor": "Rivas Echeverría Francklin",
+    "school_id": "TSO"
+  },
+  {
+    "day": "VIERNES",
+    "room": "SALA 9",
+    "time_start": "17:00", "time_end": "19:00",
+    "subject": "TI- PROGRAMACIÓN ESTRUCTURADA 2A",
+    "professor": "Armas Cárdenas Juan Carlos",
+    "school_id": "TSO"
+  },
+  {
+    "day": "VIERNES",
+    "room": "SALA MAC",
+    "time_start": "15:00", "time_end": "18:00",
+    "subject": "TALLER DE DISEÑO IDENTIDAD",
+    "professor": "Portilla Villamagua Guillermo",
+    "school_id": "DIS"
+  },
+  {
+    "day": "VIERNES",
+    "room": "SALA 12",
+    "time_start": "07:00",
+    "time_end": "09:00",
+    "subject": "TOPOGRAFÍA I 3B",
+    "professor": "Mgs. David Álvarez",
+    "school_id": "ECA"
+  },
+  {
+    "day": "VIERNES",
+    "room": "SALA 12",
+    "time_start": "09:00", "time_end": "11:00",
+    "subject": "TOPOGRAFÍA I 3A",
+    "professor": "Mgs. David Álvarez",
+    "school_id": "ECA"
+  },
+  {
+    "day": "VIERNES",
+    "room": "SALA 12",
+    "time_start": "14:00", "time_end": "16:00",
+    "subject": "INSTALACIONES SANITARIAS",
+    "professor": "Ing. Raul Beltrán",
+    "school_id": "ECA"
+  },
+  {
+    "day": "VIERNES",
+    "room": "SALA 13",
+    "time_start": "07:00",
+    "time_end": "09:00",
+    "subject": "LEGISLACIÓN TRIBUTARIA",
+    "professor": "Mgs. Ma. Dolores Santillán",
+    "school_id": "GES"
+  },
+  {
+    "day": "VIERNES",
+    "room": "SALA 13",
+    "time_start": "09:00", "time_end": "11:00",
+    "subject": "AUDITORÍA DE LA PLANIFICACIÓN",
+    "professor": "Mgs. Ma. Dolores Santillán",
+    "school_id": "GES"
+  },
+  {
+    "day": "VIERNES",
+    "room": "SALA 14",
+    "time_start": "07:00",
+    "time_end": "09:00",
+    "subject": "PENSAMIENTO COMPUTACIONAL 1C",
+    "professor": "Patricio Ruiz",
+    "school_id": "COM"
+  },
+  {
+    "day": "VIERNES",
+    "room": "SALA 14",
+    "time_start": "15:00", "time_end": "17:00",
+    "subject": "DISEÑO GEOMÉTRICO VIAL",
+    "professor": "Ing. Patricio Caguano Torres",
+    "school_id": "ECA"
+  },
+  {
+    "day": "VIERNES",
+    "room": "SALA 15",
+    "time_start": "07:00",
+    "time_end": "09:00",
+    "subject": "ESTADÍSTICA INFERENCIAL 3B",
+    "professor": "Rivero Albarran Dulce",
+    "school_id": "ING"
+  },
+  {
+    "day": "SÁBADO",
+    "room": "SALA 6",
+    "time_start": "08:00",
+    "time_end": "10:00",
+    "subject": "FOTOGRAFÍA DIGITAL",
+    "professor": "PhD. Richelin Orbe",
+    "school_id": "DIS"
+  }
 ]

@@ -10,7 +10,37 @@ export class DataImportService {
 
     async importData() {
         await this.importRooms();
+        await this.importSchools();
         await this.importSchedules();
+    }
+
+    private async importSchools() {
+        const filePath = path.join(process.cwd(), 'Recursos/schools.json');
+        console.log('Reading schools from:', filePath);
+
+        if (!fs.existsSync(filePath)) {
+            console.error('schools.json not found');
+            return;
+        }
+
+        const rawData = fs.readFileSync(filePath, 'utf-8');
+        const schools = JSON.parse(rawData);
+
+        for (const school of schools) {
+            await this.prisma.school.upsert({
+                where: { id: school.id },
+                update: {
+                    name: school.name,
+                    colorHex: school.color_hex
+                },
+                create: {
+                    id: school.id,
+                    name: school.name,
+                    colorHex: school.color_hex
+                }
+            });
+        }
+        console.log(`Imported ${schools.length} schools.`);
     }
 
     private async importRooms() {
@@ -72,11 +102,19 @@ export class DataImportService {
                                     type: ReservationType.EVENT,
                                     status: ReservationStatus.OCCUPIED,
                                     userId: admin.id,
-                                    labId: lab.id
+                                    labId: lab.id,
+                                    schoolId: 'COM' // Default to Common/Administrative
                                 }
                             });
                         } else {
-                            console.log(`Permanent reservation already exists for ${room.name}`);
+                            // Update existing permanent reservation with schoolId if missing
+                            if (!existing.schoolId) {
+                                console.log(`Updating permanent reservation school for ${room.name}`);
+                                await this.prisma.reservation.update({
+                                    where: { id: existing.id },
+                                    data: { schoolId: 'COM' }
+                                });
+                            }
                         }
                     }
                 } else {
@@ -115,6 +153,7 @@ export class DataImportService {
         }
 
         let count = 0;
+        let updatedCount = 0;
         for (const item of schedules) {
             if (!item.day || !item.room || !item.time_start || !item.time_end) continue;
 
@@ -139,6 +178,44 @@ export class DataImportService {
                     const end = new Date(currentDate);
                     end.setHours(endHour, endMinute, 0, 0);
 
+                    // Determine School ID
+                    let schoolId = item.school_id;
+
+                    // User Request: "las de ti van en ingenieria"
+                    // Override TSO (Tecnología Software) to ING (Ingeniería)
+                    if (schoolId === 'TSO') {
+                        schoolId = 'ING';
+                    }
+
+                    // Fallback logic for missing school_id
+                    if (!schoolId) {
+                        const subjectUpper = item.subject.toUpperCase();
+
+                        // Use regex for stricter TI matching
+                        const tiRegex = /\bTI\b|TI-|TECNOLOG[IÍ]A/;
+
+                        if (tiRegex.test(subjectUpper) || subjectUpper.includes('SOFTWARE') || subjectUpper.includes('PROGRAMACION') || subjectUpper.includes('BASE DE DATOS') || subjectUpper.includes('WEB')) {
+                            schoolId = 'ING';
+                        } else if (subjectUpper.includes('CONTABILIDAD') || subjectUpper.includes('ADMINISTRACION') || subjectUpper.includes('FINANZAS') || subjectUpper.includes('EMPRESA') || subjectUpper.includes('MARKETING') || subjectUpper.includes('GESTION') || subjectUpper.includes('ECONOMIA')) {
+                            schoolId = 'GES';
+                        } else if (subjectUpper.includes('DERECHO') || subjectUpper.includes('LEGAL')) {
+                            schoolId = 'JUR';
+                        } else if (subjectUpper.includes('INGLES') || subjectUpper.includes('FRANCES') || subjectUpper.includes('IDIOMA') || subjectUpper.includes('PHONETICS')) {
+                            schoolId = 'IDI';
+                        } else if (subjectUpper.includes('ARQUITECTURA') || subjectUpper.includes('URBANISMO')) {
+                            schoolId = 'ARQ';
+                        } else if (subjectUpper.includes('DISEÑO') || subjectUpper.includes('CULTURAS VISUALES')) {
+                            schoolId = 'DIS';
+                        } else if (subjectUpper.includes('ENFERMERIA') || subjectUpper.includes('SALUD') || subjectUpper.includes('MEDICINA') || subjectUpper.includes('BIOESTADÍSTICA') || subjectUpper.includes('GENÉTICA')) {
+                            schoolId = 'SAL';
+                        } else if (subjectUpper.includes('USO ADMINISTRATIVO') || subjectUpper.includes('PERMANENTE')) {
+                            schoolId = 'COM';
+                        } else {
+                            // Default to COM (Tronco Común) if no match found
+                            schoolId = 'COM';
+                        }
+                    }
+
                     // Check collision
                     const existing = await this.prisma.reservation.findFirst({
                         where: {
@@ -158,15 +235,25 @@ export class DataImportService {
                                 type: ReservationType.CLASS,
                                 status: ReservationStatus.CONFIRMED,
                                 userId: admin.id,
-                                labId: lab.id
+                                labId: lab.id,
+                                schoolId: schoolId
                             }
                         });
                         count++;
+                    } else {
+                        // Always update schoolId if it's different or missing
+                        if (existing.schoolId !== schoolId && schoolId) {
+                            await this.prisma.reservation.update({
+                                where: { id: existing.id },
+                                data: { schoolId: schoolId }
+                            });
+                            updatedCount++;
+                        }
                     }
                 }
                 currentDate.setDate(currentDate.getDate() + 1);
             }
         }
-        console.log(`Imported ${count} recurring reservations.`);
+        console.log(`Imported ${count} new, updated ${updatedCount} existing reservations.`);
     }
 }

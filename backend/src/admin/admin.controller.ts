@@ -56,7 +56,10 @@ export class AdminController {
                     status: ReservationStatus.OCCUPIED,
                     endTime: { lt: now }
                 },
-                include: { user: { select: { fullName: true } } }
+                include: {
+                    user: { select: { fullName: true } },
+                    school: { select: { colorHex: true, name: true } }
+                }
             });
             const overdueReservation = overdueReservationRaw ? {
                 ...overdueReservationRaw,
@@ -71,7 +74,10 @@ export class AdminController {
                     endTime: { gte: now },
                     status: { in: [ReservationStatus.CONFIRMED, ReservationStatus.OCCUPIED] }
                 },
-                include: { user: { select: { fullName: true } } }
+                include: {
+                    user: { select: { fullName: true } },
+                    school: { select: { colorHex: true, name: true } }
+                }
             });
             const currentReservation = currentReservationRaw ? {
                 ...currentReservationRaw,
@@ -86,7 +92,10 @@ export class AdminController {
                     status: { not: 'CANCELLED' }
                 },
                 orderBy: { startTime: 'asc' },
-                include: { user: { select: { fullName: true } } }
+                include: {
+                    user: { select: { fullName: true } },
+                    school: { select: { colorHex: true, name: true } }
+                }
             });
             const nextReservation = nextReservationRaw ? {
                 ...nextReservationRaw,
@@ -121,7 +130,7 @@ export class AdminController {
         const endOfDay = new Date(now);
         endOfDay.setHours(23, 59, 59, 999);
 
-        return this.prisma.reservation.findMany({
+        const reservations = await this.prisma.reservation.findMany({
             where: {
                 labId: parseInt(labId),
                 startTime: {
@@ -130,13 +139,20 @@ export class AdminController {
                 },
                 status: { not: 'CANCELLED' }
             },
-            orderBy: { startTime: 'asc' },
             include: {
                 user: {
                     select: { fullName: true }
+                },
+                school: {
+                    select: { colorHex: true, name: true }
                 }
+            },
+            orderBy: {
+                startTime: 'asc'
             }
         });
+
+        return reservations;
     }
 
     @Patch('check-in/:id')
