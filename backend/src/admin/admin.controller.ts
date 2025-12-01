@@ -155,6 +155,59 @@ export class AdminController {
         return reservations;
     }
 
+    @Get('general-schedule')
+    async getGeneralSchedule(@Query('date') dateString?: string) {
+        const now = dateString ? new Date(dateString) : new Date();
+        const startOfDay = new Date(now);
+        startOfDay.setHours(0, 0, 0, 0);
+
+        const endOfDay = new Date(now);
+        endOfDay.setHours(23, 59, 59, 999);
+
+        // Get all labs first to ensure we have a row for every lab
+        let labs = await this.prisma.lab.findMany();
+
+        // Custom sort (same as dashboard)
+        labs = labs.sort((a, b) => {
+            const getNumber = (name: string) => {
+                if (name.includes('MAC')) return 999;
+                const match = name.match(/\d+/);
+                return match ? parseInt(match[0]) : 0;
+            };
+            return getNumber(a.name) - getNumber(b.name);
+        });
+
+        // Get all reservations for the day
+        const reservations = await this.prisma.reservation.findMany({
+            where: {
+                startTime: {
+                    gte: startOfDay,
+                    lte: endOfDay
+                },
+                status: { not: 'CANCELLED' }
+            },
+            include: {
+                user: { select: { fullName: true } },
+                school: { select: { colorHex: true, name: true } },
+                lab: true
+            },
+            orderBy: {
+                startTime: 'asc'
+            }
+        });
+
+        // Group reservations by lab
+        const scheduleByLab = labs.map(lab => {
+            const labReservations = reservations.filter(r => r.labId === lab.id);
+            return {
+                lab,
+                reservations: labReservations
+            };
+        });
+
+        return scheduleByLab;
+    }
+
     @Patch('check-in/:id')
     async checkIn(@Param('id') id: string) {
         return this.prisma.reservation.update({

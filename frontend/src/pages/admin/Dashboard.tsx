@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { adminService } from '../../services/admin.service';
 import { Button } from '../../components/ui/Button';
-import { LogOut, Key, CheckCircle, Clock, AlertTriangle } from 'lucide-react';
+import { LogOut, Key, CheckCircle, Clock, AlertTriangle, Calendar } from 'lucide-react';
 import { useAuthStore, type AuthState } from '../../store/authStore';
 import { useNavigate } from 'react-router-dom';
 
@@ -51,6 +51,19 @@ export const AdminDashboard = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentDate, setCurrentDate] = useState(new Date());
     const [simulatedDate, setSimulatedDate] = useState<string>(new Date().toISOString().slice(0, 16));
+    const [isGeneralScheduleOpen, setIsGeneralScheduleOpen] = useState(false);
+    const [generalSchedule, setGeneralSchedule] = useState<any[]>([]);
+
+    const handleViewGeneralSchedule = async () => {
+        setIsGeneralScheduleOpen(true);
+        try {
+            const dateToUse = new Date(simulatedDate);
+            const data = await adminService.getGeneralSchedule(dateToUse);
+            setGeneralSchedule(data);
+        } catch (error) {
+            console.error('Error loading general schedule:', error);
+        }
+    };
 
     const loadDashboard = async () => {
         try {
@@ -131,26 +144,39 @@ export const AdminDashboard = () => {
         <div className="min-h-screen bg-gray-50">
             {/* Header */}
             <header className="bg-white shadow sticky top-0 z-10">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-                    <div className="flex items-center">
-                        <img src="/images/logo_pucesi_ok.png" alt="Logo" className="h-10 w-auto mr-4" />
-                        <div>
-                            <h1 className="text-2xl font-bold text-gray-900">Panel de Administración</h1>
-                            <p className="text-sm text-gray-500 capitalize">{formatDate(currentDate)}</p>
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+                    <div className="flex justify-between items-center mb-4">
+                        <div className="flex items-center">
+                            <img src="/images/logo_pucesi_ok.png" alt="Logo" className="h-12 w-auto mr-4" />
+                            <div>
+                                <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Panel de Administración</h1>
+                                <p className="text-sm text-gray-500 capitalize">{formatDate(currentDate)}</p>
+                            </div>
+                        </div>
+                        <div className="flex items-center space-x-4">
+                            <div className="flex flex-col items-end mr-4">
+                                <label className="text-xs text-gray-500 font-semibold mb-1 uppercase tracking-wider">Simular Fecha/Hora</label>
+                                <input
+                                    type="datetime-local"
+                                    value={simulatedDate}
+                                    onChange={handleDateChange}
+                                    className="border border-gray-300 rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
+                                />
+                            </div>
+                            <button onClick={handleLogout} className="text-gray-400 hover:text-red-600 transition-colors p-2 hover:bg-red-50 rounded-full" title="Cerrar Sesión">
+                                <LogOut className="h-6 w-6" />
+                            </button>
                         </div>
                     </div>
-                    <div className="flex items-center space-x-4">
-                        <div className="flex flex-col items-end">
-                            <label className="text-xs text-gray-500 font-semibold mb-1">Simular Fecha/Hora:</label>
-                            <input
-                                type="datetime-local"
-                                value={simulatedDate}
-                                onChange={handleDateChange}
-                                className="border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            />
-                        </div>
-                        <button onClick={handleLogout} className="text-gray-500 hover:text-red-600">
-                            <LogOut className="h-6 w-6" />
+
+                    {/* Navigation Bar */}
+                    <div className="flex space-x-4 border-t pt-4">
+                        <button
+                            onClick={handleViewGeneralSchedule}
+                            className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-sm font-medium text-sm"
+                        >
+                            <Calendar className="h-4 w-4 mr-2" />
+                            Ver Horario General
                         </button>
                     </div>
                 </div>
@@ -533,6 +559,74 @@ export const AdminDashboard = () => {
                         </div>
                     </div>
                 </div >
+            )}
+            {/* General Schedule Modal */}
+            {isGeneralScheduleOpen && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2">
+                    <div className="bg-white rounded-xl shadow-2xl w-full max-w-[98vw] h-[95vh] flex flex-col">
+                        <div className="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50 rounded-t-xl">
+                            <div>
+                                <h3 className="text-xl font-bold text-gray-900 flex items-center">
+                                    <Calendar className="h-6 w-6 mr-2 text-blue-600" />
+                                    Horario General de Laboratorios
+                                </h3>
+                                <p className="text-sm text-gray-500">
+                                    {new Date(simulatedDate).toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+                                </p>
+                            </div>
+                            <button onClick={() => setIsGeneralScheduleOpen(false)} className="text-gray-400 hover:text-gray-600 p-2 hover:bg-gray-200 rounded-full transition-colors">
+                                <span className="text-2xl">&times;</span>
+                            </button>
+                        </div>
+
+                        <div className="p-6 overflow-y-auto flex-1 bg-gray-50/50">
+                            <div className="space-y-6">
+                                {generalSchedule.map((item, index) => (
+                                    <div key={index} className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                                        <div className="bg-gray-100 px-4 py-2 border-b border-gray-200 flex justify-between items-center">
+                                            <h4 className="font-bold text-gray-800">{item.lab.name}</h4>
+                                            <span className="text-xs text-gray-500">Capacidad: {item.lab.capacity}</span>
+                                        </div>
+                                        <div className="p-4">
+                                            {item.reservations.length > 0 ? (
+                                                <div className="flex space-x-4 overflow-x-auto pb-2">
+                                                    {item.reservations.map((res: any, idx: number) => (
+                                                        <div key={idx} className="flex-shrink-0 w-64 p-3 rounded border-l-4 bg-gray-50"
+                                                            style={{
+                                                                borderLeftColor: res.school?.colorHex || '#cbd5e1',
+                                                                backgroundColor: res.school ? `${res.school.colorHex}10` : '#f8fafc'
+                                                            }}
+                                                        >
+                                                            <div className="flex justify-between items-start mb-1">
+                                                                <span className="text-xs font-bold text-gray-500">
+                                                                    {new Date(res.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} -
+                                                                    {new Date(res.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                                                </span>
+                                                                {res.school && (
+                                                                    <span className="text-[10px] px-1.5 py-0.5 rounded text-white font-bold" style={{ backgroundColor: res.school.colorHex }}>
+                                                                        {res.school.name}
+                                                                    </span>
+                                                                )}
+                                                            </div>
+                                                            <p className="font-bold text-sm text-gray-800 line-clamp-1" title={res.subject}>{res.subject}</p>
+                                                            <p className="text-xs text-gray-500 mt-1 truncate">{res.user?.fullName}</p>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            ) : (
+                                                <p className="text-sm text-gray-400 italic">No hay reservas para este día.</p>
+                                            )}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="p-4 border-t border-gray-100 bg-gray-50 text-right rounded-b-xl">
+                            <Button variant="outline" onClick={() => setIsGeneralScheduleOpen(false)}>Cerrar</Button>
+                        </div>
+                    </div>
+                </div>
             )}
         </div >
     );

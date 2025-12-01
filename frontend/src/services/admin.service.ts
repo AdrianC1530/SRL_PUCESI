@@ -39,4 +39,10 @@ export const adminService = {
         const response = await axios.get(`${API_URL}/schedule/${labId}`, { ...getHeaders(), params });
         return response.data;
     },
+
+    getGeneralSchedule: async (date?: Date) => {
+        const params = date ? { date: date.toISOString() } : {};
+        const response = await axios.get(`${API_URL}/general-schedule`, { ...getHeaders(), params });
+        return response.data;
+    },
 };
