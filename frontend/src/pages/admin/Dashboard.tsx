@@ -191,13 +191,23 @@ export const AdminDashboard = () => {
                                         </p>
                                     </div>
                                 ) : item.currentReservation ? (
-                                    <div className="mb-4 p-3 bg-blue-50 rounded-lg" style={item.currentReservation.school ? { borderLeft: `4px solid ${item.currentReservation.school.colorHex}` } : {}}>
-                                        <p className="text-sm font-semibold text-blue-900 mb-1">Clase Actual:</p>
-                                        <p className="text-lg font-bold text-blue-800">{item.currentReservation.subject}</p>
-                                        <div className="flex items-center text-blue-700 text-sm mt-1">
+                                    <div
+                                        className="mb-4 p-3 rounded-lg border-l-4 shadow-sm"
+                                        style={{
+                                            backgroundColor: item.currentReservation.school ? `${item.currentReservation.school.colorHex}15` : '#eff6ff',
+                                            borderLeftColor: item.currentReservation.school ? item.currentReservation.school.colorHex : '#3b82f6'
+                                        }}
+                                    >
+                                        <p className="text-sm font-semibold mb-1" style={{ color: item.currentReservation.school ? item.currentReservation.school.colorHex : '#1e3a8a' }}>
+                                            {item.currentReservation.description === 'Reservado permanentemente' ? 'Uso Permanente:' : 'Clase Actual:'}
+                                        </p>
+                                        <p className="text-lg font-bold text-gray-800 line-clamp-1" title={item.currentReservation.subject}>
+                                            {item.currentReservation.subject}
+                                        </p>
+                                        <div className="flex items-center text-gray-600 text-sm mt-1">
                                             <Clock className="h-4 w-4 mr-1" />
                                             {item.currentReservation.description === 'Reservado permanentemente' ? (
-                                                <span>Uso Permanente (Todo el día)</span>
+                                                <span>Todo el día</span>
                                             ) : (
                                                 <span>
                                                     {new Date(item.currentReservation.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} -
@@ -206,15 +216,26 @@ export const AdminDashboard = () => {
                                             )}
                                         </div>
                                         {item.currentReservation.professorName && (
-                                            <p className="text-xs text-blue-600 mt-2 font-medium">
+                                            <p className="text-xs text-gray-500 mt-2 font-medium">
                                                 Profesor: {item.currentReservation.professorName}
                                             </p>
                                         )}
-                                        {item.currentReservation.school && (
-                                            <span className="inline-block mt-2 px-2 py-0.5 rounded text-[10px] text-white font-bold" style={{ backgroundColor: item.currentReservation.school.colorHex }}>
-                                                {item.currentReservation.school.name}
-                                            </span>
-                                        )}
+
+                                        {/* School Badge */}
+                                        <div className="mt-2">
+                                            {item.currentReservation.school ? (
+                                                <span className="inline-block px-2 py-0.5 rounded text-[10px] text-white font-bold shadow-sm" style={{ backgroundColor: item.currentReservation.school.colorHex }}>
+                                                    {item.currentReservation.school.name}
+                                                </span>
+                                            ) : (
+                                                /* Fallback for permanent usage if school is missing */
+                                                item.currentReservation.description === 'Reservado permanentemente' && (
+                                                    <span className="inline-block px-2 py-0.5 rounded text-[10px] text-white font-bold shadow-sm bg-gray-500">
+                                                        USO GENERAL
+                                                    </span>
+                                                )
+                                            )}
+                                        </div>
                                     </div>
                                 ) : (
                                     <div className="mb-4 p-3 bg-gray-50 rounded-lg">
@@ -432,9 +453,9 @@ export const AdminDashboard = () => {
                                 return (
                                     <div className="space-y-8">
                                         {/* Availability Summary */}
-                                        <div className="bg-green-50 p-4 rounded-lg border border-green-200 mb-6">
-                                            <h4 className="text-green-800 font-bold mb-2 flex items-center">
-                                                <CheckCircle className="h-5 w-5 mr-2" />
+                                        <div className="bg-indigo-50 p-4 rounded-lg border border-indigo-200 mb-6">
+                                            <h4 className="text-indigo-800 font-bold mb-2 flex items-center">
+                                                <CheckCircle className="h-5 w-5 mr-2 text-indigo-600" />
                                                 Horarios Disponibles para Reserva
                                             </h4>
                                             <div className="flex flex-wrap gap-2">
@@ -464,7 +485,7 @@ export const AdminDashboard = () => {
                                                     if (freeRanges.length === 0) return <span className="text-gray-500 italic text-sm">No hay horarios disponibles hoy.</span>;
 
                                                     return freeRanges.map((range, idx) => (
-                                                        <span key={idx} className="bg-white text-green-700 border border-green-300 px-3 py-1 rounded-full text-sm font-bold shadow-sm">
+                                                        <span key={idx} className="bg-white text-indigo-700 border border-indigo-300 px-3 py-1 rounded-full text-sm font-bold shadow-sm">
                                                             {range.start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - {range.end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                                         </span>
                                                     ));
