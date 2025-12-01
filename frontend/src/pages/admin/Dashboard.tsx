@@ -142,42 +142,65 @@ export const AdminDashboard = () => {
 
     return (
         <div className="min-h-screen bg-gray-50">
-            {/* Header */}
-            <header className="bg-white shadow sticky top-0 z-10">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-                    <div className="flex justify-between items-center mb-4">
-                        <div className="flex items-center">
-                            <img src="/images/logo_pucesi_ok.png" alt="Logo" className="h-12 w-auto mr-4" />
-                            <div>
-                                <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Panel de Administración</h1>
-                                <p className="text-sm text-gray-500 capitalize">{formatDate(currentDate)}</p>
+            {/* Professional Header */}
+            <header className="bg-slate-900 text-white shadow-lg sticky top-0 z-20">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="flex justify-between items-center h-20">
+                        {/* Logo & Title */}
+                        <div className="flex items-center space-x-4">
+                            <div className="bg-white p-1.5 rounded-lg">
+                                <img src="/images/logo_pucesi_ok.png" alt="PUCESI" className="h-10 w-auto" />
+                            </div>
+                            <div className="hidden md:block">
+                                <h1 className="text-xl font-bold leading-tight">Sistema de Reservas</h1>
+                                <p className="text-xs text-slate-400 font-medium tracking-wide">PANEL ADMINISTRATIVO</p>
                             </div>
                         </div>
-                        <div className="flex items-center space-x-4">
-                            <div className="flex flex-col items-end mr-4">
-                                <label className="text-xs text-gray-500 font-semibold mb-1 uppercase tracking-wider">Simular Fecha/Hora</label>
-                                <input
-                                    type="datetime-local"
-                                    value={simulatedDate}
-                                    onChange={handleDateChange}
-                                    className="border border-gray-300 rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
-                                />
-                            </div>
-                            <button onClick={handleLogout} className="text-gray-400 hover:text-red-600 transition-colors p-2 hover:bg-red-50 rounded-full" title="Cerrar Sesión">
-                                <LogOut className="h-6 w-6" />
+
+                        {/* Center Navigation / Actions */}
+                        <div className="flex items-center space-x-6">
+                            <button
+                                onClick={handleViewGeneralSchedule}
+                                className="flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-md transition-all shadow-md hover:shadow-lg font-medium text-sm group"
+                            >
+                                <Calendar className="h-4 w-4 mr-2 group-hover:scale-110 transition-transform" />
+                                Ver Horario General
                             </button>
                         </div>
-                    </div>
 
-                    {/* Navigation Bar */}
-                    <div className="flex space-x-4 border-t pt-4">
-                        <button
-                            onClick={handleViewGeneralSchedule}
-                            className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-sm font-medium text-sm"
-                        >
-                            <Calendar className="h-4 w-4 mr-2" />
-                            Ver Horario General
-                        </button>
+                        {/* Right Side: Date Control & User */}
+                        <div className="flex items-center space-x-6">
+                            {/* Date Simulator */}
+                            <div className="hidden lg:flex flex-col items-end mr-2">
+                                <label className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-0.5">Fecha de Sistema</label>
+                                <div className="relative">
+                                    <input
+                                        type="datetime-local"
+                                        value={simulatedDate}
+                                        onChange={handleDateChange}
+                                        className="bg-slate-800 border border-slate-700 text-white text-xs rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 w-40"
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Divider */}
+                            <div className="h-8 w-px bg-slate-700 hidden md:block"></div>
+
+                            {/* User & Logout */}
+                            <div className="flex items-center space-x-3">
+                                <div className="text-right hidden md:block">
+                                    <p className="text-sm font-medium text-white">Administrador</p>
+                                    <p className="text-xs text-slate-400 capitalize">{formatDate(currentDate).split(',')[0]}</p>
+                                </div>
+                                <button
+                                    onClick={handleLogout}
+                                    className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-full transition-colors"
+                                    title="Cerrar Sesión"
+                                >
+                                    <LogOut className="h-5 w-5" />
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </header>
@@ -565,14 +588,24 @@ export const AdminDashboard = () => {
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2">
                     <div className="bg-white rounded-xl shadow-2xl w-full max-w-[98vw] h-[95vh] flex flex-col">
                         <div className="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50 rounded-t-xl">
-                            <div>
-                                <h3 className="text-xl font-bold text-gray-900 flex items-center">
-                                    <Calendar className="h-6 w-6 mr-2 text-blue-600" />
-                                    Horario General de Laboratorios
-                                </h3>
-                                <p className="text-sm text-gray-500">
-                                    {new Date(simulatedDate).toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
-                                </p>
+                            <div className="flex items-center space-x-4">
+                                <div>
+                                    <h3 className="text-xl font-bold text-gray-900 flex items-center">
+                                        <Calendar className="h-6 w-6 mr-2 text-blue-600" />
+                                        Horario General
+                                    </h3>
+                                    <p className="text-sm text-gray-500">Vista global de laboratorios</p>
+                                </div>
+                                <div className="h-8 w-px bg-gray-300 mx-2"></div>
+                                <div className="flex flex-col">
+                                    <label className="text-[10px] text-gray-500 font-bold uppercase tracking-wider mb-0.5">Fecha a consultar</label>
+                                    <input
+                                        type="datetime-local"
+                                        value={simulatedDate}
+                                        onChange={handleDateChange}
+                                        className="border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    />
+                                </div>
                             </div>
                             <button onClick={() => setIsGeneralScheduleOpen(false)} className="text-gray-400 hover:text-gray-600 p-2 hover:bg-gray-200 rounded-full transition-colors">
                                 <span className="text-2xl">&times;</span>
@@ -581,44 +614,63 @@ export const AdminDashboard = () => {
 
                         <div className="p-6 overflow-y-auto flex-1 bg-gray-50/50">
                             <div className="space-y-6">
-                                {generalSchedule.map((item, index) => (
-                                    <div key={index} className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-                                        <div className="bg-gray-100 px-4 py-2 border-b border-gray-200 flex justify-between items-center">
-                                            <h4 className="font-bold text-gray-800">{item.lab.name}</h4>
-                                            <span className="text-xs text-gray-500">Capacidad: {item.lab.capacity}</span>
-                                        </div>
-                                        <div className="p-4">
-                                            {item.reservations.length > 0 ? (
-                                                <div className="flex space-x-4 overflow-x-auto pb-2">
-                                                    {item.reservations.map((res: any, idx: number) => (
-                                                        <div key={idx} className="flex-shrink-0 w-64 p-3 rounded border-l-4 bg-gray-50"
-                                                            style={{
-                                                                borderLeftColor: res.school?.colorHex || '#cbd5e1',
-                                                                backgroundColor: res.school ? `${res.school.colorHex}10` : '#f8fafc'
-                                                            }}
-                                                        >
-                                                            <div className="flex justify-between items-start mb-1">
-                                                                <span className="text-xs font-bold text-gray-500">
-                                                                    {new Date(res.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} -
-                                                                    {new Date(res.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                                                </span>
-                                                                {res.school && (
-                                                                    <span className="text-[10px] px-1.5 py-0.5 rounded text-white font-bold" style={{ backgroundColor: res.school.colorHex }}>
-                                                                        {res.school.name}
-                                                                    </span>
-                                                                )}
-                                                            </div>
-                                                            <p className="font-bold text-sm text-gray-800 line-clamp-1" title={res.subject}>{res.subject}</p>
-                                                            <p className="text-xs text-gray-500 mt-1 truncate">{res.user?.fullName}</p>
-                                                        </div>
-                                                    ))}
+                                {generalSchedule.map((item, index) => {
+                                    const isPermanentLab = ['SALA 1', 'SALA 2', 'SALA 10'].includes(item.lab.name);
+
+                                    return (
+                                        <div key={index} className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                                            <div className="bg-gray-100 px-4 py-2 border-b border-gray-200 flex justify-between items-center">
+                                                <div className="flex items-center">
+                                                    <h4 className="font-bold text-gray-800 mr-3">{item.lab.name}</h4>
+                                                    {isPermanentLab && (
+                                                        <span className="bg-gray-800 text-white text-[10px] px-2 py-0.5 rounded-full font-bold uppercase">Uso Permanente</span>
+                                                    )}
                                                 </div>
-                                            ) : (
-                                                <p className="text-sm text-gray-400 italic">No hay reservas para este día.</p>
-                                            )}
+                                                <span className="text-xs text-gray-500">Capacidad: {item.lab.capacity}</span>
+                                            </div>
+                                            <div className="p-4">
+                                                {item.reservations.length > 0 ? (
+                                                    <div className="flex space-x-4 overflow-x-auto pb-2">
+                                                        {item.reservations.map((res: any, idx: number) => (
+                                                            <div key={idx} className={`flex-shrink-0 w-64 p-3 rounded border-l-4 ${res.description === 'Reservado permanentemente' ? 'bg-gray-100 border-gray-500 w-full max-w-md' : 'bg-gray-50'}`}
+                                                                style={res.description !== 'Reservado permanentemente' ? {
+                                                                    borderLeftColor: res.school?.colorHex || '#cbd5e1',
+                                                                    backgroundColor: res.school ? `${res.school.colorHex}10` : '#f8fafc'
+                                                                } : {}}
+                                                            >
+                                                                <div className="flex justify-between items-start mb-1">
+                                                                    <span className="text-xs font-bold text-gray-500">
+                                                                        {res.description === 'Reservado permanentemente' ? 'TODO EL DÍA' : (
+                                                                            `${new Date(res.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - ${new Date(res.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`
+                                                                        )}
+                                                                    </span>
+                                                                    {res.school ? (
+                                                                        <span className="text-[10px] px-1.5 py-0.5 rounded text-white font-bold" style={{ backgroundColor: res.school.colorHex }}>
+                                                                            {res.school.name}
+                                                                        </span>
+                                                                    ) : (
+                                                                        /* Fallback for permanent usage if school is missing */
+                                                                        res.description === 'Reservado permanentemente' && (
+                                                                            <span className="text-[10px] px-1.5 py-0.5 rounded text-white font-bold bg-gray-500">
+                                                                                USO GENERAL
+                                                                            </span>
+                                                                        )
+                                                                    )}
+                                                                </div>
+                                                                <p className="font-bold text-sm text-gray-800 line-clamp-1" title={res.subject}>{res.subject}</p>
+                                                                <p className="text-xs text-gray-500 mt-1 truncate">{res.user?.fullName}</p>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                ) : (
+                                                    <p className="text-sm text-gray-400 italic">
+                                                        {isPermanentLab ? 'Laboratorio de uso permanente (sin reservas específicas registradas hoy).' : 'No hay reservas para este día.'}
+                                                    </p>
+                                                )}
+                                            </div>
                                         </div>
-                                    </div>
-                                ))}
+                                    )
+                                })}
                             </div>
                         </div>
 
@@ -628,6 +680,6 @@ export const AdminDashboard = () => {
                     </div>
                 </div>
             )}
-        </div >
+        </div>
     );
 };
