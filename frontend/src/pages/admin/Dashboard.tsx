@@ -363,17 +363,20 @@ export const AdminDashboard = () => {
                                     return (
                                         <div key={index} className="h-full">
                                             {slot.status === 'FREE' ? (
-                                                <div className="flex flex-col justify-between h-full bg-green-50 border-l-4 border-green-500 p-4 rounded-lg shadow-sm hover:shadow-md transition-all">
+                                                <div
+                                                    className="flex flex-col justify-between h-full bg-green-50 border-l-4 border-green-500 p-4 rounded-lg shadow-sm hover:shadow-md transition-all cursor-pointer hover:bg-green-100 group"
+                                                    onClick={() => alert(`Reservar: ${slot.startTime.toLocaleTimeString()} - ${slot.endTime.toLocaleTimeString()}`)}
+                                                >
                                                     <div className="flex justify-between items-center mb-2">
-                                                        <span className="text-green-800 font-bold text-lg">DISPONIBLE</span>
-                                                        <CheckCircle className="h-5 w-5 text-green-600" />
+                                                        <span className="text-green-800 font-bold text-lg group-hover:text-green-900">DISPONIBLE</span>
+                                                        <CheckCircle className="h-5 w-5 text-green-600 group-hover:text-green-700" />
                                                     </div>
-                                                    <div className="flex items-center text-green-700 font-medium">
+                                                    <div className="flex items-center text-green-700 font-medium group-hover:text-green-800">
                                                         <Clock className="h-4 w-4 mr-2" />
                                                         {slot.startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} -
                                                         {slot.endTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                                     </div>
-                                                    <p className="text-xs text-green-600 mt-2">Espacio libre para reserva</p>
+                                                    <p className="text-xs text-green-600 mt-2 font-semibold group-hover:text-green-700">Click para reservar</p>
                                                 </div>
                                             ) : (
                                                 <div
@@ -428,6 +431,47 @@ export const AdminDashboard = () => {
 
                                 return (
                                     <div className="space-y-8">
+                                        {/* Availability Summary */}
+                                        <div className="bg-green-50 p-4 rounded-lg border border-green-200 mb-6">
+                                            <h4 className="text-green-800 font-bold mb-2 flex items-center">
+                                                <CheckCircle className="h-5 w-5 mr-2" />
+                                                Horarios Disponibles para Reserva
+                                            </h4>
+                                            <div className="flex flex-wrap gap-2">
+                                                {(() => {
+                                                    const freeRanges: { start: Date, end: Date }[] = [];
+                                                    let currentRange: { start: Date, end: Date } | null = null;
+
+                                                    timeline.forEach(slot => {
+                                                        if (slot.status === 'FREE') {
+                                                            if (!currentRange) {
+                                                                currentRange = { start: slot.startTime, end: slot.endTime };
+                                                            } else if (currentRange.end.getTime() === slot.startTime.getTime()) {
+                                                                currentRange.end = slot.endTime;
+                                                            } else {
+                                                                freeRanges.push(currentRange);
+                                                                currentRange = { start: slot.startTime, end: slot.endTime };
+                                                            }
+                                                        } else {
+                                                            if (currentRange) {
+                                                                freeRanges.push(currentRange);
+                                                                currentRange = null;
+                                                            }
+                                                        }
+                                                    });
+                                                    if (currentRange) freeRanges.push(currentRange);
+
+                                                    if (freeRanges.length === 0) return <span className="text-gray-500 italic text-sm">No hay horarios disponibles hoy.</span>;
+
+                                                    return freeRanges.map((range, idx) => (
+                                                        <span key={idx} className="bg-white text-green-700 border border-green-300 px-3 py-1 rounded-full text-sm font-bold shadow-sm">
+                                                            {range.start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - {range.end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                                        </span>
+                                                    ));
+                                                })()}
+                                            </div>
+                                        </div>
+
                                         {/* Morning Section */}
                                         <div>
                                             <h4 className="text-lg font-bold text-gray-800 mb-4 flex items-center border-b pb-2">
