@@ -642,7 +642,6 @@ export const AdminDashboard = () => {
                                             const reservation = item.reservations.find((r: any) => {
                                                 const rStart = new Date(r.startTime).getHours();
                                                 const rEnd = new Date(r.endTime).getHours();
-                                                // Simple check: if reservation starts at this hour, or covers this hour
                                                 return (rStart <= hour && rEnd > hour);
                                             });
 
@@ -654,10 +653,11 @@ export const AdminDashboard = () => {
                                                     reservation
                                                 });
                                             } else {
+                                                // If permanent lab, mark as RESTRICTED instead of FREE
                                                 slots.push({
                                                     time,
                                                     endTime,
-                                                    status: 'FREE'
+                                                    status: isPermanentLab ? 'RESTRICTED' : 'FREE'
                                                 });
                                             }
                                         }
@@ -666,6 +666,40 @@ export const AdminDashboard = () => {
 
                                     const morningSlots = generateSlots(7, 13);
                                     const afternoonSlots = generateSlots(13, 22);
+
+                                    const renderSlotGrid = (slots: any[]) => (
+                                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                                            {slots.map((slot, idx) => (
+                                                <div key={idx} className={`p-2 rounded border text-xs ${slot.status === 'FREE'
+                                                        ? 'bg-green-50 border-green-200 text-green-700 hover:bg-green-100 cursor-pointer'
+                                                        : slot.status === 'RESTRICTED'
+                                                            ? 'bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed'
+                                                            : 'bg-gray-50 border-gray-200'
+                                                    }`}
+                                                    style={slot.status === 'OCCUPIED' && slot.reservation?.school ? {
+                                                        borderLeft: `3px solid ${slot.reservation.school.colorHex}`,
+                                                        backgroundColor: `${slot.reservation.school.colorHex}10`
+                                                    } : {}}
+                                                >
+                                                    <div className={`font-bold mb-1 ${slot.status === 'OCCUPIED' ? 'text-gray-800' : ''}`}>{slot.time} - {slot.endTime}</div>
+                                                    {slot.status === 'FREE' ? (
+                                                        <span className="text-[10px] font-semibold">DISPONIBLE</span>
+                                                    ) : slot.status === 'RESTRICTED' ? (
+                                                        <span className="text-[10px] font-semibold italic">Uso Permanente</span>
+                                                    ) : (
+                                                        <div className="truncate">
+                                                            <div className="font-bold truncate text-gray-900" title={slot.reservation.subject}>{slot.reservation.subject}</div>
+                                                            {slot.reservation.school && (
+                                                                <span className="text-[9px] px-1 rounded text-white inline-block mt-0.5" style={{ backgroundColor: slot.reservation.school.colorHex }}>
+                                                                    {slot.reservation.school.name}
+                                                                </span>
+                                                            )}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    );
 
                                     return (
                                         <div key={index} className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
@@ -683,65 +717,13 @@ export const AdminDashboard = () => {
                                                 {/* Morning */}
                                                 <div>
                                                     <h5 className="text-xs font-bold text-gray-500 uppercase mb-2 border-b pb-1">Mañana (07:00 - 13:00)</h5>
-                                                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                                                        {morningSlots.map((slot, idx) => (
-                                                            <div key={idx} className={`p-2 rounded border text-xs ${slot.status === 'FREE'
-                                                                    ? 'bg-green-50 border-green-200 text-green-700 hover:bg-green-100 cursor-pointer'
-                                                                    : 'bg-gray-50 border-gray-200'
-                                                                }`}
-                                                                style={slot.status === 'OCCUPIED' && slot.reservation?.school ? {
-                                                                    borderLeft: `3px solid ${slot.reservation.school.colorHex}`,
-                                                                    backgroundColor: `${slot.reservation.school.colorHex}10`
-                                                                } : {}}
-                                                            >
-                                                                <div className="font-bold mb-1">{slot.time} - {slot.endTime}</div>
-                                                                {slot.status === 'FREE' ? (
-                                                                    <span className="text-[10px] font-semibold">DISPONIBLE</span>
-                                                                ) : (
-                                                                    <div className="truncate">
-                                                                        <div className="font-bold truncate" title={slot.reservation.subject}>{slot.reservation.subject}</div>
-                                                                        {slot.reservation.school && (
-                                                                            <span className="text-[9px] px-1 rounded text-white inline-block mt-0.5" style={{ backgroundColor: slot.reservation.school.colorHex }}>
-                                                                                {slot.reservation.school.name}
-                                                                            </span>
-                                                                        )}
-                                                                    </div>
-                                                                )}
-                                                            </div>
-                                                        ))}
-                                                    </div>
+                                                    {renderSlotGrid(morningSlots)}
                                                 </div>
 
                                                 {/* Afternoon */}
                                                 <div>
                                                     <h5 className="text-xs font-bold text-gray-500 uppercase mb-2 border-b pb-1">Tarde (13:00 - 22:00)</h5>
-                                                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                                                        {afternoonSlots.map((slot, idx) => (
-                                                            <div key={idx} className={`p-2 rounded border text-xs ${slot.status === 'FREE'
-                                                                    ? 'bg-green-50 border-green-200 text-green-700 hover:bg-green-100 cursor-pointer'
-                                                                    : 'bg-gray-50 border-gray-200'
-                                                                }`}
-                                                                style={slot.status === 'OCCUPIED' && slot.reservation?.school ? {
-                                                                    borderLeft: `3px solid ${slot.reservation.school.colorHex}`,
-                                                                    backgroundColor: `${slot.reservation.school.colorHex}10`
-                                                                } : {}}
-                                                            >
-                                                                <div className="font-bold mb-1">{slot.time} - {slot.endTime}</div>
-                                                                {slot.status === 'FREE' ? (
-                                                                    <span className="text-[10px] font-semibold">DISPONIBLE</span>
-                                                                ) : (
-                                                                    <div className="truncate">
-                                                                        <div className="font-bold truncate" title={slot.reservation.subject}>{slot.reservation.subject}</div>
-                                                                        {slot.reservation.school && (
-                                                                            <span className="text-[9px] px-1 rounded text-white inline-block mt-0.5" style={{ backgroundColor: slot.reservation.school.colorHex }}>
-                                                                                {slot.reservation.school.name}
-                                                                            </span>
-                                                                        )}
-                                                                    </div>
-                                                                )}
-                                                            </div>
-                                                        ))}
-                                                    </div>
+                                                    {renderSlotGrid(afternoonSlots)}
                                                 </div>
                                             </div>
                                         </div>
