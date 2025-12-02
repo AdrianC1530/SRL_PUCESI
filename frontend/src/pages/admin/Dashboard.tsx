@@ -53,11 +53,25 @@ export const AdminDashboard = () => {
     const [simulatedDate, setSimulatedDate] = useState<string>(new Date().toISOString().slice(0, 16));
     const [isGeneralScheduleOpen, setIsGeneralScheduleOpen] = useState(false);
     const [generalSchedule, setGeneralSchedule] = useState<any[]>([]);
+    const [generalScheduleDate, setGeneralScheduleDate] = useState<string>(new Date().toISOString().slice(0, 10));
 
     const handleViewGeneralSchedule = async () => {
         setIsGeneralScheduleOpen(true);
         try {
-            const dateToUse = new Date(simulatedDate);
+            // Use the generalScheduleDate if set, otherwise fallback to simulatedDate's date part
+            const dateToUse = new Date(generalScheduleDate + 'T00:00:00');
+            const data = await adminService.getGeneralSchedule(dateToUse);
+            setGeneralSchedule(data);
+        } catch (error) {
+            console.error('Error loading general schedule:', error);
+        }
+    };
+
+    const handleGeneralDateChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newDate = e.target.value;
+        setGeneralScheduleDate(newDate);
+        try {
+            const dateToUse = new Date(newDate + 'T00:00:00');
             const data = await adminService.getGeneralSchedule(dateToUse);
             setGeneralSchedule(data);
         } catch (error) {
@@ -600,9 +614,9 @@ export const AdminDashboard = () => {
                                 <div className="flex flex-col">
                                     <label className="text-[10px] text-gray-500 font-bold uppercase tracking-wider mb-0.5">Fecha a consultar</label>
                                     <input
-                                        type="datetime-local"
-                                        value={simulatedDate}
-                                        onChange={handleDateChange}
+                                        type="date"
+                                        value={generalScheduleDate}
+                                        onChange={handleGeneralDateChange}
                                         className="border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                                     />
                                 </div>
@@ -613,9 +627,45 @@ export const AdminDashboard = () => {
                         </div>
 
                         <div className="p-6 overflow-y-auto flex-1 bg-gray-50/50">
-                            <div className="space-y-6">
+                            <div className="space-y-8">
                                 {generalSchedule.map((item, index) => {
                                     const isPermanentLab = ['SALA 1', 'SALA 2', 'SALA 10'].includes(item.lab.name);
+
+                                    // Helper to generate slots
+                                    const generateSlots = (startHour: number, endHour: number) => {
+                                        const slots = [];
+                                        for (let hour = startHour; hour < endHour; hour++) {
+                                            const time = `${hour.toString().padStart(2, '0')}:00`;
+                                            const endTime = `${(hour + 1).toString().padStart(2, '0')}:00`;
+
+                                            // Find reservation for this hour
+                                            const reservation = item.reservations.find((r: any) => {
+                                                const rStart = new Date(r.startTime).getHours();
+                                                const rEnd = new Date(r.endTime).getHours();
+                                                // Simple check: if reservation starts at this hour, or covers this hour
+                                                return (rStart <= hour && rEnd > hour);
+                                            });
+
+                                            if (reservation) {
+                                                slots.push({
+                                                    time,
+                                                    endTime,
+                                                    status: 'OCCUPIED',
+                                                    reservation
+                                                });
+                                            } else {
+                                                slots.push({
+                                                    time,
+                                                    endTime,
+                                                    status: 'FREE'
+                                                });
+                                            }
+                                        }
+                                        return slots;
+                                    };
+
+                                    const morningSlots = generateSlots(7, 13);
+                                    const afternoonSlots = generateSlots(13, 22);
 
                                     return (
                                         <div key={index} className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
@@ -628,45 +678,71 @@ export const AdminDashboard = () => {
                                                 </div>
                                                 <span className="text-xs text-gray-500">Capacidad: {item.lab.capacity}</span>
                                             </div>
-                                            <div className="p-4">
-                                                {item.reservations.length > 0 ? (
-                                                    <div className="flex space-x-4 overflow-x-auto pb-2">
-                                                        {item.reservations.map((res: any, idx: number) => (
-                                                            <div key={idx} className={`flex-shrink-0 w-64 p-3 rounded border-l-4 ${res.description === 'Reservado permanentemente' ? 'bg-gray-100 border-gray-500 w-full max-w-md' : 'bg-gray-50'}`}
-                                                                style={res.description !== 'Reservado permanentemente' ? {
-                                                                    borderLeftColor: res.school?.colorHex || '#cbd5e1',
-                                                                    backgroundColor: res.school ? `${res.school.colorHex}10` : '#f8fafc'
+
+                                            <div className="p-4 grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                                {/* Morning */}
+                                                <div>
+                                                    <h5 className="text-xs font-bold text-gray-500 uppercase mb-2 border-b pb-1">Mañana (07:00 - 13:00)</h5>
+                                                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                                                        {morningSlots.map((slot, idx) => (
+                                                            <div key={idx} className={`p-2 rounded border text-xs ${slot.status === 'FREE'
+                                                                    ? 'bg-green-50 border-green-200 text-green-700 hover:bg-green-100 cursor-pointer'
+                                                                    : 'bg-gray-50 border-gray-200'
+                                                                }`}
+                                                                style={slot.status === 'OCCUPIED' && slot.reservation?.school ? {
+                                                                    borderLeft: `3px solid ${slot.reservation.school.colorHex}`,
+                                                                    backgroundColor: `${slot.reservation.school.colorHex}10`
                                                                 } : {}}
                                                             >
-                                                                <div className="flex justify-between items-start mb-1">
-                                                                    <span className="text-xs font-bold text-gray-500">
-                                                                        {res.description === 'Reservado permanentemente' ? 'TODO EL DÍA' : (
-                                                                            `${new Date(res.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - ${new Date(res.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`
-                                                                        )}
-                                                                    </span>
-                                                                    {res.school ? (
-                                                                        <span className="text-[10px] px-1.5 py-0.5 rounded text-white font-bold" style={{ backgroundColor: res.school.colorHex }}>
-                                                                            {res.school.name}
-                                                                        </span>
-                                                                    ) : (
-                                                                        /* Fallback for permanent usage if school is missing */
-                                                                        res.description === 'Reservado permanentemente' && (
-                                                                            <span className="text-[10px] px-1.5 py-0.5 rounded text-white font-bold bg-gray-500">
-                                                                                USO GENERAL
+                                                                <div className="font-bold mb-1">{slot.time} - {slot.endTime}</div>
+                                                                {slot.status === 'FREE' ? (
+                                                                    <span className="text-[10px] font-semibold">DISPONIBLE</span>
+                                                                ) : (
+                                                                    <div className="truncate">
+                                                                        <div className="font-bold truncate" title={slot.reservation.subject}>{slot.reservation.subject}</div>
+                                                                        {slot.reservation.school && (
+                                                                            <span className="text-[9px] px-1 rounded text-white inline-block mt-0.5" style={{ backgroundColor: slot.reservation.school.colorHex }}>
+                                                                                {slot.reservation.school.name}
                                                                             </span>
-                                                                        )
-                                                                    )}
-                                                                </div>
-                                                                <p className="font-bold text-sm text-gray-800 line-clamp-1" title={res.subject}>{res.subject}</p>
-                                                                <p className="text-xs text-gray-500 mt-1 truncate">{res.user?.fullName}</p>
+                                                                        )}
+                                                                    </div>
+                                                                )}
                                                             </div>
                                                         ))}
                                                     </div>
-                                                ) : (
-                                                    <p className="text-sm text-gray-400 italic">
-                                                        {isPermanentLab ? 'Laboratorio de uso permanente (sin reservas específicas registradas hoy).' : 'No hay reservas para este día.'}
-                                                    </p>
-                                                )}
+                                                </div>
+
+                                                {/* Afternoon */}
+                                                <div>
+                                                    <h5 className="text-xs font-bold text-gray-500 uppercase mb-2 border-b pb-1">Tarde (13:00 - 22:00)</h5>
+                                                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                                                        {afternoonSlots.map((slot, idx) => (
+                                                            <div key={idx} className={`p-2 rounded border text-xs ${slot.status === 'FREE'
+                                                                    ? 'bg-green-50 border-green-200 text-green-700 hover:bg-green-100 cursor-pointer'
+                                                                    : 'bg-gray-50 border-gray-200'
+                                                                }`}
+                                                                style={slot.status === 'OCCUPIED' && slot.reservation?.school ? {
+                                                                    borderLeft: `3px solid ${slot.reservation.school.colorHex}`,
+                                                                    backgroundColor: `${slot.reservation.school.colorHex}10`
+                                                                } : {}}
+                                                            >
+                                                                <div className="font-bold mb-1">{slot.time} - {slot.endTime}</div>
+                                                                {slot.status === 'FREE' ? (
+                                                                    <span className="text-[10px] font-semibold">DISPONIBLE</span>
+                                                                ) : (
+                                                                    <div className="truncate">
+                                                                        <div className="font-bold truncate" title={slot.reservation.subject}>{slot.reservation.subject}</div>
+                                                                        {slot.reservation.school && (
+                                                                            <span className="text-[9px] px-1 rounded text-white inline-block mt-0.5" style={{ backgroundColor: slot.reservation.school.colorHex }}>
+                                                                                {slot.reservation.school.name}
+                                                                            </span>
+                                                                        )}
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     )
