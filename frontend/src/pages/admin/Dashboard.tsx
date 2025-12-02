@@ -11,6 +11,7 @@ interface LabStatus {
         name: string;
         capacity: number;
         description: string;
+        software: string[];
     };
     status: 'FREE' | 'RESERVED' | 'OCCUPIED' | 'OVERDUE';
     currentReservation?: {
@@ -789,7 +790,17 @@ export const AdminDashboard = () => {
                                                             <span className="text-xs text-gray-500">Capacidad: {item.lab.capacity}</span>
                                                         </div>
 
-                                                        <div className="p-4 grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                                        {/* Software Note */}
+                                                        {item.lab.software && item.lab.software.length > 0 && (
+                                                            <div className="px-4 py-2 bg-blue-50 border-b border-blue-100 flex items-start">
+                                                                <span className="text-[10px] font-bold text-blue-700 uppercase mr-2 mt-0.5">Software:</span>
+                                                                <p className="text-[10px] text-blue-600 leading-relaxed">
+                                                                    {item.lab.software.join(', ')}
+                                                                </p>
+                                                            </div>
+                                                        )}
+
+                                                        <div className="p-4 flex flex-col gap-6">
                                                             {/* Morning */}
                                                             <div>
                                                                 <h5 className="text-xs font-bold text-gray-500 uppercase mb-2 border-b pb-1">Mañana (07:00 - 13:00)</h5>

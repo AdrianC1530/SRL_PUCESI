@@ -41,6 +41,7 @@ model Lab {
   name        String        @unique
   capacity    Int
   description String?
+  software    String[]      @default([])
   reservations Reservation[]
 }
 
