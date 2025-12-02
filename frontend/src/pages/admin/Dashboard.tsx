@@ -435,7 +435,20 @@ export const AdminDashboard = () => {
                                     return slots;
                                 };
 
-                                const timeline = getDailySlots();
+                                const rawTimeline = getDailySlots();
+                                const timeline = [];
+                                for (const slot of rawTimeline) {
+                                    const splitTime = new Date(slot.startTime);
+                                    splitTime.setHours(13, 0, 0, 0);
+
+                                    if (slot.startTime < splitTime && slot.endTime > splitTime) {
+                                        timeline.push({ ...slot, endTime: new Date(splitTime) });
+                                        timeline.push({ ...slot, startTime: new Date(splitTime) });
+                                    } else {
+                                        timeline.push(slot);
+                                    }
+                                }
+
                                 const morningSlots = timeline.filter(slot => slot.startTime.getHours() < 13);
                                 const afternoonSlots = timeline.filter(slot => slot.startTime.getHours() >= 13);
 
@@ -448,7 +461,7 @@ export const AdminDashboard = () => {
                                         <div key={index} className="h-full">
                                             {slot.status === 'FREE' ? (
                                                 <div
-                                                    className="flex flex-col justify-between h-full bg-green-50 border-l-4 border-green-500 p-4 rounded-lg shadow-sm hover:shadow-md transition-all cursor-pointer hover:bg-green-100 group"
+                                                    className="flex flex-col justify-between h-full bg-white border-l-4 border-green-500 p-4 rounded-lg shadow-sm hover:shadow-md transition-all cursor-pointer hover:bg-gray-50 group"
                                                     onClick={() => alert(`Reservar: ${slot.startTime.toLocaleTimeString()} - ${slot.endTime.toLocaleTimeString()}`)}
                                                 >
                                                     <div className="flex justify-between items-center mb-2">
@@ -631,75 +644,122 @@ export const AdminDashboard = () => {
                                 {generalSchedule.map((item, index) => {
                                     const isPermanentLab = ['SALA 1', 'SALA 2', 'SALA 10'].includes(item.lab.name);
 
-                                    // Helper to generate slots
-                                    const generateSlots = (startHour: number, endHour: number) => {
+                                    // Generate timeline similar to getDailySlots
+                                    const generateTimeline = () => {
                                         const slots = [];
-                                        for (let hour = startHour; hour < endHour; hour++) {
-                                            const time = `${hour.toString().padStart(2, '0')}:00`;
-                                            const endTime = `${(hour + 1).toString().padStart(2, '0')}:00`;
+                                        // Use the selected date for start/end of day
+                                        const baseDate = new Date(generalScheduleDate + 'T00:00:00');
+                                        const startOfDay = new Date(baseDate);
+                                        startOfDay.setHours(7, 0, 0, 0);
+                                        const endOfDay = new Date(baseDate);
+                                        endOfDay.setHours(22, 0, 0, 0);
 
-                                            // Find reservation for this hour
-                                            const reservation = item.reservations.find((r: any) => {
-                                                const rStart = new Date(r.startTime).getHours();
-                                                const rEnd = new Date(r.endTime).getHours();
-                                                return (rStart <= hour && rEnd > hour);
-                                            });
+                                        let currentTime = new Date(startOfDay);
+                                        const sortedReservations = [...item.reservations].sort((a: any, b: any) => new Date(a.startTime).getTime() - new Date(b.startTime).getTime());
 
-                                            if (reservation) {
+                                        for (const res of sortedReservations) {
+                                            const resStart = new Date(res.startTime);
+                                            const resEnd = new Date(res.endTime);
+
+                                            // Add free slot before reservation if gap exists
+                                            if (currentTime < resStart) {
                                                 slots.push({
-                                                    time,
-                                                    endTime,
-                                                    status: 'OCCUPIED',
-                                                    reservation
-                                                });
-                                            } else {
-                                                // If permanent lab, mark as RESTRICTED instead of FREE
-                                                slots.push({
-                                                    time,
-                                                    endTime,
-                                                    status: isPermanentLab ? 'RESTRICTED' : 'FREE'
+                                                    status: 'FREE',
+                                                    startTime: new Date(currentTime),
+                                                    endTime: resStart > endOfDay ? endOfDay : resStart
                                                 });
                                             }
+
+                                            // Add reservation slot
+                                            slots.push({
+                                                status: 'OCCUPIED',
+                                                data: res,
+                                                startTime: resStart,
+                                                endTime: resEnd
+                                            });
+
+                                            currentTime = resEnd;
                                         }
+
+                                        // Add final free slot if time remains
+                                        if (currentTime < endOfDay) {
+                                            slots.push({
+                                                status: 'FREE',
+                                                startTime: new Date(currentTime),
+                                                endTime: endOfDay
+                                            });
+                                        }
+
                                         return slots;
                                     };
 
-                                    const morningSlots = generateSlots(7, 13);
-                                    const afternoonSlots = generateSlots(13, 22);
+                                    const rawTimeline = generateTimeline();
+                                    const timeline = [];
+                                    for (const slot of rawTimeline) {
+                                        const splitTime = new Date(slot.startTime);
+                                        splitTime.setHours(13, 0, 0, 0);
 
-                                    const renderSlotGrid = (slots: any[]) => (
-                                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                                            {slots.map((slot, idx) => (
-                                                <div key={idx} className={`p-2 rounded border text-xs ${slot.status === 'FREE'
-                                                        ? 'bg-green-50 border-green-200 text-green-700 hover:bg-green-100 cursor-pointer'
-                                                        : slot.status === 'RESTRICTED'
-                                                            ? 'bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed'
-                                                            : 'bg-gray-50 border-gray-200'
-                                                    }`}
-                                                    style={slot.status === 'OCCUPIED' && slot.reservation?.school ? {
-                                                        borderLeft: `3px solid ${slot.reservation.school.colorHex}`,
-                                                        backgroundColor: `${slot.reservation.school.colorHex}10`
-                                                    } : {}}
-                                                >
-                                                    <div className={`font-bold mb-1 ${slot.status === 'OCCUPIED' ? 'text-gray-800' : ''}`}>{slot.time} - {slot.endTime}</div>
+                                        if (slot.startTime < splitTime && slot.endTime > splitTime) {
+                                            timeline.push({ ...slot, endTime: new Date(splitTime) });
+                                            timeline.push({ ...slot, startTime: new Date(splitTime) });
+                                        } else {
+                                            timeline.push(slot);
+                                        }
+                                    }
+
+                                    // Filter slots based on lab type
+                                    const filteredTimeline = isPermanentLab
+                                        ? timeline.filter(slot => slot.status === 'OCCUPIED')
+                                        : timeline;
+
+                                    const morningSlots = filteredTimeline.filter(slot => slot.startTime.getHours() < 13);
+                                    const afternoonSlots = filteredTimeline.filter(slot => slot.startTime.getHours() >= 13);
+
+                                    const renderGeneralSlot = (slot: any, idx: number) => {
+                                        const schoolColor = slot.data?.school?.colorHex;
+                                        const borderColor = schoolColor || (slot.status === 'OCCUPIED' ? '#ef4444' : '#22c55e');
+                                        const bgColor = (slot.status === 'OCCUPIED')
+                                            ? (schoolColor ? `${schoolColor}15` : '#fef2f2')
+                                            : undefined;
+
+                                        return (
+                                            <div key={idx} className={`p-3 rounded-lg border-l-4 shadow-sm transition-all ${slot.status === 'FREE' ? 'bg-white hover:shadow-md cursor-pointer hover:bg-gray-50' : ''}`}
+                                                style={{
+                                                    backgroundColor: bgColor,
+                                                    borderLeftColor: borderColor,
+                                                    borderWidth: '1px',
+                                                    borderLeftWidth: '4px'
+                                                }}
+                                            >
+                                                <div className="flex justify-between items-start mb-1">
+                                                    <span className={`text-xs font-bold ${slot.status === 'FREE' ? 'text-green-700' : 'text-gray-500'}`}>
+                                                        {slot.startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - {slot.endTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                                    </span>
                                                     {slot.status === 'FREE' ? (
-                                                        <span className="text-[10px] font-semibold">DISPONIBLE</span>
-                                                    ) : slot.status === 'RESTRICTED' ? (
-                                                        <span className="text-[10px] font-semibold italic">Uso Permanente</span>
+                                                        <span className="text-[10px] font-bold text-green-600 bg-green-100 px-2 py-0.5 rounded-full">DISPONIBLE</span>
                                                     ) : (
-                                                        <div className="truncate">
-                                                            <div className="font-bold truncate text-gray-900" title={slot.reservation.subject}>{slot.reservation.subject}</div>
-                                                            {slot.reservation.school && (
-                                                                <span className="text-[9px] px-1 rounded text-white inline-block mt-0.5" style={{ backgroundColor: slot.reservation.school.colorHex }}>
-                                                                    {slot.reservation.school.name}
-                                                                </span>
-                                                            )}
-                                                        </div>
+                                                        slot.data?.school && (
+                                                            <span className="text-[10px] px-1.5 py-0.5 rounded text-white font-bold" style={{ backgroundColor: slot.data.school.colorHex }}>
+                                                                {slot.data.school.name}
+                                                            </span>
+                                                        )
                                                     )}
                                                 </div>
-                                            ))}
-                                        </div>
-                                    );
+
+                                                {slot.status === 'OCCUPIED' ? (
+                                                    <>
+                                                        <p className="font-bold text-sm text-gray-900 line-clamp-1" title={slot.data.subject}>{slot.data.subject}</p>
+                                                        <p className="text-xs text-gray-600 mt-1 truncate">
+                                                            <span className="font-bold text-gray-500">Prof: </span>
+                                                            {slot.data.user?.fullName}
+                                                        </p>
+                                                    </>
+                                                ) : (
+                                                    <p className="text-sm font-medium text-green-800">Espacio Libre</p>
+                                                )}
+                                            </div>
+                                        );
+                                    };
 
                                     return (
                                         <div key={index} className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
@@ -717,13 +777,29 @@ export const AdminDashboard = () => {
                                                 {/* Morning */}
                                                 <div>
                                                     <h5 className="text-xs font-bold text-gray-500 uppercase mb-2 border-b pb-1">Mañana (07:00 - 13:00)</h5>
-                                                    {renderSlotGrid(morningSlots)}
+                                                    {morningSlots.length > 0 ? (
+                                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                                            {morningSlots.map((slot, idx) => renderGeneralSlot(slot, idx))}
+                                                        </div>
+                                                    ) : (
+                                                        <p className="text-xs text-gray-400 italic py-2">
+                                                            {isPermanentLab ? 'Sin reservas específicas en la mañana.' : 'No hay actividad.'}
+                                                        </p>
+                                                    )}
                                                 </div>
 
                                                 {/* Afternoon */}
                                                 <div>
                                                     <h5 className="text-xs font-bold text-gray-500 uppercase mb-2 border-b pb-1">Tarde (13:00 - 22:00)</h5>
-                                                    {renderSlotGrid(afternoonSlots)}
+                                                    {afternoonSlots.length > 0 ? (
+                                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                                            {afternoonSlots.map((slot, idx) => renderGeneralSlot(slot, idx))}
+                                                        </div>
+                                                    ) : (
+                                                        <p className="text-xs text-gray-400 italic py-2">
+                                                            {isPermanentLab ? 'Sin reservas específicas en la tarde.' : 'No hay actividad.'}
+                                                        </p>
+                                                    )}
                                                 </div>
                                             </div>
                                         </div>
@@ -736,8 +812,8 @@ export const AdminDashboard = () => {
                             <Button variant="outline" onClick={() => setIsGeneralScheduleOpen(false)}>Cerrar</Button>
                         </div>
                     </div>
-                </div>
+                </div >
             )}
-        </div>
+        </div >
     );
 };
