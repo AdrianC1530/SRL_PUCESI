@@ -196,9 +196,23 @@ export class AdminController {
             }
         });
 
+        // Helper to extract professor name (same as in dashboard)
+        const getProfessorName = (res: any) => {
+            if (!res) return null;
+            if (res.description && res.description.startsWith('Profesor: ')) {
+                return res.description.replace('Profesor: ', '');
+            }
+            return res.user?.fullName || 'Usuario Desconocido';
+        };
+
         // Group reservations by lab
         const scheduleByLab = labs.map(lab => {
-            const labReservations = reservations.filter(r => r.labId === lab.id);
+            const labReservations = reservations
+                .filter(r => r.labId === lab.id)
+                .map(r => ({
+                    ...r,
+                    professorName: getProfessorName(r)
+                }));
             return {
                 lab,
                 reservations: labReservations

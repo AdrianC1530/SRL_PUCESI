@@ -38,6 +38,7 @@ interface LabStatus {
         id: number;
         subject: string;
         startTime: string;
+        professorName?: string;
     };
 }
 
@@ -223,6 +224,14 @@ export const AdminDashboard = () => {
                                         <div>
                                             <h3 className="text-xl font-bold text-gray-900">{item.lab.name}</h3>
                                             <p className="text-sm text-gray-500">Capacidad: {item.lab.capacity}</p>
+                                            {item.lab.software && item.lab.software.length > 0 && (
+                                                <div className="mt-2">
+                                                    <p className="text-[10px] text-blue-600 leading-tight">
+                                                        <span className="font-bold uppercase mr-1">Software:</span>
+                                                        {item.lab.software.join(', ')}
+                                                    </p>
+                                                </div>
+                                            )}
                                         </div>
                                         <span className={`px-3 py-1 rounded-full text-xs font-bold ${item.status === 'OCCUPIED' ? 'bg-red-100 text-red-800' :
                                             item.status === 'RESERVED' ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800'
@@ -346,6 +355,7 @@ export const AdminDashboard = () => {
                                             <p className="text-xs text-gray-500">Siguiente: {item.nextReservation.subject}</p>
                                             <p className="text-xs text-gray-400">
                                                 {new Date(item.nextReservation.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                                {item.nextReservation.professorName && ` : Prof: ${item.nextReservation.professorName}`}
                                             </p>
                                         </div>
                                     )}
@@ -768,7 +778,7 @@ export const AdminDashboard = () => {
                                                                     <p className="font-bold text-sm text-gray-900 line-clamp-1" title={slot.data.subject}>{slot.data.subject}</p>
                                                                     <p className="text-xs text-gray-600 mt-1 truncate">
                                                                         <span className="font-bold text-gray-500">Prof: </span>
-                                                                        {slot.data.user?.fullName}
+                                                                        {slot.data.professorName || slot.data.user?.fullName}
                                                                     </p>
                                                                 </>
                                                             ) : (
@@ -805,7 +815,7 @@ export const AdminDashboard = () => {
                                                             <div>
                                                                 <h5 className="text-xs font-bold text-gray-500 uppercase mb-2 border-b pb-1">Mañana (07:00 - 13:00)</h5>
                                                                 {morningSlots.length > 0 ? (
-                                                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                                                                         {morningSlots.map((slot, idx) => renderGeneralSlot(slot, idx))}
                                                                     </div>
                                                                 ) : (
@@ -819,7 +829,7 @@ export const AdminDashboard = () => {
                                                             <div>
                                                                 <h5 className="text-xs font-bold text-gray-500 uppercase mb-2 border-b pb-1">Tarde (13:00 - 22:00)</h5>
                                                                 {afternoonSlots.length > 0 ? (
-                                                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                                                                         {afternoonSlots.map((slot, idx) => renderGeneralSlot(slot, idx))}
                                                                     </div>
                                                                 ) : (

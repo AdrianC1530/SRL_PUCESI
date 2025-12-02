@@ -241,14 +241,15 @@ export class DataImportService {
                         });
                         count++;
                     } else {
-                        // Always update schoolId if it's different or missing
-                        if (existing.schoolId !== schoolId && schoolId) {
-                            await this.prisma.reservation.update({
-                                where: { id: existing.id },
-                                data: { schoolId: schoolId }
-                            });
-                            updatedCount++;
-                        }
+                        // Update schoolId and description (Professor) for existing reservations
+                        await this.prisma.reservation.update({
+                            where: { id: existing.id },
+                            data: {
+                                schoolId: schoolId,
+                                description: `Profesor: ${item.professor}`
+                            }
+                        });
+                        updatedCount++;
                     }
                 }
                 currentDate.setDate(currentDate.getDate() + 1);
