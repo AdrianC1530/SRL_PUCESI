@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { adminService } from '../../services/admin.service';
 import { Button } from '../../components/ui/Button';
-import { LogOut, Key, CheckCircle, Clock, AlertTriangle, Calendar } from 'lucide-react';
+import { LogOut, Key, CheckCircle, Clock, AlertTriangle, Calendar, PlusCircle } from 'lucide-react';
 import { useAuthStore, type AuthState } from '../../store/authStore';
 import { useNavigate } from 'react-router-dom';
 
@@ -147,6 +147,11 @@ export const AdminDashboard = () => {
         setSimulatedDate(e.target.value);
     };
 
+    const handleReserveRoom = () => {
+        // Logic to be implemented later
+        console.log("Reservar Sala clicked");
+    };
+
     return (
         <div className="flex h-screen bg-gray-50 overflow-hidden">
             {/* Vertical Sidebar */}
@@ -170,6 +175,13 @@ export const AdminDashboard = () => {
                         >
                             <Calendar className="h-5 w-5 mr-3 group-hover:scale-110 transition-transform" />
                             Ver Horario General
+                        </button>
+                        <button
+                            onClick={handleReserveRoom}
+                            className="w-full flex items-center px-4 py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg transition-all shadow-md hover:shadow-lg font-medium text-sm group"
+                        >
+                            <PlusCircle className="h-5 w-5 mr-3 group-hover:scale-110 transition-transform" />
+                            Reservar Sala
                         </button>
                     </div>
 
