@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { adminService } from '../../services/admin.service';
 import { Button } from '../../components/ui/Button';
-import { LogOut, Key, CheckCircle, Clock, AlertTriangle, Calendar, PlusCircle } from 'lucide-react';
+import { LogOut, Key, CheckCircle, Clock, AlertTriangle, Calendar, PlusCircle, Info } from 'lucide-react';
 import { useAuthStore, type AuthState } from '../../store/authStore';
 import { useNavigate } from 'react-router-dom';
 
@@ -66,6 +66,10 @@ export const AdminDashboard = () => {
     const [reservationSubject, setReservationSubject] = useState<string>('');
     const [reservationStudents, setReservationStudents] = useState<number>(20);
     const [reservationSoftware, setReservationSoftware] = useState<string>('');
+    const [reservationSchool, setReservationSchool] = useState<string>('');
+    const [schools, setSchools] = useState<{ id: string; name: string; colorHex: string }[]>([]);
+    const [availableLabs, setAvailableLabs] = useState<any[]>([]);
+    const [hasSearched, setHasSearched] = useState(false);
 
     // Derived state for unique software
     const uniqueSoftware = Array.from(new Set(labs.flatMap(l => l.lab.software || []))).sort();
@@ -94,11 +98,39 @@ export const AdminDashboard = () => {
         }
     };
 
+    const handleSearchLabs = async () => {
+        if (!reservationDate || !reservationStartTime || !reservationDuration || !reservationStudents) {
+            alert('Por favor complete todos los campos obligatorios');
+            return;
+        }
+
+        try {
+            const results = await adminService.searchLabs({
+                date: reservationDate,
+                startTime: reservationStartTime,
+                duration: reservationDuration,
+                capacity: reservationStudents,
+                software: reservationSoftware || undefined
+            });
+            setAvailableLabs(results);
+            setHasSearched(true);
+        } catch (error) {
+            console.error('Error searching labs:', error);
+            alert('Error al buscar salas disponibles');
+        }
+    };
+
     const loadDashboard = async () => {
         try {
             const dateToUse = new Date(simulatedDate);
             const data = await adminService.getDashboard(dateToUse);
             setLabs(data);
+
+            // Load schools if not loaded
+            if (schools.length === 0) {
+                const schoolsData = await adminService.getSchools();
+                setSchools(schoolsData);
+            }
         } catch (error) {
             console.error('Error loading dashboard:', error);
         }
@@ -880,107 +912,202 @@ export const AdminDashboard = () => {
             {/* Reservation Modal */}
             {isReservationModalOpen && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-white rounded-xl shadow-2xl w-full max-w-md overflow-hidden transform transition-all scale-100">
-                        <div className="bg-emerald-600 p-6 text-white">
-                            <h3 className="text-xl font-bold flex items-center">
-                                <PlusCircle className="h-6 w-6 mr-2" />
+                    <div className="bg-white rounded-xl shadow-2xl w-full max-w-7xl overflow-hidden transform transition-all scale-100 flex flex-col max-h-[90vh]">
+                        <div className="bg-emerald-600 p-6 text-white shrink-0">
+                            <h3 className="text-2xl font-bold flex items-center">
+                                <PlusCircle className="h-7 w-7 mr-3" />
                                 Reservar Sala
                             </h3>
-                            <p className="text-emerald-100 text-sm mt-1">Modo Docente</p>
+                            <p className="text-emerald-100 text-sm mt-1 ml-10">Modo Docente</p>
                         </div>
 
-                        <div className="p-6 space-y-4">
-                            {/* Date */}
-                            <div>
-                                <label className="block text-sm font-bold text-gray-700 mb-1">Fecha</label>
-                                <input
-                                    type="date"
-                                    value={reservationDate}
-                                    onChange={(e) => setReservationDate(e.target.value)}
-                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all text-gray-900 font-medium"
-                                    style={{ colorScheme: 'light' }}
-                                />
-                            </div>
+                        <div className="flex-1 overflow-hidden">
+                            <div className="grid grid-cols-1 md:grid-cols-12 h-full">
+                                {/* Left Column: Form */}
+                                <div className="md:col-span-4 p-8 border-r border-gray-100 overflow-y-auto bg-gray-50/50">
+                                    <div className="space-y-6">
+                                        <div>
+                                            <label className="block text-xs font-bold text-gray-700 uppercase mb-1.5">Fecha de Reserva</label>
+                                            <input
+                                                type="date"
+                                                value={reservationDate}
+                                                onChange={(e) => setReservationDate(e.target.value)}
+                                                className="w-full bg-white border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none text-gray-900 font-medium shadow-sm"
+                                                style={{ colorScheme: 'light' }}
+                                            />
+                                        </div>
 
-                            {/* Time & Duration */}
-                            <div className="grid grid-cols-2 gap-4">
-                                <div>
-                                    <label className="block text-sm font-bold text-gray-700 mb-1">Hora Inicio</label>
-                                    <input
-                                        type="time"
-                                        value={reservationStartTime}
-                                        onChange={(e) => setReservationStartTime(e.target.value)}
-                                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all text-gray-900 font-medium"
-                                        style={{ colorScheme: 'light' }}
-                                    />
+                                        <div className="grid grid-cols-2 gap-4">
+                                            <div>
+                                                <label className="block text-xs font-bold text-gray-700 uppercase mb-1.5">Hora Inicio</label>
+                                                <input
+                                                    type="time"
+                                                    value={reservationStartTime}
+                                                    onChange={(e) => setReservationStartTime(e.target.value)}
+                                                    className="w-full bg-white border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none text-gray-900 font-medium shadow-sm"
+                                                    style={{ colorScheme: 'light' }}
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-xs font-bold text-gray-700 uppercase mb-1.5">Duración (Horas)</label>
+                                                <input
+                                                    type="number"
+                                                    min="1"
+                                                    max="5"
+                                                    value={reservationDuration}
+                                                    onChange={(e) => setReservationDuration(parseInt(e.target.value))}
+                                                    className="w-full bg-white border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none text-gray-900 font-medium shadow-sm"
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <label className="block text-xs font-bold text-gray-700 uppercase mb-1.5">Estudiantes</label>
+                                            <input
+                                                type="number"
+                                                min="1"
+                                                value={reservationStudents}
+                                                onChange={(e) => setReservationStudents(parseInt(e.target.value))}
+                                                className="w-full bg-white border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none text-gray-900 font-medium shadow-sm"
+                                            />
+                                        </div>
+
+                                        {/* School Selection */}
+                                        <div>
+                                            <label className="block text-xs font-bold text-gray-700 uppercase mb-1.5">Carrera / Escuela</label>
+                                            <select
+                                                value={reservationSchool}
+                                                onChange={(e) => setReservationSchool(e.target.value)}
+                                                className="w-full bg-white border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none text-gray-900 shadow-sm"
+                                            >
+                                                <option value="">Seleccione una escuela...</option>
+                                                {schools.map((school) => (
+                                                    <option key={school.id} value={school.id}>{school.name}</option>
+                                                ))}
+                                                <option value="OTHER">OTRA</option>
+                                            </select>
+                                        </div>
+
+                                        {/* Subject Selection */}
+                                        <div>
+                                            <label className="block text-xs font-bold text-gray-700 uppercase mb-1.5">Materia / Asignatura</label>
+                                            <input
+                                                type="text"
+                                                placeholder="Ej. Programación Avanzada"
+                                                value={reservationSubject}
+                                                onChange={(e) => setReservationSubject(e.target.value)}
+                                                className="w-full bg-white border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none text-gray-900 shadow-sm"
+                                            />
+                                        </div>
+
+                                        <div>
+                                            <label className="block text-xs font-bold text-gray-700 uppercase mb-1.5">Software (Opcional)</label>
+                                            <select
+                                                value={reservationSoftware}
+                                                onChange={(e) => setReservationSoftware(e.target.value)}
+                                                className="w-full bg-white border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none text-gray-900 shadow-sm"
+                                            >
+                                                <option value="">Ninguno / No especificado</option>
+                                                {uniqueSoftware.map((sw, idx) => (
+                                                    <option key={idx} value={sw}>{sw}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+
+                                        <div className="pt-6 pb-8">
+                                            <button
+                                                className="w-full py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transition-all transform active:scale-95 flex justify-center items-center"
+                                                onClick={handleSearchLabs}
+                                            >
+                                                <CheckCircle className="h-6 w-6 mr-2" />
+                                                Buscar Salas Disponibles
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div>
-                                    <label className="block text-sm font-bold text-gray-700 mb-1">Duración (Horas)</label>
-                                    <input
-                                        type="number"
-                                        min="1"
-                                        max="5"
-                                        value={reservationDuration}
-                                        onChange={(e) => setReservationDuration(parseInt(e.target.value))}
-                                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all text-gray-900 font-medium"
-                                    />
+
+                                {/* Right Column: Results */}
+                                <div className="md:col-span-8 p-8 overflow-y-auto bg-white">
+                                    {!hasSearched ? (
+                                        <div className="h-full flex flex-col items-center justify-center text-gray-400 opacity-60">
+                                            <div className="bg-gray-100 p-8 rounded-full mb-6">
+                                                <Calendar className="h-24 w-24 text-gray-300" />
+                                            </div>
+                                            <p className="text-xl font-medium text-center text-gray-500">
+                                                Complete el formulario y haga clic en buscar<br />para ver las salas disponibles
+                                            </p>
+                                        </div>
+                                    ) : (
+                                        <div className="space-y-6">
+                                            <div className="flex justify-between items-center mb-6 pb-4 border-b border-gray-100">
+                                                <h3 className="font-bold text-2xl text-gray-800">Resultados de Búsqueda</h3>
+                                                <span className="text-sm font-bold bg-emerald-100 text-emerald-800 px-4 py-1.5 rounded-full">
+                                                    {availableLabs.length} salas encontradas
+                                                </span>
+                                            </div>
+
+                                            {availableLabs.length === 0 ? (
+                                                <div className="flex flex-col items-center justify-center py-20 text-center bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
+                                                    <AlertTriangle className="h-16 w-16 text-red-400 mb-4" />
+                                                    <p className="text-gray-800 font-bold text-xl">No hay salas disponibles</p>
+                                                    <p className="text-gray-500 text-base mt-2 max-w-md">
+                                                        Intente cambiar el horario, reducir la duración o la cantidad de estudiantes requerida.
+                                                    </p>
+                                                </div>
+                                            ) : (
+                                                <div className="grid grid-cols-1 gap-4">
+                                                    {availableLabs.map((lab: any) => (
+                                                        <div key={lab.id} className="p-5 border border-gray-200 rounded-xl hover:border-emerald-400 hover:shadow-lg transition-all group bg-white flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                                                            <div className="flex-1">
+                                                                <div className="flex items-center mb-2">
+                                                                    <h4 className="font-bold text-xl text-gray-900 mr-3">{lab.name}</h4>
+                                                                    <span className="text-xs bg-gray-100 text-gray-600 px-2.5 py-1 rounded-md font-bold uppercase tracking-wide border border-gray-200">
+                                                                        Capacidad: {lab.capacity}
+                                                                    </span>
+                                                                </div>
+                                                                {lab.software && lab.software.length > 0 ? (
+                                                                    <div className="flex flex-wrap gap-2">
+                                                                        {lab.software.slice(0, 4).map((sw: string, idx: number) => (
+                                                                            <span key={idx} className="text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded border border-blue-100 font-medium">
+                                                                                {sw}
+                                                                            </span>
+                                                                        ))}
+                                                                        {lab.software.length > 4 && (
+                                                                            <span className="text-xs text-gray-500 px-1 font-medium self-center">+{lab.software.length - 4} más</span>
+                                                                        )}
+                                                                    </div>
+                                                                ) : (
+                                                                    <p className="text-xs text-gray-400 italic">Sin software específico instalado</p>
+                                                                )}
+                                                            </div>
+                                                            <button
+                                                                className="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-bold shadow-md hover:shadow-lg transition-all transform active:scale-95 whitespace-nowrap"
+                                                            >
+                                                                Reservar Sala
+                                                            </button>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
                                 </div>
-                            </div>
-
-                            {/* Subject */}
-                            <div>
-                                <label className="block text-sm font-bold text-gray-700 mb-1">Materia / Asignatura</label>
-                                <input
-                                    type="text"
-                                    placeholder="Ej. Programación Avanzada"
-                                    value={reservationSubject}
-                                    onChange={(e) => setReservationSubject(e.target.value)}
-                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all text-gray-900"
-                                />
-                            </div>
-
-                            {/* Software (Optional) */}
-                            <div>
-                                <label className="block text-sm font-bold text-gray-700 mb-1">Software Requerido (Opcional)</label>
-                                <select
-                                    value={reservationSoftware}
-                                    onChange={(e) => setReservationSoftware(e.target.value)}
-                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all text-gray-900"
-                                >
-                                    <option value="">Ninguno / No especificado</option>
-                                    {uniqueSoftware.map((sw, idx) => (
-                                        <option key={idx} value={sw}>{sw}</option>
-                                    ))}
-                                </select>
-                            </div>
-
-                            {/* Students */}
-                            <div>
-                                <label className="block text-sm font-bold text-gray-700 mb-1">Cantidad de Estudiantes</label>
-                                <input
-                                    type="number"
-                                    min="1"
-                                    value={reservationStudents}
-                                    onChange={(e) => setReservationStudents(parseInt(e.target.value))}
-                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all text-gray-900 font-medium"
-                                />
                             </div>
                         </div>
 
-                        <div className="p-4 bg-gray-50 border-t border-gray-100 flex justify-end space-x-3">
-                            <Button variant="outline" onClick={() => setIsReservationModalOpen(false)}>
-                                Cancelar
+                        <div className="p-5 bg-gray-50 border-t border-gray-200 flex justify-between items-center shrink-0">
+                            <p className="text-sm text-gray-500 italic flex items-center">
+                                <Info className="h-4 w-4 mr-2 text-gray-400" />
+                                Las reservas están sujetas a aprobación final si existen conflictos de horario.
+                            </p>
+                            <Button variant="outline" className="px-6 py-2 border-gray-300 text-gray-700 hover:bg-gray-100" onClick={() => setIsReservationModalOpen(false)}>
+                                Cerrar / Cancelar
                             </Button>
-                            <button
-                                className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-bold shadow-md hover:shadow-lg transition-all transform active:scale-95"
-                                onClick={() => alert('Funcionalidad de búsqueda pendiente')}
-                            >
-                                Buscar Salas
-                            </button>
                         </div>
                     </div>
-                </div>
-            )}
+                </div >
+            )
+            }
         </div >
     );
 };

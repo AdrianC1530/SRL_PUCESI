@@ -45,4 +45,19 @@ export const adminService = {
         const response = await axios.get(`${API_URL}/general-schedule`, { ...getHeaders(), params });
         return response.data;
     },
+
+    getSchools: async () => {
+        const response = await axios.get(`${API_URL}/schools`, getHeaders());
+        return response.data;
+    },
+
+    getSubjectsBySchool: async (schoolId: string) => {
+        const response = await axios.get(`${API_URL}/subjects/${schoolId}`, getHeaders());
+        return response.data;
+    },
+
+    searchLabs: async (criteria: { date: string; startTime: string; duration: number; capacity: number; software?: string }) => {
+        const response = await axios.get(`${API_URL}/search-labs`, { ...getHeaders(), params: criteria });
+        return response.data;
+    },
 };

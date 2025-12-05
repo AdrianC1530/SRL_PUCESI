@@ -243,4 +243,75 @@ export class AdminController {
             }
         });
     }
+
+    @Get('schools')
+    async getSchools() {
+        return this.prisma.school.findMany({
+            orderBy: { name: 'asc' }
+        });
+    }
+
+    @Get('subjects/:schoolId')
+    async getSubjectsBySchool(@Param('schoolId') schoolId: string) {
+        const subjects = await this.prisma.reservation.findMany({
+            where: {
+                schoolId: schoolId
+            },
+            select: {
+                subject: true
+            },
+            distinct: ['subject'],
+            orderBy: {
+                subject: 'asc'
+            }
+        });
+        return subjects.map(s => s.subject);
+    }
+
+    @Get('search-labs')
+    async searchLabs(
+        @Query('date') date: string,
+        @Query('startTime') startTime: string,
+        @Query('duration') duration: string,
+        @Query('capacity') capacity: string,
+        @Query('software') software?: string
+    ) {
+        const start = new Date(`${date}T${startTime}:00`);
+        const durationHours = parseInt(duration);
+        const end = new Date(start.getTime() + durationHours * 60 * 60 * 1000);
+        const requiredCapacity = parseInt(capacity);
+
+        // 1. Find candidate labs based on capacity
+        let candidateLabs = await this.prisma.lab.findMany({
+            where: {
+                capacity: { gte: requiredCapacity }
+            }
+        });
+
+        // 2. Filter by software if requested
+        if (software) {
+            candidateLabs = candidateLabs.filter(lab =>
+                lab.software && lab.software.includes(software)
+            );
+        }
+
+        // 3. Filter out labs that are occupied
+        const availableLabs: any[] = [];
+        for (const lab of candidateLabs) {
+            const conflicts = await this.prisma.reservation.count({
+                where: {
+                    labId: lab.id,
+                    status: { not: 'CANCELLED' },
+                    startTime: { lt: end },
+                    endTime: { gt: start }
+                }
+            });
+
+            if (conflicts === 0) {
+                availableLabs.push(lab);
+            }
+        }
+
+        return availableLabs;
+    }
 }
