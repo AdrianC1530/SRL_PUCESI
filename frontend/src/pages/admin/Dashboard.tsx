@@ -58,6 +58,14 @@ export const AdminDashboard = () => {
     const [generalScheduleDate, setGeneralScheduleDate] = useState<string>(new Date().toISOString().slice(0, 10));
     const [selectedLabFilter, setSelectedLabFilter] = useState<string>('ALL');
 
+    // Reservation Form State
+    const [isReservationModalOpen, setIsReservationModalOpen] = useState(false);
+    const [reservationDate, setReservationDate] = useState<string>(new Date().toISOString().slice(0, 10));
+    const [reservationStartTime, setReservationStartTime] = useState<string>('07:00');
+    const [reservationDuration, setReservationDuration] = useState<number>(1);
+    const [reservationSubject, setReservationSubject] = useState<string>('');
+    const [reservationStudents, setReservationStudents] = useState<number>(20);
+
     const handleViewGeneralSchedule = async () => {
         setIsGeneralScheduleOpen(true);
         try {
@@ -148,8 +156,7 @@ export const AdminDashboard = () => {
     };
 
     const handleReserveRoom = () => {
-        // Logic to be implemented later
-        console.log("Reservar Sala clicked");
+        setIsReservationModalOpen(true);
     };
 
     return (
@@ -865,6 +872,96 @@ export const AdminDashboard = () => {
                     )
                 }
             </main >
+
+            {/* Reservation Modal */}
+            {isReservationModalOpen && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                    <div className="bg-white rounded-xl shadow-2xl w-full max-w-md overflow-hidden transform transition-all scale-100">
+                        <div className="bg-emerald-600 p-6 text-white">
+                            <h3 className="text-xl font-bold flex items-center">
+                                <PlusCircle className="h-6 w-6 mr-2" />
+                                Reservar Sala
+                            </h3>
+                            <p className="text-emerald-100 text-sm mt-1">Modo Docente</p>
+                        </div>
+
+                        <div className="p-6 space-y-4">
+                            {/* Date */}
+                            <div>
+                                <label className="block text-sm font-bold text-gray-700 mb-1">Fecha</label>
+                                <input
+                                    type="date"
+                                    value={reservationDate}
+                                    onChange={(e) => setReservationDate(e.target.value)}
+                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all"
+                                    style={{ colorScheme: 'light' }}
+                                />
+                            </div>
+
+                            {/* Time & Duration */}
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-sm font-bold text-gray-700 mb-1">Hora Inicio</label>
+                                    <input
+                                        type="time"
+                                        value={reservationStartTime}
+                                        onChange={(e) => setReservationStartTime(e.target.value)}
+                                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all"
+                                        style={{ colorScheme: 'light' }}
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-bold text-gray-700 mb-1">Duración (Horas)</label>
+                                    <input
+                                        type="number"
+                                        min="1"
+                                        max="5"
+                                        value={reservationDuration}
+                                        onChange={(e) => setReservationDuration(parseInt(e.target.value))}
+                                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all"
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Subject */}
+                            <div>
+                                <label className="block text-sm font-bold text-gray-700 mb-1">Materia / Asignatura</label>
+                                <input
+                                    type="text"
+                                    placeholder="Ej. Programación Avanzada"
+                                    value={reservationSubject}
+                                    onChange={(e) => setReservationSubject(e.target.value)}
+                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all"
+                                />
+                            </div>
+
+                            {/* Students */}
+                            <div>
+                                <label className="block text-sm font-bold text-gray-700 mb-1">Cantidad de Estudiantes</label>
+                                <input
+                                    type="number"
+                                    min="1"
+                                    value={reservationStudents}
+                                    onChange={(e) => setReservationStudents(parseInt(e.target.value))}
+                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="p-4 bg-gray-50 border-t border-gray-100 flex justify-end space-x-3">
+                            <Button variant="outline" onClick={() => setIsReservationModalOpen(false)}>
+                                Cancelar
+                            </Button>
+                            <button
+                                className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-bold shadow-md hover:shadow-lg transition-all transform active:scale-95"
+                                onClick={() => alert('Funcionalidad de búsqueda pendiente')}
+                            >
+                                Buscar Salas
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div >
     );
 };
