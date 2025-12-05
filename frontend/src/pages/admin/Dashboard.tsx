@@ -65,6 +65,10 @@ export const AdminDashboard = () => {
     const [reservationDuration, setReservationDuration] = useState<number>(1);
     const [reservationSubject, setReservationSubject] = useState<string>('');
     const [reservationStudents, setReservationStudents] = useState<number>(20);
+    const [reservationSoftware, setReservationSoftware] = useState<string>('');
+
+    // Derived state for unique software
+    const uniqueSoftware = Array.from(new Set(labs.flatMap(l => l.lab.software || []))).sort();
 
     const handleViewGeneralSchedule = async () => {
         setIsGeneralScheduleOpen(true);
@@ -893,7 +897,7 @@ export const AdminDashboard = () => {
                                     type="date"
                                     value={reservationDate}
                                     onChange={(e) => setReservationDate(e.target.value)}
-                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all"
+                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all text-gray-900 font-medium"
                                     style={{ colorScheme: 'light' }}
                                 />
                             </div>
@@ -906,7 +910,7 @@ export const AdminDashboard = () => {
                                         type="time"
                                         value={reservationStartTime}
                                         onChange={(e) => setReservationStartTime(e.target.value)}
-                                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all"
+                                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all text-gray-900 font-medium"
                                         style={{ colorScheme: 'light' }}
                                     />
                                 </div>
@@ -918,7 +922,7 @@ export const AdminDashboard = () => {
                                         max="5"
                                         value={reservationDuration}
                                         onChange={(e) => setReservationDuration(parseInt(e.target.value))}
-                                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all"
+                                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all text-gray-900 font-medium"
                                     />
                                 </div>
                             </div>
@@ -931,8 +935,23 @@ export const AdminDashboard = () => {
                                     placeholder="Ej. Programación Avanzada"
                                     value={reservationSubject}
                                     onChange={(e) => setReservationSubject(e.target.value)}
-                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all"
+                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all text-gray-900"
                                 />
+                            </div>
+
+                            {/* Software (Optional) */}
+                            <div>
+                                <label className="block text-sm font-bold text-gray-700 mb-1">Software Requerido (Opcional)</label>
+                                <select
+                                    value={reservationSoftware}
+                                    onChange={(e) => setReservationSoftware(e.target.value)}
+                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all text-gray-900"
+                                >
+                                    <option value="">Ninguno / No especificado</option>
+                                    {uniqueSoftware.map((sw, idx) => (
+                                        <option key={idx} value={sw}>{sw}</option>
+                                    ))}
+                                </select>
                             </div>
 
                             {/* Students */}
@@ -943,7 +962,7 @@ export const AdminDashboard = () => {
                                     min="1"
                                     value={reservationStudents}
                                     onChange={(e) => setReservationStudents(parseInt(e.target.value))}
-                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all"
+                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all text-gray-900 font-medium"
                                 />
                             </div>
                         </div>
