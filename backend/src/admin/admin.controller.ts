@@ -274,12 +274,14 @@ export class AdminController {
         @Query('startTime') startTime: string,
         @Query('duration') duration: string,
         @Query('capacity') capacity: string,
-        @Query('software') software?: string
+        @Query('software') software?: string,
+        @Query('onlyMac') onlyMac?: string
     ) {
         const start = new Date(`${date}T${startTime}:00`);
         const durationHours = parseInt(duration);
         const end = new Date(start.getTime() + durationHours * 60 * 60 * 1000);
         const requiredCapacity = parseInt(capacity);
+        const isMacRequired = onlyMac === 'true';
 
         // 1. Find candidate labs based on capacity
         let candidateLabs = await this.prisma.lab.findMany({
@@ -287,6 +289,14 @@ export class AdminController {
                 capacity: { gte: requiredCapacity }
             }
         });
+
+        // Filter by Mac requirement
+        if (isMacRequired) {
+            candidateLabs = candidateLabs.filter(lab => lab.name.toUpperCase().includes('MAC'));
+        } else {
+            // If NOT Mac required, exclude Mac labs
+            candidateLabs = candidateLabs.filter(lab => !lab.name.toUpperCase().includes('MAC'));
+        }
 
         // 2. Filter by software if requested
         if (software) {

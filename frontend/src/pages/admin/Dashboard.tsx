@@ -70,6 +70,7 @@ export const AdminDashboard = () => {
     const [schools, setSchools] = useState<{ id: string; name: string; colorHex: string }[]>([]);
     const [availableLabs, setAvailableLabs] = useState<any[]>([]);
     const [hasSearched, setHasSearched] = useState(false);
+    const [onlyMac, setOnlyMac] = useState(false);
 
     // Derived state for unique software
     const uniqueSoftware = Array.from(new Set(labs.flatMap(l => l.lab.software || []))).sort();
@@ -110,7 +111,8 @@ export const AdminDashboard = () => {
                 startTime: reservationStartTime,
                 duration: reservationDuration,
                 capacity: reservationStudents,
-                software: reservationSoftware || undefined
+                software: reservationSoftware || undefined,
+                onlyMac: onlyMac
             });
             setAvailableLabs(results);
             setHasSearched(true);
@@ -912,19 +914,29 @@ export const AdminDashboard = () => {
             {/* Reservation Modal */}
             {isReservationModalOpen && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-white rounded-xl shadow-2xl w-full max-w-7xl overflow-hidden transform transition-all scale-100 flex flex-col max-h-[90vh]">
-                        <div className="bg-emerald-600 p-6 text-white shrink-0">
-                            <h3 className="text-2xl font-bold flex items-center">
-                                <PlusCircle className="h-7 w-7 mr-3" />
-                                Reservar Sala
-                            </h3>
-                            <p className="text-emerald-100 text-sm mt-1 ml-10">Modo Docente</p>
+                    <div className="bg-white rounded-xl shadow-2xl w-full max-w-7xl h-[90vh] flex flex-col overflow-hidden">
+                        <div className="bg-emerald-600 p-6 text-white shrink-0 flex justify-between items-center shadow-md z-10">
+                            <div>
+                                <h3 className="text-2xl font-bold flex items-center">
+                                    <PlusCircle className="h-7 w-7 mr-3" />
+                                    Reservar Sala
+                                </h3>
+                                <p className="text-emerald-100 text-sm mt-1 ml-10">Modo Docente</p>
+                            </div>
+                            <button
+                                onClick={() => setIsReservationModalOpen(false)}
+                                className="text-white/80 hover:text-white hover:bg-emerald-700/50 p-2 rounded-full transition-colors"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
                         </div>
 
-                        <div className="flex-1 overflow-hidden">
+                        <div className="flex-1 min-h-0 bg-white">
                             <div className="grid grid-cols-1 md:grid-cols-12 h-full">
                                 {/* Left Column: Form */}
-                                <div className="md:col-span-4 p-8 border-r border-gray-100 overflow-y-auto bg-gray-50/50">
+                                <div className="md:col-span-4 border-r border-gray-100 bg-gray-50/50 h-full overflow-y-auto p-6">
                                     <div className="space-y-6">
                                         <div>
                                             <label className="block text-xs font-bold text-gray-700 uppercase mb-1.5">Fecha de Reserva</label>
@@ -1014,20 +1026,24 @@ export const AdminDashboard = () => {
                                             </select>
                                         </div>
 
-                                        <div className="pt-6 pb-8">
-                                            <button
-                                                className="w-full py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transition-all transform active:scale-95 flex justify-center items-center"
-                                                onClick={handleSearchLabs}
-                                            >
-                                                <CheckCircle className="h-6 w-6 mr-2" />
-                                                Buscar Salas Disponibles
-                                            </button>
+                                        <div className="flex items-center bg-gray-100 p-3 rounded-lg border border-gray-200">
+                                            <input
+                                                id="mac-room-checkbox"
+                                                type="checkbox"
+                                                checked={onlyMac}
+                                                onChange={(e) => setOnlyMac(e.target.checked)}
+                                                className="h-5 w-5 text-emerald-600 focus:ring-emerald-500 border-gray-300 rounded cursor-pointer"
+                                            />
+                                            <label htmlFor="mac-room-checkbox" className="ml-3 block text-sm font-bold text-gray-700 cursor-pointer select-none">
+                                                Requerir Sala Mac
+                                            </label>
                                         </div>
+
                                     </div>
                                 </div>
 
                                 {/* Right Column: Results */}
-                                <div className="md:col-span-8 p-8 overflow-y-auto bg-white">
+                                <div className="md:col-span-8 p-8 bg-white h-full overflow-y-auto">
                                     {!hasSearched ? (
                                         <div className="h-full flex flex-col items-center justify-center text-gray-400 opacity-60">
                                             <div className="bg-gray-100 p-8 rounded-full mb-6">
@@ -1096,15 +1112,19 @@ export const AdminDashboard = () => {
                         </div>
 
                         <div className="p-5 bg-gray-50 border-t border-gray-200 flex justify-between items-center shrink-0">
-                            <p className="text-sm text-gray-500 italic flex items-center">
+                            <button
+                                className="px-8 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold shadow-lg hover:shadow-xl transition-all transform active:scale-95 flex items-center text-lg"
+                                onClick={handleSearchLabs}
+                            >
+                                <CheckCircle className="h-6 w-6 mr-2" />
+                                BUSCAR SALAS DISPONIBLES
+                            </button>
+                            <p className="text-sm text-gray-500 italic flex items-center ml-4">
                                 <Info className="h-4 w-4 mr-2 text-gray-400" />
                                 Las reservas están sujetas a aprobación final si existen conflictos de horario.
                             </p>
-                            <Button variant="outline" className="px-6 py-2 border-gray-300 text-gray-700 hover:bg-gray-100" onClick={() => setIsReservationModalOpen(false)}>
-                                Cerrar / Cancelar
-                            </Button>
                         </div>
-                    </div>
+                    </div >
                 </div >
             )
             }

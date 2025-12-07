@@ -56,8 +56,8 @@ export const adminService = {
         return response.data;
     },
 
-    searchLabs: async (criteria: { date: string; startTime: string; duration: number; capacity: number; software?: string }) => {
-        const response = await axios.get(`${API_URL}/search-labs`, { ...getHeaders(), params: criteria });
+    searchLabs: async (params: { date: string; startTime: string; duration: number; capacity: number; software?: string; onlyMac?: boolean }) => {
+        const response = await axios.get(`${API_URL}/search-labs`, { ...getHeaders(), params });
         return response.data;
     },
 };
