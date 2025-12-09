@@ -12,6 +12,18 @@ const getHeaders = () => {
     };
 };
 
+// Add interceptor to handle 401 errors globally
+axios.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        if (error.response && error.response.status === 401) {
+            useAuthStore.getState().logout();
+            window.location.href = '/login';
+        }
+        return Promise.reject(error);
+    }
+);
+
 export const adminService = {
     getDashboard: async (date?: Date) => {
         const params = date ? { date: date.toISOString() } : {};
