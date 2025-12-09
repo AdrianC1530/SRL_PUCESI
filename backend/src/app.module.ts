@@ -5,9 +5,14 @@ import { PrismaModule } from './prisma/prisma.module';
 import { AuthModule } from './auth/auth.module';
 import { AdminController } from './admin/admin.controller';
 import { DataImportService } from './common/services/data-import.service';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [PrismaModule, AuthModule],
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+    PrismaModule,
+    AuthModule
+  ],
   controllers: [AppController, AdminController],
   providers: [AppService, DataImportService],
 })
