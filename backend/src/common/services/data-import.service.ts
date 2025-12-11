@@ -60,18 +60,20 @@ export class DataImportService {
                 where: { name: room.name.toUpperCase() },
                 update: {
                     capacity: room.capacity,
-                    description: room.note || ''
+                    description: room.note || '',
+                    isPermanent: room.note && room.note.toLowerCase().includes('permanente') ? true : false
                 },
                 create: {
                     name: room.name.toUpperCase(),
                     capacity: room.capacity,
-                    description: room.note || ''
+                    description: room.note || '',
+                    isPermanent: room.note && room.note.toLowerCase().includes('permanente') ? true : false
                 },
             });
 
             // Special handling for permanently occupied rooms
             if (room.name.toUpperCase() === 'SALA 1' ||
-                (room.note && (room.note.includes('Préstamo de Internet Permanente') || room.note.includes('Uso Permanente Idiomas')))) {
+                (room.note && room.note.toLowerCase().includes('Permanente'))) {
 
                 console.log(`Processing permanent reservation for ${room.name}`);
                 const semesterStart = new Date('2025-09-01');

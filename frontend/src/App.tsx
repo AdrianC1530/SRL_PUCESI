@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Login } from './pages/Login';
 import { AdminDashboard } from './pages/admin/Dashboard';
+import { LabsManagement } from './pages/admin/LabsManagement';
+import { SoftwareManagement } from './pages/admin/SoftwareManagement';
 
 function App() {
   return (
@@ -8,6 +10,8 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/admin/labs" element={<LabsManagement />} />
+        <Route path="/admin/software" element={<SoftwareManagement />} />
         <Route path="/" element={<Navigate to="/login" replace />} />
       </Routes>
     </Router>

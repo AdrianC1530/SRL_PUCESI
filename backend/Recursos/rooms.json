@@ -1,5 +1,5 @@
 [
-  { "name": "SALA 1", "capacity": 20 },
+  { "name": "SALA 1", "capacity": 20, "note": "Administrador de Redes Permanente" },
   { "name": "SALA 2", "capacity": 22, "note": "Préstamo de Internet Permanente" },
   { "name": "SALA 3", "capacity": 22 },
   { "name": "SALA 4", "capacity": 20 },

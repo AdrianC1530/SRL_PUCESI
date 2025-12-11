@@ -1,4 +1,4 @@
-import { Controller, Post, Get, UseGuards, Param, Patch, Query } from '@nestjs/common';
+import { Controller, Post, Get, UseGuards, Param, Patch, Query, Body } from '@nestjs/common';
 import { DataImportService } from '../common/services/data-import.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../common/guards/roles.guard';
@@ -323,5 +323,57 @@ export class AdminController {
         }
 
         return availableLabs;
+    }
+    @Get('labs')
+    async getLabs() {
+        return this.prisma.lab.findMany({
+            orderBy: { name: 'asc' }
+        });
+    }
+
+    @Patch('labs/:id')
+    async updateLab(
+        @Param('id') id: string,
+        @Body() data: { name?: string; capacity?: number; description?: string; isPermanent?: boolean; software?: string[] }
+    ) {
+        return this.prisma.lab.update({
+            where: { id: parseInt(id) },
+            data: {
+                name: data.name,
+                capacity: data.capacity,
+                description: data.description,
+                isPermanent: data.isPermanent,
+                software: data.software
+            }
+        });
+    }
+
+    @Get('software')
+    async getSoftware() {
+        return this.prisma.software.findMany({
+            orderBy: { name: 'asc' }
+        });
+    }
+
+    @Post('software')
+    async createSoftware(@Body() data: { name: string; version?: string; license?: string }) {
+        return this.prisma.software.create({
+            data
+        });
+    }
+
+    @Patch('software/:id')
+    async updateSoftware(@Param('id') id: string, @Body() data: { name?: string; version?: string; license?: string }) {
+        return this.prisma.software.update({
+            where: { id: parseInt(id) },
+            data
+        });
+    }
+
+    @Post('software/delete/:id')
+    async deleteSoftware(@Param('id') id: string) {
+        return this.prisma.software.delete({
+            where: { id: parseInt(id) }
+        });
     }
 }

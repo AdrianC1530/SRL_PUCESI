@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { adminService } from '../../services/admin.service';
 import { Button } from '../../components/ui/Button';
-import { LogOut, Key, CheckCircle, Clock, AlertTriangle, Calendar, PlusCircle, Info } from 'lucide-react';
+import { LogOut, Key, CheckCircle, Clock, AlertTriangle, Calendar, PlusCircle, Info, Monitor, Cpu } from 'lucide-react';
 import { useAuthStore, type AuthState } from '../../store/authStore';
 import { useNavigate } from 'react-router-dom';
 
@@ -222,6 +222,20 @@ export const AdminDashboard = () => {
                             Ver Horario General
                         </button>
                         <button
+                            onClick={() => navigate('/admin/labs')}
+                            className="w-full flex items-center px-4 py-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg transition-all shadow-md hover:shadow-lg font-medium text-sm group"
+                        >
+                            <Monitor className="h-5 w-5 mr-3 group-hover:scale-110 transition-transform" />
+                            Administrar Salas
+                        </button>
+                        <button
+                            onClick={() => navigate('/admin/software')}
+                            className="w-full flex items-center px-4 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-all shadow-md hover:shadow-lg font-medium text-sm group"
+                        >
+                            <Cpu className="h-5 w-5 mr-3 group-hover:scale-110 transition-transform" />
+                            Gestionar Software
+                        </button>
+                        <button
                             onClick={handleReserveRoom}
                             className="w-full flex items-center px-4 py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg transition-all shadow-md hover:shadow-lg font-medium text-sm group"
                         >
@@ -400,7 +414,7 @@ export const AdminDashboard = () => {
                                         </div>
 
                                         {/* Hide View Schedule button for permanent labs */}
-                                        {item.lab.name !== 'SALA 1' && item.lab.name !== 'SALA 2' && item.lab.name !== 'SALA 10' && (
+                                        {!item.lab.description?.toLowerCase().includes('permanente') && (
                                             <Button variant="outline" onClick={() => handleViewSchedule(item)} className="w-full">
                                                 Ver Horario
                                             </Button>
@@ -726,7 +740,7 @@ export const AdminDashboard = () => {
                                         {generalSchedule
                                             .filter(item => selectedLabFilter === 'ALL' || item.lab.name === selectedLabFilter)
                                             .map((item, index) => {
-                                                const isPermanentLab = ['SALA 1', 'SALA 2', 'SALA 10'].includes(item.lab.name);
+                                                const isPermanentLab = item.lab.description?.toLowerCase().includes('permanente');
 
                                                 // Generate timeline similar to getDailySlots
                                                 const generateTimeline = () => {

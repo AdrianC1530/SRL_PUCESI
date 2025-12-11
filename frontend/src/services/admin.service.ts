@@ -72,4 +72,34 @@ export const adminService = {
         const response = await axios.get(`${API_URL}/search-labs`, { ...getHeaders(), params });
         return response.data;
     },
+
+    getLabs: async () => {
+        const response = await axios.get(`${API_URL}/labs`, getHeaders());
+        return response.data;
+    },
+
+    updateLab: async (id: number, data: { name?: string; capacity?: number; description?: string; isPermanent?: boolean; software?: string[] }) => {
+        const response = await axios.patch(`${API_URL}/labs/${id}`, data, getHeaders());
+        return response.data;
+    },
+
+    getSoftware: async () => {
+        const response = await axios.get(`${API_URL}/software`, getHeaders());
+        return response.data;
+    },
+
+    createSoftware: async (data: { name: string; version?: string; license?: string }) => {
+        const response = await axios.post(`${API_URL}/software`, data, getHeaders());
+        return response.data;
+    },
+
+    updateSoftware: async (id: number, data: { name?: string; version?: string; license?: string }) => {
+        const response = await axios.patch(`${API_URL}/software/${id}`, data, getHeaders());
+        return response.data;
+    },
+
+    deleteSoftware: async (id: number) => {
+        const response = await axios.post(`${API_URL}/software/delete/${id}`, {}, getHeaders());
+        return response.data;
+    }
 };

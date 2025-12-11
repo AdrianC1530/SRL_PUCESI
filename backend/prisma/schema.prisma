@@ -42,6 +42,7 @@ model Lab {
   capacity    Int
   description String?
   software    String[]      @default([])
+  isPermanent Boolean       @default(false)
   reservations Reservation[]
 }
 
@@ -73,4 +74,11 @@ model School {
   name      String
   colorHex  String
   reservations Reservation[]
+}
+
+model Software {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  version   String?
+  license   String?
 }

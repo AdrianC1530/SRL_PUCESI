@@ -1,0 +1,64 @@
+{
+  "salas": [
+    {
+      "numero": 1,
+      "software": ["Google Earth 7.3.2", "Mendeley", "R Studio R/WIN"]
+    },
+    {
+      "numero": 2,
+      "software": ["Adobe", "AutoCAD", "Google Earth 7.3.2", "ArcGIS", "Mendeley", "R Studio R/WIN"]
+    },
+    {
+      "numero": 3,
+      "software": ["Mendeley", "R Studio R/WIN"]
+    },
+    {
+      "numero": 4,
+      "software": ["AutoCAD", "ArcGIS", "Mendeley", "R Studio R/WIN"]
+    },
+    {
+      "numero": 5,
+      "software": ["Adobe", "Mendeley", "R Studio R/WIN"]
+    },
+    {
+      "numero": 6,
+      "software": ["AutoCAD", "Mendeley", "R Studio R/WIN"]
+    },
+    {
+      "numero": 7,
+      "software": ["Google Earth 7.3.2", "ArcGIS", "Mendeley", "NetBeans", "R Studio R/WIN"]
+    },
+    {
+      "numero": 8,
+      "software": ["Mendeley", "NetBeans", "R Studio R/WIN", "Visual .NET 2019"]
+    },
+    {
+      "numero": 9,
+      "software": ["Mendeley", "NetBeans", "R Studio R/WIN", "Visual .NET 2019", "Cisco Packet Tracer 7.2"]
+    },
+    {
+      "numero": 10,
+      "software": ["R Studio R/WIN", "Cisco Packet Tracer 7.2"]
+    },
+    {
+      "numero": "MAC",
+      "software": ["Adobe"]
+    },
+    {
+      "numero": 12,
+      "software": ["Adobe", "AutoCAD", "Mendeley", "Pudelco", "R Studio R/WIN"]
+    },
+    {
+      "numero": 13,
+      "software": ["Adobe", "AutoCAD", "Mendeley", "R Studio R/WIN"]
+    },
+    {
+      "numero": 14,
+      "software": ["AutoCAD", "3ds Max", "Revit", "Mendeley", "Pudelco", "R Studio R/WIN"]
+    },
+    {
+      "numero": 15,
+      "software": ["Mendeley", "NetBeans", "R Studio R/WIN", "Visual .NET 2019", "Cisco Packet Tracer 7.2"]
+    }
+  ]
+}
