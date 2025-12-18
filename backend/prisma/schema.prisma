@@ -42,6 +42,7 @@ model Lab {
   capacity    Int
   description String?
   software    String[]      @default([])
+  softwareList Software[]
   isPermanent Boolean       @default(false)
   reservations Reservation[]
 }
@@ -74,6 +75,9 @@ model School {
   name      String
   colorHex  String
   reservations Reservation[]
+  teachers  Teacher[]
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
 }
 
 model Software {
@@ -81,4 +85,16 @@ model Software {
   name      String   @unique
   version   String?
   license   String?
+  labs      Lab[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Teacher {
+  id        Int      @id @default(autoincrement())
+  name      String
+  schoolId  String
+  school    School   @relation(fields: [schoolId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

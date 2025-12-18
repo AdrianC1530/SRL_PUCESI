@@ -101,5 +101,42 @@ export const adminService = {
     deleteSoftware: async (id: number) => {
         const response = await axios.post(`${API_URL}/software/delete/${id}`, {}, getHeaders());
         return response.data;
-    }
+    },
+
+    // Schools
+    createSchool: async (data: { id: string; name: string; color: string }) => {
+        const response = await axios.post(`${API_URL}/schools`, data, getHeaders());
+        return response.data;
+    },
+
+    updateSchool: async (id: string, data: { name?: string; color?: string }) => {
+        const response = await axios.patch(`${API_URL}/schools/${id}`, data, getHeaders());
+        return response.data;
+    },
+
+    deleteSchool: async (id: string) => {
+        const response = await axios.post(`${API_URL}/schools/delete/${id}`, {}, getHeaders());
+        return response.data;
+    },
+
+    // Teachers
+    getTeachers: async () => {
+        const response = await axios.get(`${API_URL}/teachers`, getHeaders());
+        return response.data;
+    },
+
+    createTeacher: async (data: { name: string; schoolId: string }) => {
+        const response = await axios.post(`${API_URL}/teachers`, data, getHeaders());
+        return response.data;
+    },
+
+    updateTeacher: async (id: number, data: { name?: string; schoolId?: string }) => {
+        const response = await axios.patch(`${API_URL}/teachers/${id}`, data, getHeaders());
+        return response.data;
+    },
+
+    deleteTeacher: async (id: number) => {
+        const response = await axios.post(`${API_URL}/teachers/delete/${id}`, {}, getHeaders());
+        return response.data;
+    },
 };

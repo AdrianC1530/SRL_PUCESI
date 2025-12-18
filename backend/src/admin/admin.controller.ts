@@ -244,12 +244,7 @@ export class AdminController {
         });
     }
 
-    @Get('schools')
-    async getSchools() {
-        return this.prisma.school.findMany({
-            orderBy: { name: 'asc' }
-        });
-    }
+
 
     @Get('subjects/:schoolId')
     async getSubjectsBySchool(@Param('schoolId') schoolId: string) {
@@ -373,6 +368,80 @@ export class AdminController {
     @Post('software/delete/:id')
     async deleteSoftware(@Param('id') id: string) {
         return this.prisma.software.delete({
+            where: { id: parseInt(id) }
+        });
+    }
+
+    // Schools
+    @Get('schools')
+    async getSchools() {
+        return this.prisma.school.findMany({
+            orderBy: { name: 'asc' }
+        });
+    }
+
+    @Post('schools')
+    async createSchool(@Body() data: { id: string; name: string; color: string }) {
+        return this.prisma.school.create({
+            data: {
+                id: data.id,
+                name: data.name,
+                colorHex: data.color
+            }
+        });
+    }
+
+    @Patch('schools/:id')
+    async updateSchool(@Param('id') id: string, @Body() data: { name?: string; color?: string }) {
+        return this.prisma.school.update({
+            where: { id },
+            data: {
+                name: data.name,
+                colorHex: data.color
+            }
+        });
+    }
+
+    @Post('schools/delete/:id')
+    async deleteSchool(@Param('id') id: string) {
+        return this.prisma.school.delete({
+            where: { id }
+        });
+    }
+
+    // Teachers
+    @Get('teachers')
+    async getTeachers() {
+        return this.prisma.teacher.findMany({
+            include: { school: true },
+            orderBy: { name: 'asc' }
+        });
+    }
+
+    @Post('teachers')
+    async createTeacher(@Body() data: { name: string; schoolId: string }) {
+        return this.prisma.teacher.create({
+            data: {
+                name: data.name,
+                schoolId: data.schoolId
+            }
+        });
+    }
+
+    @Patch('teachers/:id')
+    async updateTeacher(@Param('id') id: string, @Body() data: { name?: string; schoolId?: string }) {
+        return this.prisma.teacher.update({
+            where: { id: parseInt(id) },
+            data: {
+                name: data.name,
+                schoolId: data.schoolId
+            }
+        });
+    }
+
+    @Post('teachers/delete/:id')
+    async deleteTeacher(@Param('id') id: string) {
+        return this.prisma.teacher.delete({
             where: { id: parseInt(id) }
         });
     }

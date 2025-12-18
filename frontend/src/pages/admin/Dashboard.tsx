@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { adminService } from '../../services/admin.service';
 import { Button } from '../../components/ui/Button';
-import { LogOut, Key, CheckCircle, Clock, AlertTriangle, Calendar, PlusCircle, Info, Monitor, Cpu } from 'lucide-react';
+import { LogOut, Key, CheckCircle, Clock, AlertTriangle, Calendar, PlusCircle, Info, Monitor, Cpu, School, Users } from 'lucide-react';
 import { useAuthStore, type AuthState } from '../../store/authStore';
 import { useNavigate } from 'react-router-dom';
 
@@ -234,6 +234,20 @@ export const AdminDashboard = () => {
                         >
                             <Cpu className="h-5 w-5 mr-3 group-hover:scale-110 transition-transform" />
                             Gestionar Software
+                        </button>
+                        <button
+                            onClick={() => navigate('/admin/schools')}
+                            className="w-full flex items-center px-4 py-3 bg-violet-600 hover:bg-violet-500 text-white rounded-lg transition-all shadow-md hover:shadow-lg font-medium text-sm group"
+                        >
+                            <School className="h-5 w-5 mr-3 group-hover:scale-110 transition-transform" />
+                            Gestionar Escuelas
+                        </button>
+                        <button
+                            onClick={() => navigate('/admin/teachers')}
+                            className="w-full flex items-center px-4 py-3 bg-fuchsia-600 hover:bg-fuchsia-500 text-white rounded-lg transition-all shadow-md hover:shadow-lg font-medium text-sm group"
+                        >
+                            <Users className="h-5 w-5 mr-3 group-hover:scale-110 transition-transform" />
+                            Gestionar Docentes
                         </button>
                         <button
                             onClick={handleReserveRoom}

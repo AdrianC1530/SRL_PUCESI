@@ -97,6 +97,61 @@ async function main() {
         console.warn('rooms.json or SPECIALIZED_SOFTWARE_INVENTORY.json not found, skipping rooms seed.');
     }
 
+    // Seed Schools
+    const schoolsPath = path.join(__dirname, '../Recursos/schools.json');
+    if (fs.existsSync(schoolsPath)) {
+        const schoolsData = JSON.parse(fs.readFileSync(schoolsPath, 'utf-8'));
+        console.log(`Seeding ${schoolsData.length} schools...`);
+        for (const school of schoolsData) {
+            await prisma.school.upsert({
+                where: { id: school.id },
+                update: {
+                    name: school.name,
+                    colorHex: school.color_hex,
+                },
+                create: {
+                    id: school.id,
+                    name: school.name,
+                    colorHex: school.color_hex,
+                },
+            });
+        }
+    } else {
+        console.warn('schools.json not found, skipping schools seed.');
+    }
+
+    // Seed Teachers from Schedules
+    const schedulesPath = path.join(__dirname, '../Recursos/Recurring_Schedules.json');
+    if (fs.existsSync(schedulesPath)) {
+        const schedulesData = JSON.parse(fs.readFileSync(schedulesPath, 'utf-8'));
+        console.log(`Seeding teachers from schedules...`);
+
+        const teachersMap = new Map<string, string>(); // name -> schoolId
+
+        for (const schedule of schedulesData) {
+            if (schedule.professor && schedule.professor !== 'N/A' && schedule.school_id) {
+                teachersMap.set(schedule.professor, schedule.school_id);
+            }
+        }
+
+        for (const [name, schoolId] of teachersMap) {
+            const schoolExists = await prisma.school.findUnique({ where: { id: schoolId } });
+            if (schoolExists) {
+                const existingTeacher = await prisma.teacher.findFirst({ where: { name } });
+                if (!existingTeacher) {
+                    await prisma.teacher.create({
+                        data: {
+                            name,
+                            schoolId
+                        }
+                    });
+                }
+            }
+        }
+    } else {
+        console.warn('Recurring_Schedules.json not found, skipping teachers seed.');
+    }
+
     console.log({ admin, professor });
 }
 
